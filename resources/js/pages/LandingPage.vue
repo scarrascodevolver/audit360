@@ -5,7 +5,7 @@
             <!-- Composición propia: foto de edificio + lupa SVG + badge HTML (escritorio) -->
             <div class="absolute inset-y-0 right-0 hidden w-[62%] lg:block">
                 <img
-                    src="/images/hero-building.jpg"
+                    :src="heroBuilding"
                     alt="Edificio residencial moderno en perspectiva bajo revisión"
                     class="h-full w-full object-cover object-center [-webkit-mask-image:linear-gradient(to_right,transparent,#000_46%)] [mask-image:linear-gradient(to_right,transparent,#000_46%)]"
                 />
@@ -60,7 +60,7 @@
             <!-- Composición para móvil -->
             <div class="relative -mt-2 lg:hidden">
                 <img
-                    src="/images/hero-building.jpg"
+                    :src="heroBuilding"
                     alt="Edificio residencial moderno bajo revisión"
                     class="h-72 w-full object-cover object-center sm:h-96 [-webkit-mask-image:linear-gradient(to_top,transparent,#000_22%)] [mask-image:linear-gradient(to_top,transparent,#000_22%)]"
                 />
@@ -190,6 +190,7 @@
 <script setup>
 import Icon from '../components/Icon.vue';
 import Magnifier from '../components/Magnifier.vue';
+import heroBuilding from '../../images/hero-building.jpg';
 
 const servicios = [
     { icon: 'building', title: 'ESTRUCTURA Y CONSERVACIÓN', text: 'Evaluamos el estado de las instalaciones, elementos comunes y mantenimiento.' },
