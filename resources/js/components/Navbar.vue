@@ -48,6 +48,7 @@ import Icon from './Icon.vue';
 
 const links = [
     { to: '/', label: 'Inicio' },
+    { to: '/cuota-segura', label: 'Cuota Segura' },
     { to: '/recopilacion', label: 'Proceso' },
     { to: '/subir-documentos', label: 'Documentación' },
 ];
