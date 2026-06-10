@@ -18,5 +18,8 @@ export default defineConfig({
     ],
     build: {
         outDir: 'dist',
+        rollupOptions: {
+            input: 'index.pages.html',
+        },
     },
 });
