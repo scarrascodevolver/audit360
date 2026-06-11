@@ -4,16 +4,16 @@
 
             <!-- ============ HERO ============ -->
             <section class="rounded-3xl bg-white px-6 py-12 text-center shadow-sm ring-1 ring-gray-100 sm:px-10">
-                <span class="inline-block rounded-full bg-teal/10 px-4 py-1.5 text-xs font-bold tracking-widest text-teal-dark">
+                <span v-editable="'recopilacion.kicker'" class="inline-block rounded-full bg-teal/10 px-4 py-1.5 text-xs font-bold tracking-widest text-teal-dark">
                     {{ t('recopilacion.kicker', 'SEGUNDO PASO') }}
                 </span>
-                <h1 class="mt-4 font-heading text-2xl font-black text-navy sm:text-4xl">
+                <h1 v-editable="'recopilacion.titulo'" class="mt-4 font-heading text-2xl font-black text-navy sm:text-4xl">
                     {{ t('recopilacion.titulo', 'RECOPILACIÓN DE INFORMACIÓN') }}
                 </h1>
-                <p class="mt-3 text-lg font-bold text-teal sm:text-xl">
+                <p v-editable="'recopilacion.subtitulo'" class="mt-3 text-lg font-bold text-teal sm:text-xl">
                     {{ t('recopilacion.subtitulo', 'Reciba un diagnóstico preciso y adaptado a su comunidad') }}
                 </p>
-                <p class="mx-auto mt-4 max-w-2xl leading-relaxed text-navy/65">
+                <p v-editable="'recopilacion.intro'" class="mx-auto mt-4 max-w-2xl leading-relaxed text-navy/65">
                     {{ t('recopilacion.intro', 'Para elaborar una evaluación rigurosa y ofrecer recomendaciones de valor, necesitamos conocer algunos aspectos básicos de su comunidad.') }}
                 </p>
 
@@ -38,7 +38,7 @@
             <!-- ============ PROCESO ============ -->
             <section class="rounded-3xl bg-white px-6 py-12 shadow-sm ring-1 ring-gray-100 sm:px-10">
                 <div class="text-center">
-                    <h2 class="inline-block font-heading text-2xl font-black text-navy sm:text-3xl">
+                    <h2 v-editable="'recopilacion.proceso_titulo'" class="inline-block font-heading text-2xl font-black text-navy sm:text-3xl">
                         {{ t('recopilacion.proceso_titulo', '¿CÓMO FUNCIONA NUESTRO PROCESO?') }}
                     </h2>
                     <div class="mx-auto mt-3 h-1 w-24 rounded-full bg-teal"></div>
@@ -53,8 +53,8 @@
                                     {{ i + 1 }}
                                 </span>
                             </div>
-                            <h3 class="mt-4 text-sm font-extrabold text-navy">{{ p.title }}</h3>
-                            <p class="mx-auto mt-2 max-w-xs text-[13px] leading-relaxed text-navy/60">{{ p.text }}</p>
+                            <h3 v-editable="`recopilacion.paso${i + 1}.titulo`" class="mt-4 text-sm font-extrabold text-navy">{{ p.title }}</h3>
+                            <p v-editable="`recopilacion.paso${i + 1}.texto`" class="mx-auto mt-2 max-w-xs text-[13px] leading-relaxed text-navy/60">{{ p.text }}</p>
                         </div>
                         <div v-if="i < pasos.length - 1" class="flex shrink-0 items-center justify-center self-center text-teal lg:pt-8">
                             <Icon name="arrow" class="h-7 w-7 rotate-90 lg:rotate-0" />
@@ -69,9 +69,9 @@
                 <div class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100">
                     <div class="flex items-center gap-3 bg-navy px-6 py-4">
                         <Icon name="folder" class="h-6 w-6 text-teal-light" />
-                        <h3 class="text-sm font-extrabold tracking-wide text-white">{{ t('recopilacion.docs_titulo', 'DOCUMENTACIÓN HABITUALMENTE REQUERIDA') }}</h3>
+                        <h3 v-editable="'recopilacion.docs_titulo'" class="text-sm font-extrabold tracking-wide text-white">{{ t('recopilacion.docs_titulo', 'DOCUMENTACIÓN HABITUALMENTE REQUERIDA') }}</h3>
                     </div>
-                    <ul class="space-y-4 p-6">
+                    <ul v-editable="'recopilacion.docs'" class="space-y-4 p-6">
                         <li v-for="d in documentacion" :key="d" class="flex items-start gap-3 text-navy/80">
                             <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 border-teal text-teal">
                                 <Icon name="check" class="h-3.5 w-3.5" />
@@ -85,13 +85,13 @@
                 <div class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100">
                     <div class="flex items-center gap-3 bg-teal px-6 py-4">
                         <Icon name="document" class="h-6 w-6 text-white" />
-                        <h3 class="text-sm font-extrabold tracking-wide text-white">{{ t('recopilacion.entrega_titulo', 'ENTREGA DEL INFORME') }}</h3>
+                        <h3 v-editable="'recopilacion.entrega_titulo'" class="text-sm font-extrabold tracking-wide text-white">{{ t('recopilacion.entrega_titulo', 'ENTREGA DEL INFORME') }}</h3>
                     </div>
                     <div class="p-6">
-                        <p class="text-sm font-semibold text-navy/70">
+                        <p v-editable="'recopilacion.entrega_intro'" class="text-sm font-semibold text-navy/70">
                             {{ t('recopilacion.entrega_intro', 'Una vez recibida la documentación, elaboraremos un informe ejecutivo con:') }}
                         </p>
-                        <ul class="mt-4 space-y-4">
+                        <ul v-editable="'recopilacion.entrega'" class="mt-4 space-y-4">
                             <li v-for="e in entrega" :key="e" class="flex items-start gap-3 text-navy/80">
                                 <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 border-teal text-teal">
                                     <Icon name="check" class="h-3.5 w-3.5" />
@@ -102,7 +102,7 @@
 
                         <div class="mt-6 flex items-center gap-3 rounded-2xl bg-teal/10 p-4">
                             <Icon name="stopwatch" class="h-8 w-8 shrink-0 text-teal-dark" />
-                            <p class="text-sm font-extrabold leading-snug text-teal-dark">
+                            <p v-editable="'recopilacion.plazo'" class="text-sm font-extrabold leading-snug text-teal-dark">
                                 {{ t('recopilacion.plazo', 'INFORME DISPONIBLE EN UN PLAZO MÁXIMO DE 24 HORAS POR SOLO 100 €.') }}
                             </p>
                         </div>
@@ -112,13 +112,14 @@
 
             <!-- ============ CTA SUBIR DOCUMENTOS ============ -->
             <section class="overflow-hidden rounded-3xl bg-navy px-6 py-10 text-center sm:px-10">
-                <h2 class="font-heading text-2xl font-black text-white sm:text-3xl">
+                <h2 v-editable="'recopilacion.cta_titulo'" class="font-heading text-2xl font-black text-white sm:text-3xl">
                     {{ t('recopilacion.cta_titulo', '¿Ya tiene su documentación lista?') }}
                 </h2>
-                <p class="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/65">
+                <p v-editable="'recopilacion.cta_texto'" class="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/65">
                     {{ t('recopilacion.cta_texto', 'Adjunte los documentos solicitados de forma segura y reciba su informe en un plazo máximo de 24 horas.') }}
                 </p>
                 <router-link
+                    v-editable="'recopilacion.cta_boton'"
                     to="/subir-documentos"
                     class="mt-7 inline-flex items-center gap-2 rounded-full bg-teal px-7 py-3.5 text-sm font-bold text-white shadow-lg transition hover:bg-teal-light"
                 >
@@ -135,8 +136,8 @@
                         <Icon name="headset" class="h-6 w-6" />
                     </span>
                     <div>
-                        <h3 class="text-base font-extrabold text-teal">{{ t('recopilacion.atencion_titulo', 'ATENCIÓN PERSONALIZADA') }}</h3>
-                        <p class="mt-2 text-sm leading-relaxed text-navy/65">
+                        <h3 v-editable="'recopilacion.atencion_titulo'" class="text-base font-extrabold text-teal">{{ t('recopilacion.atencion_titulo', 'ATENCIÓN PERSONALIZADA') }}</h3>
+                        <p v-editable="'recopilacion.atencion_texto'" class="mt-2 text-sm leading-relaxed text-navy/65">
                             {{ t('recopilacion.atencion_texto', 'Cada comunidad presenta características y necesidades diferentes. Por ello, nuestro proceso comienza siempre con una conversación individualizada que nos permite adaptar el análisis y ofrecer soluciones específicas para su caso.') }}
                         </p>
                     </div>
@@ -146,8 +147,8 @@
                         <Icon name="phone" class="h-6 w-6" />
                     </span>
                     <div>
-                        <h3 class="text-base font-extrabold text-navy">{{ t('recopilacion.listo_titulo', '¿LISTO PARA EMPEZAR?') }}</h3>
-                        <p class="mt-2 text-sm leading-relaxed text-navy/65">
+                        <h3 v-editable="'recopilacion.listo_titulo'" class="text-base font-extrabold text-navy">{{ t('recopilacion.listo_titulo', '¿LISTO PARA EMPEZAR?') }}</h3>
+                        <p v-editable="'recopilacion.listo_texto'" class="mt-2 text-sm leading-relaxed text-navy/65">
                             {{ t('recopilacion.listo_texto', 'Facilite su número de teléfono y tendrá una conversación totalmente personalizada. Le asesoraremos de la mejor manera posible.') }}
                         </p>
                     </div>

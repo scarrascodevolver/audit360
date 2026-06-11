@@ -3,7 +3,7 @@ import { createApp } from 'vue';
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
 
 import App from './App.vue';
-import { cargarContenido } from './composables/contenido';
+import { cargarContenido, activarEdicionSiAdmin, edicion, abrirEditor } from './composables/contenido';
 import LandingPage from './pages/LandingPage.vue';
 import CuotaSeguraPage from './pages/CuotaSeguraPage.vue';
 import RecopilacionPage from './pages/RecopilacionPage.vue';
@@ -24,5 +24,26 @@ const router = createRouter({
 });
 
 cargarContenido();
+activarEdicionSiAdmin();
 
-createApp(App).use(router).mount('#app');
+const app = createApp(App).use(router);
+
+// v-editable="'clave'": en modo edición, el elemento se resalta y al hacer
+// clic abre el editor en vivo (sin navegar ni recargar).
+app.directive('editable', {
+    mounted(el, binding) {
+        el.dataset.editable = binding.value;
+        el.addEventListener(
+            'click',
+            (evento) => {
+                if (!edicion.value) return;
+                evento.preventDefault();
+                evento.stopPropagation();
+                abrirEditor(binding.value, el.textContent.trim());
+            },
+            true,
+        );
+    },
+});
+
+app.mount('#app');

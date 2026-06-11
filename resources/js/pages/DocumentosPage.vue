@@ -158,12 +158,12 @@
                                 <Icon name="stopwatch" class="h-6 w-6" />
                                 <span class="text-xs font-bold tracking-widest">TU INFORME</span>
                             </div>
-                            <p class="mt-3 font-heading text-5xl font-black">
+                            <p v-editable="'documentos.precio'" class="mt-3 font-heading text-5xl font-black">
                                 {{ t('documentos.precio', '100€') }}
                             </p>
-                            <p class="text-sm text-white/60">{{ t('documentos.precio_sub', 'Precio cerrado · entrega en 24 h') }}</p>
+                            <p v-editable="'documentos.precio_sub'" class="text-sm text-white/60">{{ t('documentos.precio_sub', 'Precio cerrado · entrega en 24 h') }}</p>
 
-                            <ul class="mt-5 space-y-3 border-t border-white/10 pt-5">
+                            <ul v-editable="'documentos.recibe'" class="mt-5 space-y-3 border-t border-white/10 pt-5">
                                 <li v-for="r in recibe" :key="r" class="flex items-start gap-2.5 text-sm text-white/80">
                                     <Icon name="check" class="mt-0.5 h-4 w-4 shrink-0 text-teal-light" />
                                     {{ r }}
@@ -197,13 +197,13 @@
                             <Icon name="shield" class="h-7 w-7" />
                         </span>
                         <div>
-                            <p class="text-lg font-extrabold text-teal-light">{{ t('footer.titulo', 'Tu comunidad en buenas manos.') }}</p>
-                            <p class="text-sm text-white/60">{{ t('footer.subtitulo', 'Porque prevenir hoy, es ahorrar mañana.') }}</p>
+                            <p v-editable="'footer.titulo'" class="text-lg font-extrabold text-teal-light">{{ t('footer.titulo', 'Tu comunidad en buenas manos.') }}</p>
+                            <p v-editable="'footer.subtitulo'" class="text-sm text-white/60">{{ t('footer.subtitulo', 'Porque prevenir hoy, es ahorrar mañana.') }}</p>
                         </div>
                     </div>
                     <router-link to="/" class="flex items-center gap-3 transition hover:opacity-80">
                         <Icon name="globe" class="h-7 w-7 shrink-0 text-teal-light" />
-                        <span class="text-lg font-extrabold text-teal-light">{{ t('footer.dominio', 'auditatucomunidad.com') }}</span>
+                        <span v-editable="'footer.dominio'" class="text-lg font-extrabold text-teal-light">{{ t('footer.dominio', 'auditatucomunidad.com') }}</span>
                     </router-link>
                 </div>
             </footer>

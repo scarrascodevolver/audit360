@@ -24,18 +24,19 @@
 
             <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="flex min-h-[30rem] max-w-xl flex-col justify-center py-16 sm:py-20 lg:min-h-[34rem]">
-                    <p class="mb-4 text-xs font-bold tracking-[0.22em] text-navy/60">
+                    <p v-editable="'cuota.kicker'" class="mb-4 text-xs font-bold tracking-[0.22em] text-navy/60">
                         {{ t('cuota.kicker', 'NUESTRO COMPROMISO') }}
                     </p>
                     <h1 class="font-heading text-4xl font-black leading-[1.05] sm:text-5xl">
-                        <span class="whitespace-pre-line text-navy">{{ t('cuota.titulo_navy', 'NUESTRA') }}</span><br>
-                        <span class="whitespace-pre-line text-teal">{{ t('cuota.titulo_teal', 'CUOTA SEGURA') }}</span>
+                        <span v-editable="'cuota.titulo_navy'" class="whitespace-pre-line text-navy">{{ t('cuota.titulo_navy', 'NUESTRA') }}</span><br>
+                        <span v-editable="'cuota.titulo_teal'" class="whitespace-pre-line text-teal">{{ t('cuota.titulo_teal', 'CUOTA SEGURA') }}</span>
                     </h1>
-                    <p class="mt-7 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
+                    <p v-editable="'cuota.parrafo'" class="mt-7 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
                         {{ t('cuota.parrafo', 'No importa que un vecino no pague la comunidad: nosotros nos haremos cargo de todo para que esto no frene la vida de la comunidad.') }}
                     </p>
                     <div class="mt-8">
                         <button
+                            v-editable="'cuota.cta'"
                             type="button"
                             class="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-teal-dark hover:shadow-lg"
                         >
@@ -66,7 +67,7 @@
         <section class="bg-bg-light py-20">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="text-center">
-                    <span class="inline-block rounded-full bg-teal px-6 py-2 text-sm font-extrabold tracking-wide text-white">
+                    <span v-editable="'cuota.como_titulo'" class="inline-block rounded-full bg-teal px-6 py-2 text-sm font-extrabold tracking-wide text-white">
                         {{ t('cuota.como_titulo', '¿CÓMO FUNCIONA?') }}
                     </span>
                 </div>
@@ -80,11 +81,12 @@
                                     {{ i + 1 }}
                                 </span>
                             </div>
-                            <h3 class="mt-5 text-sm font-extrabold tracking-wide text-navy transition duration-300 group-hover:text-teal">
+                            <h3 v-editable="`cuota.paso${i + 1}.titulo`" class="mt-5 text-sm font-extrabold tracking-wide text-navy transition duration-300 group-hover:text-teal">
                                 {{ p.title }}
                             </h3>
-                            <p class="mx-auto mt-3 max-w-xs text-[13px] leading-relaxed text-navy/60">{{ p.text }}</p>
+                            <p v-editable="`cuota.paso${i + 1}.texto`" class="mx-auto mt-3 max-w-xs text-[13px] leading-relaxed text-navy/60">{{ p.text }}</p>
                             <span
+                                v-editable="`cuota.paso${i + 1}.chip`"
                                 class="mt-4 inline-block rounded-full px-3 py-1 text-[10px] font-extrabold tracking-widest"
                                 :class="p.chipClass"
                             >
@@ -99,7 +101,7 @@
 
                 <!-- Gastos que siguen cubiertos -->
                 <div class="mt-14">
-                    <p class="text-center text-xs font-bold tracking-widest text-navy/60">
+                    <p v-editable="'cuota.gastos_titulo'" class="text-center text-xs font-bold tracking-widest text-navy/60">
                         {{ t('cuota.gastos_titulo', 'LOS GASTOS COMUNES SE PAGAN A TIEMPO') }}
                     </p>
                     <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -122,24 +124,24 @@
         <section class="bg-navy py-20">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="text-center">
-                    <span class="inline-block rounded-full bg-teal px-6 py-2 text-sm font-extrabold tracking-wide text-white">
+                    <span v-editable="'cuota.importancia_titulo'" class="inline-block rounded-full bg-teal px-6 py-2 text-sm font-extrabold tracking-wide text-white">
                         {{ t('cuota.importancia_titulo', '¿POR QUÉ ES TAN IMPORTANTE LA CUOTA SEGURA?') }}
                     </span>
                 </div>
 
                 <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     <div
-                        v-for="b in beneficios"
+                        v-for="(b, i) in beneficios"
                         :key="b.title"
                         class="group cursor-default rounded-2xl p-6 text-center ring-1 ring-transparent transition duration-300 hover:-translate-y-1.5 hover:bg-white/[0.06] hover:shadow-2xl hover:ring-white/10"
                     >
                         <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-white/10 text-teal-light transition duration-300 group-hover:scale-110 group-hover:bg-teal group-hover:text-white">
                             <Icon :name="b.icon" class="h-7 w-7" />
                         </span>
-                        <h3 class="mt-5 text-sm font-extrabold leading-tight tracking-wide text-white transition duration-300 group-hover:text-teal-light">
+                        <h3 v-editable="`cuota.beneficio${i + 1}.titulo`" class="mt-5 text-sm font-extrabold leading-tight tracking-wide text-white transition duration-300 group-hover:text-teal-light">
                             {{ b.title }}
                         </h3>
-                        <p class="mt-3 text-sm leading-relaxed text-white/55 transition duration-300 group-hover:text-white/75">
+                        <p v-editable="`cuota.beneficio${i + 1}.texto`" class="mt-3 text-sm leading-relaxed text-white/55 transition duration-300 group-hover:text-white/75">
                             {{ b.text }}
                         </p>
                     </div>
@@ -154,13 +156,14 @@
                     <Icon name="shield" class="h-8 w-8" />
                 </span>
                 <h2 class="mt-5 font-heading text-2xl font-black sm:text-3xl">
-                    <span class="text-navy">{{ t('cuota.cierre_navy', 'PROTEGEMOS TU COMUNIDAD,') }}</span><br>
-                    <span class="text-teal">{{ t('cuota.cierre_teal', 'PARA QUE LA VIDA SIGA SU CURSO') }}</span>
+                    <span v-editable="'cuota.cierre_navy'" class="text-navy">{{ t('cuota.cierre_navy', 'PROTEGEMOS TU COMUNIDAD,') }}</span><br>
+                    <span v-editable="'cuota.cierre_teal'" class="text-teal">{{ t('cuota.cierre_teal', 'PARA QUE LA VIDA SIGA SU CURSO') }}</span>
                 </h2>
-                <p class="mt-4 max-w-xl text-sm leading-relaxed text-navy/65">
+                <p v-editable="'cuota.cierre_texto'" class="mt-4 max-w-xl text-sm leading-relaxed text-navy/65">
                     {{ t('cuota.cierre_texto', '¿Quieres saber cómo funcionaría la Cuota Segura en tu comunidad? Déjanos tus datos y te lo explicamos sin compromiso.') }}
                 </p>
                 <button
+                    v-editable="'cuota.cierre_boton'"
                     type="button"
                     class="mt-7 inline-flex items-center gap-2 rounded-full bg-teal px-7 py-3.5 text-sm font-bold text-white shadow-lg transition hover:bg-teal-dark hover:shadow-xl"
                 >

@@ -10,3 +10,16 @@
         @apply font-heading;
     }
 }
+
+/* Modo edición de textos (solo admins): resalta lo editable. */
+body.modo-edicion [data-editable] {
+    cursor: pointer;
+    outline: 2px dashed rgba(20, 184, 166, 0.6);
+    outline-offset: 3px;
+    border-radius: 2px;
+    transition: outline-color 0.15s, background-color 0.15s;
+}
+body.modo-edicion [data-editable]:hover {
+    outline-color: rgb(13, 148, 136);
+    background-color: rgba(20, 184, 166, 0.08);
+}
