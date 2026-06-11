@@ -6,6 +6,7 @@ use App\Rules\ArchivoPermitido;
 use App\Rules\Turnstile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class StoreEnvioRequest extends FormRequest
@@ -28,7 +29,12 @@ class StoreEnvioRequest extends FormRequest
             'telefono' => ['required', 'string', 'min:9', 'max:20'],
             'email' => ['required', 'email', 'max:150'],
             'consentimiento' => ['accepted'],
-            'turnstile_token' => ['required', 'string', new Turnstile],
+            // Sin clave configurada (dev local) no se exige el token.
+            'turnstile_token' => [
+                Rule::requiredIf(filled(config('services.turnstile.secret'))),
+                'string',
+                new Turnstile,
+            ],
             'documentos' => ['required', 'array'],
             'documentos.otros' => ['sometimes', 'array'],
             'documentos.otros.*' => $archivo,
