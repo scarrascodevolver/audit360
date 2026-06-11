@@ -14,11 +14,11 @@
                 <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-navy/0 to-navy"></div>
 
                 <!-- Badge informe (nuestro) sobre el cielo, hacia el centro-izquierda -->
-                <div class="absolute left-[16%] top-[13%] flex h-28 w-28 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
-                    <Icon name="stopwatch" class="h-5 w-5 text-white" />
-                    <span class="mt-0.5 text-[9px] font-bold leading-tight tracking-widest">INFORME<br>EN SOLO</span>
-                    <span class="font-heading text-3xl font-black leading-none text-teal-light">24</span>
-                    <span class="text-[10px] font-bold tracking-[0.25em]">HORAS</span>
+                <div class="absolute left-[14%] top-[10%] flex h-36 w-36 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
+                    <Icon name="stopwatch" class="h-6 w-6 text-white" />
+                    <span class="mt-1 whitespace-pre-line text-[11px] font-bold leading-tight tracking-widest">{{ t('hero.circulo_arriba', 'INFORME\nEN SOLO') }}</span>
+                    <span class="font-heading text-4xl font-black leading-none text-teal-light">{{ t('hero.circulo_numero', '24') }}</span>
+                    <span class="text-xs font-bold tracking-[0.25em]">{{ t('hero.circulo_abajo', 'HORAS') }}</span>
                 </div>
 
                 <!-- Lupa con check (nuestra) sobre el edificio, a la derecha -->
@@ -28,30 +28,28 @@
             <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="flex min-h-[32rem] max-w-xl flex-col justify-center py-16 sm:py-20 lg:min-h-[36rem] lg:py-24">
                     <p class="mb-4 text-xs font-bold tracking-[0.22em] text-navy/60">
-                        ANALIZAMOS. <span class="text-teal">DETECTAMOS.</span> MEJORAMOS.
+                        {{ t('hero.eslogan', 'ANALIZAMOS. DETECTAMOS. MEJORAMOS.') }}
                     </p>
                     <h1 class="font-heading text-4xl font-black leading-[1.05] sm:text-5xl xl:text-6xl">
-                        <span class="text-navy">REVISAMOS<br>TU COMUNIDAD,</span><br>
-                        <span class="text-teal">MEJORAMOS<br>TU TRANQUILIDAD</span>
+                        <span class="whitespace-pre-line text-navy">{{ t('hero.titulo_navy', 'REVISAMOS\nTU COMUNIDAD,') }}</span><br>
+                        <span class="whitespace-pre-line text-teal">{{ t('hero.titulo_teal', 'MEJORAMOS\nTU TRANQUILIDAD') }}</span>
                     </h1>
                     <p class="mt-7 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
-                        Realizamos una revisión técnica, legal y económica de tu comunidad para
-                        <strong class="font-bold text-navy">detectar oportunidades de mejora</strong>
-                        y prevenir problemas.
+                        {{ t('hero.parrafo', 'Realizamos una revisión técnica, legal y económica de tu comunidad para detectar oportunidades de mejora y prevenir problemas.') }}
                     </p>
                     <div class="mt-8 flex flex-wrap items-center gap-3">
                         <router-link
                             to="/subir-documentos"
                             class="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-teal-dark hover:shadow-lg"
                         >
-                            Solicita tu revisión
+                            {{ t('hero.cta_primario', 'Solicita tu revisión') }}
                             <Icon name="arrow" class="h-4 w-4" />
                         </router-link>
                         <router-link
                             to="/recopilacion"
                             class="inline-flex items-center gap-2 rounded-full border-2 border-navy/15 px-6 py-3 text-sm font-bold text-navy transition hover:border-teal hover:text-teal"
                         >
-                            Cómo funciona
+                            {{ t('hero.cta_secundario', 'Cómo funciona') }}
                         </router-link>
                     </div>
                 </div>
@@ -65,11 +63,11 @@
                     class="h-72 w-full object-cover object-center sm:h-96 [-webkit-mask-image:linear-gradient(to_top,transparent,#000_22%)] [mask-image:linear-gradient(to_top,transparent,#000_22%)]"
                 />
                 <Magnifier class="absolute right-[8%] top-1/2 h-48 w-48 -translate-y-1/2 drop-shadow-2xl" />
-                <div class="absolute left-5 top-6 flex h-24 w-24 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
-                    <Icon name="stopwatch" class="h-4 w-4 text-white" />
-                    <span class="mt-0.5 text-[8px] font-bold leading-tight tracking-widest">INFORME<br>EN SOLO</span>
-                    <span class="font-heading text-2xl font-black leading-none text-teal-light">24</span>
-                    <span class="text-[9px] font-bold tracking-[0.25em]">HORAS</span>
+                <div class="absolute left-5 top-6 flex h-28 w-28 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
+                    <Icon name="stopwatch" class="h-5 w-5 text-white" />
+                    <span class="mt-0.5 whitespace-pre-line text-[9px] font-bold leading-tight tracking-widest">{{ t('hero.circulo_arriba', 'INFORME\nEN SOLO') }}</span>
+                    <span class="font-heading text-3xl font-black leading-none text-teal-light">{{ t('hero.circulo_numero', '24') }}</span>
+                    <span class="text-[10px] font-bold tracking-[0.25em]">{{ t('hero.circulo_abajo', 'HORAS') }}</span>
                 </div>
             </div>
         </section>
@@ -79,7 +77,7 @@
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="text-center">
                     <span class="inline-block rounded-full bg-teal px-6 py-2 text-sm font-extrabold tracking-wide text-white">
-                        ¿QUÉ INCLUYE NUESTRA REVISIÓN?
+                        {{ t('servicios.titulo', '¿QUÉ INCLUYE NUESTRA REVISIÓN?') }}
                     </span>
                 </div>
 
@@ -108,8 +106,8 @@
             <div class="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2 lg:px-8">
                 <!-- Izquierda -->
                 <div>
-                    <p class="text-sm font-bold tracking-[0.2em] text-navy/60">TODO ESTO POR SOLO</p>
-                    <p class="mt-1 font-heading text-7xl font-black text-teal sm:text-8xl">100€</p>
+                    <p class="text-sm font-bold tracking-[0.2em] text-navy/60">{{ t('precio.kicker', 'TODO ESTO POR SOLO') }}</p>
+                    <p class="mt-1 font-heading text-7xl font-black text-teal sm:text-8xl">{{ t('precio.importe', '100€') }}</p>
 
                     <ul class="mt-8 space-y-4">
                         <li v-for="c in checklist" :key="c" class="flex items-center gap-3 text-lg font-semibold text-navy">
@@ -125,7 +123,7 @@
                 <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8">
                     <div class="text-center">
                         <span class="inline-block rounded-full bg-teal px-5 py-1.5 text-xs font-bold tracking-wide text-white">
-                            RECIBIRÁS UN INFORME BREVE Y CLARO
+                            {{ t('precio.informe_badge', 'RECIBIRÁS UN INFORME BREVE Y CLARO') }}
                         </span>
                     </div>
 
@@ -156,7 +154,7 @@
 
                     <p class="mt-4 flex items-center justify-center gap-2 text-center text-sm font-semibold text-navy/70">
                         <Icon name="document" class="h-4 w-4 text-teal" />
-                        Información clara. Recomendaciones accionables. Resultados reales.
+                        {{ t('precio.informe_nota', 'Información clara. Recomendaciones accionables. Resultados reales.') }}
                     </p>
                 </div>
             </div>
@@ -170,16 +168,16 @@
                         <Icon name="shield" class="h-7 w-7" />
                     </span>
                     <div>
-                        <p class="text-lg font-extrabold text-teal-light">Tu comunidad en buenas manos.</p>
-                        <p class="text-sm text-white/60">Porque prevenir hoy, es ahorrar mañana.</p>
+                        <p class="text-lg font-extrabold text-teal-light">{{ t('footer.titulo', 'Tu comunidad en buenas manos.') }}</p>
+                        <p class="text-sm text-white/60">{{ t('footer.subtitulo', 'Porque prevenir hoy, es ahorrar mañana.') }}</p>
                     </div>
                 </div>
 
                 <router-link to="/" class="flex items-center gap-3 transition hover:opacity-80">
                     <Icon name="globe" class="h-7 w-7 shrink-0 text-teal-light" />
                     <div>
-                        <p class="text-lg font-extrabold text-teal-light">comunidadaudit360.com</p>
-                        <p class="text-sm text-white/60">Revisamos tu comunidad.</p>
+                        <p class="text-lg font-extrabold text-teal-light">{{ t('footer.dominio', 'auditatucomunidad.com') }}</p>
+                        <p class="text-sm text-white/60">{{ t('footer.dominio_sub', 'Revisamos tu comunidad.') }}</p>
                     </div>
                 </router-link>
             </div>
@@ -188,11 +186,15 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import Icon from '../components/Icon.vue';
 import Magnifier from '../components/Magnifier.vue';
 import heroBuilding from '../../images/hero-building.jpg';
+import { useContenido } from '../composables/contenido';
 
-const servicios = [
+const { t, lista } = useContenido();
+
+const serviciosPorDefecto = [
     { icon: 'building', title: 'ESTRUCTURA Y CONSERVACIÓN', text: 'Evaluamos el estado de las instalaciones, elementos comunes y mantenimiento.' },
     { icon: 'scale', title: 'GESTIÓN LEGAL', text: 'Revisamos el cumplimiento normativo, contratos y documentación de la comunidad.' },
     { icon: 'calculator', title: 'ANÁLISIS ECONÓMICO', text: 'Analizamos ingresos, gastos y contratos para optimizar recursos.' },
@@ -200,7 +202,13 @@ const servicios = [
     { icon: 'trending', title: 'PLAN DE MEJORA', text: 'Te entregamos recomendaciones prácticas y priorizadas para mejorar tu comunidad.' },
 ];
 
-const checklist = ['Precio cerrado', 'Sin compromiso', 'Máxima transparencia'];
+const servicios = computed(() => serviciosPorDefecto.map((s, i) => ({
+    icon: s.icon,
+    title: t(`servicios.${i + 1}.titulo`, s.title),
+    text: t(`servicios.${i + 1}.texto`, s.text),
+})));
+
+const checklist = computed(() => lista('precio.checklist', ['Precio cerrado', 'Sin compromiso', 'Máxima transparencia']));
 
 const miniCards = [
     { t: 'RESUMEN EJECUTIVO', chart: 'bars' },

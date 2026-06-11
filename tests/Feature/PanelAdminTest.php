@@ -21,3 +21,12 @@ it('muestra el listado de envíos a un admin autenticado', function () {
         ->assertOk()
         ->assertSee('Comunidad Panel');
 });
+
+it('muestra los textos del sitio a un admin autenticado', function () {
+    $this->seed(\Database\Seeders\ContenidoSeeder::class);
+
+    $this->actingAs(User::factory()->create())
+        ->get('/admin/contenidos')
+        ->assertOk()
+        ->assertSee('hero.eslogan');
+});

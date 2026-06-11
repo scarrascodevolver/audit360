@@ -3,6 +3,7 @@ import { createApp } from 'vue';
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
 
 import App from './App.vue';
+import { cargarContenido } from './composables/contenido';
 import LandingPage from './pages/LandingPage.vue';
 import CuotaSeguraPage from './pages/CuotaSeguraPage.vue';
 import RecopilacionPage from './pages/RecopilacionPage.vue';
@@ -21,5 +22,7 @@ const router = createRouter({
         return { top: 0 };
     },
 });
+
+cargarContenido();
 
 createApp(App).use(router).mount('#app');

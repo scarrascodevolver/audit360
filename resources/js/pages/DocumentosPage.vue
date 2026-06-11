@@ -159,9 +159,9 @@
                                 <span class="text-xs font-bold tracking-widest">TU INFORME</span>
                             </div>
                             <p class="mt-3 font-heading text-5xl font-black">
-                                100€
+                                {{ t('documentos.precio', '100€') }}
                             </p>
-                            <p class="text-sm text-white/60">Precio cerrado · entrega en 24 h</p>
+                            <p class="text-sm text-white/60">{{ t('documentos.precio_sub', 'Precio cerrado · entrega en 24 h') }}</p>
 
                             <ul class="mt-5 space-y-3 border-t border-white/10 pt-5">
                                 <li v-for="r in recibe" :key="r" class="flex items-start gap-2.5 text-sm text-white/80">
@@ -197,13 +197,13 @@
                             <Icon name="shield" class="h-7 w-7" />
                         </span>
                         <div>
-                            <p class="text-lg font-extrabold text-teal-light">Tu comunidad en buenas manos.</p>
-                            <p class="text-sm text-white/60">Porque prevenir hoy, es ahorrar mañana.</p>
+                            <p class="text-lg font-extrabold text-teal-light">{{ t('footer.titulo', 'Tu comunidad en buenas manos.') }}</p>
+                            <p class="text-sm text-white/60">{{ t('footer.subtitulo', 'Porque prevenir hoy, es ahorrar mañana.') }}</p>
                         </div>
                     </div>
                     <router-link to="/" class="flex items-center gap-3 transition hover:opacity-80">
                         <Icon name="globe" class="h-7 w-7 shrink-0 text-teal-light" />
-                        <span class="text-lg font-extrabold text-teal-light">comunidadaudit360.com</span>
+                        <span class="text-lg font-extrabold text-teal-light">{{ t('footer.dominio', 'auditatucomunidad.com') }}</span>
                     </router-link>
                 </div>
             </footer>
@@ -214,6 +214,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import Icon from '../components/Icon.vue';
+import { useContenido } from '../composables/contenido';
 
 const requeridos = [
     { key: 'actas', label: 'Últimas actas de la comunidad' },
@@ -223,12 +224,14 @@ const requeridos = [
     { key: 'otros', label: 'Otra documentación relevante para la evaluación' },
 ];
 
-const recibe = [
+const { t, lista } = useContenido();
+
+const recibe = computed(() => lista('documentos.recibe', [
     'Estado general de la comunidad',
     'Riesgos y oportunidades detectadas',
     'Recomendaciones de mejora priorizadas',
     'Optimizaciones económicas y operativas',
-];
+]));
 
 // En la demo estática de GitHub Pages no hay backend: se simula el envío.
 const modoDemo = import.meta.env.VITE_GH_PAGES === '1';
