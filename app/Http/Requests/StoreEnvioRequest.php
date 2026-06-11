@@ -64,6 +64,23 @@ class StoreEnvioRequest extends FormRequest
         ];
     }
 
+    public function attributes(): array
+    {
+        return [
+            'telefono' => 'teléfono de contacto',
+            'email' => 'email de contacto',
+            'consentimiento' => 'consentimiento de datos',
+            'turnstile_token' => 'verificación anti-spam',
+            'documentos' => 'documentos',
+            'documentos.actas' => 'archivo de actas',
+            'documentos.presupuesto' => 'archivo de presupuesto',
+            'documentos.contratos' => 'archivo de contratos',
+            'documentos.incidencias' => 'archivo de incidencias',
+            'documentos.otros' => 'otros documentos',
+            'documentos.otros.*' => 'archivo adjunto',
+        ];
+    }
+
     /**
      * Archivos subidos como pares [slot, archivo]. Los del dropzone
      * comparten el slot "otros".

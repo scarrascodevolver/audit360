@@ -315,7 +315,13 @@ async function submit() {
     datos.append('consentimiento', '1');
     if (turnstileToken.value) datos.append('turnstile_token', turnstileToken.value);
     for (const [slot, archivo] of Object.entries(files.value)) {
-        datos.append(`documentos[${slot}]`, archivo);
+        // El apartado "Otra documentación" comparte la clave "otros" con la
+        // zona de arrastre: ambos viajan en la misma lista documentos[otros][].
+        if (slot === 'otros') {
+            datos.append('documentos[otros][]', archivo);
+        } else {
+            datos.append(`documentos[${slot}]`, archivo);
+        }
     }
     for (const archivo of otros.value) {
         datos.append('documentos[otros][]', archivo);
