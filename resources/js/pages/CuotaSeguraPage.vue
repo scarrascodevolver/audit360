@@ -36,14 +36,14 @@
                         {{ t('cuota.parrafo', 'No importa que un vecino no pague la comunidad: nosotros nos haremos cargo de todo para que esto no frene la vida de la comunidad.') }}
                     </p>
                     <div class="mt-8">
-                        <button
+                        <a
                             v-editable="'cuota.cta'"
-                            type="button"
+                            :href="telHref"
                             class="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-teal-dark hover:shadow-lg"
                         >
                             {{ t('cuota.cta', 'Solicitar información') }}
                             <Icon name="arrow" class="h-4 w-4" />
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -163,15 +163,15 @@
                 <p v-editable="'cuota.cierre_texto'" class="mt-4 max-w-xl text-sm leading-relaxed text-navy/65">
                     {{ t('cuota.cierre_texto', '¿Quieres saber cómo funcionaría la Cuota Segura en tu comunidad? Déjanos tus datos y te lo explicamos sin compromiso.') }}
                 </p>
-                <button
+                <a
                     v-editable="'cuota.cierre_boton'"
-                    type="button"
+                    :href="telHref"
                     class="mt-7 inline-flex items-center gap-2 rounded-full bg-teal px-7 py-3.5 text-sm font-bold text-white shadow-lg transition hover:bg-teal-dark hover:shadow-xl"
                 >
                     <Icon name="phone" class="h-5 w-5" />
                     {{ t('cuota.cierre_boton', 'Solicitar información') }}
                     <Icon name="arrow" class="h-4 w-4" />
-                </button>
+                </a>
             </div>
         </section>
     </div>
@@ -184,6 +184,8 @@ import edificioCuota from '../../images/edificio-cuota.jpg';
 import { useContenido } from '../composables/contenido';
 
 const { t } = useContenido();
+
+const telHref = computed(() => 'tel:+34' + t('footer.telefono', '600 000 000').replace(/\D/g, ''));
 
 const pasosPorDefecto = [
     {

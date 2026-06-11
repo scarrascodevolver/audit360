@@ -114,6 +114,13 @@ class ContenidoSeeder extends Seeder
                 'footer.subtitulo' => ['Frase secundaria', 'Porque prevenir hoy, es ahorrar mañana.'],
                 'footer.dominio' => ['Dominio mostrado', 'auditatucomunidad.com'],
                 'footer.dominio_sub' => ['Texto bajo el dominio', 'Revisamos tu comunidad.'],
+                'footer.telefono' => ['Teléfono de contacto (pendiente del definitivo)', '600 000 000'],
+            ],
+            'Legal' => [
+                'legal.titular' => ['Razón social del titular', '[Razón social pendiente]'],
+                'legal.cif' => ['NIF/CIF', '[CIF pendiente]'],
+                'legal.direccion' => ['Domicilio social', '[Dirección pendiente]'],
+                'legal.email' => ['Email de contacto legal', 'info@auditatucomunidad.com'],
             ],
         ];
 
