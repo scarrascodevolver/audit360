@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         RateLimiter::for('envios', function (Request $request) {
-            return Limit::perHour(5)->by($request->ip());
+            return Limit::perHour(config('audit360.envios_por_hora'))->by($request->ip());
         });
     }
 }

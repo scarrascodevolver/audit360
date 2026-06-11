@@ -149,6 +149,8 @@ it('encola el email de aviso al especialista', function () {
 });
 
 it('limita a 5 envíos por hora por IP', function () {
+    config()->set('audit360.envios_por_hora', 5);
+
     foreach (range(1, 5) as $i) {
         $this->postJson('/api/envios', datosValidos())->assertCreated();
     }
