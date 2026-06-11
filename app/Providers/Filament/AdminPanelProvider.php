@@ -38,7 +38,7 @@ class AdminPanelProvider extends PanelProvider
             // Los textos del sitio se editan en la propia web, en modo edición.
             ->navigationItems([
                 NavigationItem::make('Editar la web')
-                    ->url('/?edicion=1', shouldOpenInNewTab: true)
+                    ->url('/?edicion=1')
                     ->icon(Heroicon::OutlinedPencilSquare),
             ])
             ->pages([

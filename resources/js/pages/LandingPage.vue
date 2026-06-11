@@ -13,8 +13,10 @@
                 <!-- Funde el pie de la imagen con la sección navy (sin canto) -->
                 <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-navy/0 to-navy"></div>
 
-                <!-- Badge informe (nuestro) sobre el cielo, hacia el centro-izquierda -->
-                <div class="absolute left-[14%] top-[10%] flex h-36 w-36 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
+                <!-- Badge informe (nuestro) sobre el cielo, hacia el centro-izquierda.
+                     z-10: el contenedor del texto del hero se pinta encima y sin esto
+                     se traga los clics/hover del badge (p. ej. en modo edición). -->
+                <div class="absolute left-[14%] top-[10%] z-10 flex h-36 w-36 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
                     <Icon name="stopwatch" class="h-6 w-6 text-white" />
                     <span v-editable="'hero.circulo_arriba'" class="mt-1 whitespace-pre-line text-[11px] font-bold leading-tight tracking-widest">{{ t('hero.circulo_arriba', 'INFORME\nEN SOLO') }}</span>
                     <span v-editable="'hero.circulo_numero'" class="font-heading text-4xl font-black leading-none text-teal-light">{{ t('hero.circulo_numero', '24') }}</span>

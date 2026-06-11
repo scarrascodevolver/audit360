@@ -13,8 +13,9 @@
                 <!-- Funde el pie de la imagen con la sección clara siguiente -->
                 <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-bg-light/0 to-bg-light"></div>
 
-                <!-- Sello Cuota Segura sobre el cielo -->
-                <div class="absolute right-[14%] top-[18%] flex h-40 w-40 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-2xl ring-4 ring-white/70 transition duration-300 hover:scale-105">
+                <!-- Sello Cuota Segura sobre el cielo (z-10: el contenedor del texto
+                     del hero se pinta encima y bloquea el hover/clic sin esto) -->
+                <div class="absolute right-[14%] top-[18%] z-10 flex h-40 w-40 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-2xl ring-4 ring-white/70 transition duration-300 hover:scale-105">
                     <Icon name="shield" class="h-10 w-10 text-teal-light" />
                     <span class="mt-1 font-heading text-base font-black leading-tight">
                         CUOTA<br><span class="text-teal-light">SEGURA</span>
