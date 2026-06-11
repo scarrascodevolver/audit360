@@ -1,4 +1,25 @@
 <template>
+    <!-- Barra de administrador: visible siempre que hay sesión de admin -->
+    <div
+        v-if="esAdmin && !edicion"
+        class="fixed inset-x-0 bottom-0 z-[90] flex flex-wrap items-center justify-center gap-3 bg-navy px-4 py-2.5 text-white shadow-2xl"
+    >
+        <p class="text-sm font-semibold text-white/80">Conectado como administrador</p>
+        <button
+            class="flex items-center gap-1.5 rounded-full bg-teal px-4 py-1.5 text-xs font-bold transition hover:bg-teal-dark"
+            @click="activarEdicion"
+        >
+            <Icon name="document" class="h-4 w-4" />
+            Editar los textos
+        </button>
+        <a
+            href="/admin"
+            class="rounded-full border border-white/30 px-4 py-1.5 text-xs font-bold transition hover:bg-white/10"
+        >
+            Ir al panel
+        </a>
+    </div>
+
     <!-- Barra del modo edición -->
     <div
         v-if="edicion"
@@ -55,7 +76,7 @@
 <script setup>
 import { computed } from 'vue';
 import Icon from './Icon.vue';
-import { edicion, editor, cerrarEditor, guardarEditor, salirEdicion } from '../composables/contenido';
+import { esAdmin, edicion, editor, activarEdicion, cerrarEditor, guardarEditor, salirEdicion } from '../composables/contenido';
 
 const filas = computed(() => Math.min(10, Math.max(3, editor.valor.split('\n').length + 1)));
 </script>

@@ -6,6 +6,7 @@ import { reactive, ref } from 'vue';
 const mapa = reactive({});
 
 // ----- Modo edición (solo admins, estilo WordPress) -----
+export const esAdmin = ref(false);
 export const edicion = ref(false);
 export const editor = reactive({
     abierto: false,
@@ -25,17 +26,24 @@ export async function cargarContenido() {
     }
 }
 
-// Se activa solo si la URL trae ?edicion=1 y hay sesión de admin.
-export async function activarEdicionSiAdmin() {
+// Si hay sesión de admin, la web muestra la barra de administrador.
+// Con ?edicion=1 (botón del panel) entra directo en modo edición.
+export async function comprobarAdmin() {
     if (import.meta.env.VITE_GH_PAGES === '1') return;
-    if (!new URLSearchParams(window.location.search).has('edicion')) return;
     try {
         const { data } = await window.axios.get('/api/contenido/estado-edicion');
-        edicion.value = data.admin === true;
-        document.body.classList.toggle('modo-edicion', edicion.value);
+        esAdmin.value = data.admin === true;
+        if (esAdmin.value && new URLSearchParams(window.location.search).has('edicion')) {
+            activarEdicion();
+        }
     } catch {
-        edicion.value = false;
+        esAdmin.value = false;
     }
+}
+
+export function activarEdicion() {
+    edicion.value = true;
+    document.body.classList.add('modo-edicion');
 }
 
 export function salirEdicion() {

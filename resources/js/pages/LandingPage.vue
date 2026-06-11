@@ -185,6 +185,9 @@
                     </div>
                 </router-link>
             </div>
+            <p v-if="!esDemo" class="mt-8 text-center">
+                <a href="/admin" class="text-xs text-white/30 transition hover:text-white/60">Acceso administración</a>
+            </p>
         </footer>
     </div>
 </template>
@@ -197,6 +200,7 @@ import heroBuilding from '../../images/hero-building.jpg';
 import { useContenido } from '../composables/contenido';
 
 const { t, lista } = useContenido();
+const esDemo = import.meta.env.VITE_GH_PAGES === '1';
 
 const serviciosPorDefecto = [
     { icon: 'building', title: 'ESTRUCTURA Y CONSERVACIÓN', text: 'Evaluamos el estado de las instalaciones, elementos comunes y mantenimiento.' },

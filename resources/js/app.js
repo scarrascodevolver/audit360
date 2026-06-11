@@ -3,7 +3,7 @@ import { createApp } from 'vue';
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
 
 import App from './App.vue';
-import { cargarContenido, activarEdicionSiAdmin, edicion, abrirEditor } from './composables/contenido';
+import { cargarContenido, comprobarAdmin, edicion, abrirEditor } from './composables/contenido';
 import LandingPage from './pages/LandingPage.vue';
 import CuotaSeguraPage from './pages/CuotaSeguraPage.vue';
 import RecopilacionPage from './pages/RecopilacionPage.vue';
@@ -24,7 +24,7 @@ const router = createRouter({
 });
 
 cargarContenido();
-activarEdicionSiAdmin();
+comprobarAdmin();
 
 const app = createApp(App).use(router);
 
