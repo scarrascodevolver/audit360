@@ -47,6 +47,21 @@ return [
             'report' => false,
         ],
 
+        // Documentos de envíos, cifrados en reposo. En producción se cambia
+        // ENVIOS_DISK_DRIVER a "s3" (Hetzner Object Storage) sin tocar código.
+        'envios' => [
+            'driver' => env('ENVIOS_DISK_DRIVER', 'local'),
+            'root' => storage_path('app/envios'),
+            'serve' => false,
+            'throw' => true,
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET'),
+            'endpoint' => env('AWS_ENDPOINT'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
