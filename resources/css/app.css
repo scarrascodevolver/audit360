@@ -23,3 +23,8 @@ body.modo-edicion [data-editable]:hover {
     outline-color: rgb(13, 148, 136);
     background-color: rgba(20, 184, 166, 0.08);
 }
+
+/* Nunca scroll horizontal: clip (a diferencia de hidden) no rompe el sticky del navbar. */
+html, body {
+    overflow-x: clip;
+}
