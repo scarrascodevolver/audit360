@@ -1,7 +1,6 @@
-# Pages está en modo "Deploy from a branch" (main / root) y el token de
-# Actions no puede cambiarlo, así que publicamos committeando el build
-# compilado (index.html + assets/) a la raíz de main. [skip ci] evita
-# que el commit del bot re-dispare este workflow.
+# Pages está en modo "GitHub Actions": construimos el mockup estático
+# y lo publicamos como artefacto con deploy-pages. El repo ya no lleva
+# el build committeado en la raíz.
 name: Publicar mockup en Pages
 
 on:
@@ -10,14 +9,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
   group: pages-publish
   cancel-in-progress: true
 
 jobs:
-  build-and-commit:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,22 +35,19 @@ jobs:
         env:
           VITE_GH_PAGES: '1'
 
-      - name: Copiar build a la raíz publicada
-        run: |
-          mv dist/index.pages.html dist/index.html
-          rm -rf assets
-          cp -r dist/assets assets
-          cp dist/index.html index.html
-          touch .nojekyll
+      - name: Renombrar la entrada a index.html
+        run: mv dist/index.pages.html dist/index.html
 
-      - name: Commit y push si hay cambios
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html assets .nojekyll
-          if git diff --cached --quiet; then
-            echo "Build sin cambios, nada que publicar"
-          else
-            git commit -m "Publicar build del mockup [skip ci]"
-            git push
-          fi
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
