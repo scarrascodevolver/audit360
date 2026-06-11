@@ -25,23 +25,21 @@
             <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="flex min-h-[30rem] max-w-xl flex-col justify-center py-16 sm:py-20 lg:min-h-[34rem]">
                     <p class="mb-4 text-xs font-bold tracking-[0.22em] text-navy/60">
-                        NUESTRO <span class="text-teal">COMPROMISO</span>
+                        {{ t('cuota.kicker', 'NUESTRO COMPROMISO') }}
                     </p>
                     <h1 class="font-heading text-4xl font-black leading-[1.05] sm:text-5xl">
-                        <span class="text-navy">NUESTRA</span><br>
-                        <span class="text-teal">CUOTA SEGURA</span>
+                        <span class="whitespace-pre-line text-navy">{{ t('cuota.titulo_navy', 'NUESTRA') }}</span><br>
+                        <span class="whitespace-pre-line text-teal">{{ t('cuota.titulo_teal', 'CUOTA SEGURA') }}</span>
                     </h1>
                     <p class="mt-7 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
-                        No importa que un vecino no pague la comunidad:
-                        <strong class="font-bold text-navy">nosotros nos haremos cargo de todo</strong>
-                        para que esto no frene la vida de la comunidad.
+                        {{ t('cuota.parrafo', 'No importa que un vecino no pague la comunidad: nosotros nos haremos cargo de todo para que esto no frene la vida de la comunidad.') }}
                     </p>
                     <div class="mt-8">
                         <button
                             type="button"
                             class="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-teal-dark hover:shadow-lg"
                         >
-                            Solicitar información
+                            {{ t('cuota.cta', 'Solicitar información') }}
                             <Icon name="arrow" class="h-4 w-4" />
                         </button>
                     </div>
@@ -69,7 +67,7 @@
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="text-center">
                     <span class="inline-block rounded-full bg-teal px-6 py-2 text-sm font-extrabold tracking-wide text-white">
-                        ¿CÓMO FUNCIONA?
+                        {{ t('cuota.como_titulo', '¿CÓMO FUNCIONA?') }}
                     </span>
                 </div>
 
@@ -102,7 +100,7 @@
                 <!-- Gastos que siguen cubiertos -->
                 <div class="mt-14">
                     <p class="text-center text-xs font-bold tracking-widest text-navy/60">
-                        LOS GASTOS COMUNES SE PAGAN A TIEMPO
+                        {{ t('cuota.gastos_titulo', 'LOS GASTOS COMUNES SE PAGAN A TIEMPO') }}
                     </p>
                     <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
                         <div
@@ -125,7 +123,7 @@
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="text-center">
                     <span class="inline-block rounded-full bg-teal px-6 py-2 text-sm font-extrabold tracking-wide text-white">
-                        ¿POR QUÉ ES TAN IMPORTANTE LA CUOTA SEGURA?
+                        {{ t('cuota.importancia_titulo', '¿POR QUÉ ES TAN IMPORTANTE LA CUOTA SEGURA?') }}
                     </span>
                 </div>
 
@@ -156,19 +154,18 @@
                     <Icon name="shield" class="h-8 w-8" />
                 </span>
                 <h2 class="mt-5 font-heading text-2xl font-black sm:text-3xl">
-                    <span class="text-navy">PROTEGEMOS TU COMUNIDAD,</span><br>
-                    <span class="text-teal">PARA QUE LA VIDA SIGA SU CURSO</span>
+                    <span class="text-navy">{{ t('cuota.cierre_navy', 'PROTEGEMOS TU COMUNIDAD,') }}</span><br>
+                    <span class="text-teal">{{ t('cuota.cierre_teal', 'PARA QUE LA VIDA SIGA SU CURSO') }}</span>
                 </h2>
                 <p class="mt-4 max-w-xl text-sm leading-relaxed text-navy/65">
-                    ¿Quieres saber cómo funcionaría la Cuota Segura en tu comunidad?
-                    Déjanos tus datos y te lo explicamos sin compromiso.
+                    {{ t('cuota.cierre_texto', '¿Quieres saber cómo funcionaría la Cuota Segura en tu comunidad? Déjanos tus datos y te lo explicamos sin compromiso.') }}
                 </p>
                 <button
                     type="button"
                     class="mt-7 inline-flex items-center gap-2 rounded-full bg-teal px-7 py-3.5 text-sm font-bold text-white shadow-lg transition hover:bg-teal-dark hover:shadow-xl"
                 >
                     <Icon name="phone" class="h-5 w-5" />
-                    Solicitar información
+                    {{ t('cuota.cierre_boton', 'Solicitar información') }}
                     <Icon name="arrow" class="h-4 w-4" />
                 </button>
             </div>
@@ -177,10 +174,14 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import Icon from '../components/Icon.vue';
 import edificioCuota from '../../images/edificio-cuota.jpg';
+import { useContenido } from '../composables/contenido';
 
-const pasos = [
+const { t } = useContenido();
+
+const pasosPorDefecto = [
     {
         icon: 'alert',
         title: 'UN VECINO NO PAGA',
@@ -204,6 +205,13 @@ const pasos = [
     },
 ];
 
+const pasos = computed(() => pasosPorDefecto.map((p, i) => ({
+    ...p,
+    title: t(`cuota.paso${i + 1}.titulo`, p.title),
+    text: t(`cuota.paso${i + 1}.texto`, p.text),
+    chip: t(`cuota.paso${i + 1}.chip`, p.chip),
+})));
+
 const gastos = [
     { icon: 'shield', label: 'SEGURIDAD' },
     { icon: 'sparkles', label: 'LIMPIEZA' },
@@ -211,10 +219,16 @@ const gastos = [
     { icon: 'wrench', label: 'MANTENIMIENTO' },
 ];
 
-const beneficios = [
+const beneficiosPorDefecto = [
     { icon: 'users', title: 'EQUIDAD', text: 'Un vecino moroso no afecta al resto.' },
     { icon: 'euro', title: 'CONTINUIDAD', text: 'La comunidad no se queda sin recursos.' },
     { icon: 'check', title: 'TRANQUILIDAD', text: 'Administración y vecinos sin preocupaciones.' },
     { icon: 'trending', title: 'VALOR', text: 'Se protege el patrimonio y la buena convivencia.' },
 ];
+
+const beneficios = computed(() => beneficiosPorDefecto.map((b, i) => ({
+    icon: b.icon,
+    title: t(`cuota.beneficio${i + 1}.titulo`, b.title),
+    text: t(`cuota.beneficio${i + 1}.texto`, b.text),
+})));
 </script>

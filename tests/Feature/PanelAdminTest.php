@@ -28,5 +28,16 @@ it('muestra los textos del sitio a un admin autenticado', function () {
     $this->actingAs(User::factory()->create())
         ->get('/admin/contenidos')
         ->assertOk()
-        ->assertSee('hero.eslogan');
+        ->assertSee('Eslogan superior');
+});
+
+it('muestra la edición de un texto con su vista previa', function () {
+    $this->seed(\Database\Seeders\ContenidoSeeder::class);
+    $contenido = \App\Models\Contenido::where('clave', 'cuota.titulo_teal')->firstOrFail();
+
+    $this->actingAs(User::factory()->create())
+        ->get("/admin/contenidos/{$contenido->id}/edit")
+        ->assertOk()
+        ->assertSee('Vista previa')
+        ->assertSee('/cuota-segura');
 });

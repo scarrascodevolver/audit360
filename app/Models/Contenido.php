@@ -13,6 +13,7 @@ class Contenido extends Model
 
     protected $fillable = [
         'clave',
+        'etiqueta',
         'valor',
         'grupo',
     ];

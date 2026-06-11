@@ -5,17 +5,16 @@
             <!-- ============ HERO ============ -->
             <section class="rounded-3xl bg-white px-6 py-12 text-center shadow-sm ring-1 ring-gray-100 sm:px-10">
                 <span class="inline-block rounded-full bg-teal/10 px-4 py-1.5 text-xs font-bold tracking-widest text-teal-dark">
-                    SEGUNDO PASO
+                    {{ t('recopilacion.kicker', 'SEGUNDO PASO') }}
                 </span>
                 <h1 class="mt-4 font-heading text-2xl font-black text-navy sm:text-4xl">
-                    RECOPILACIÓN DE INFORMACIÓN
+                    {{ t('recopilacion.titulo', 'RECOPILACIÓN DE INFORMACIÓN') }}
                 </h1>
                 <p class="mt-3 text-lg font-bold text-teal sm:text-xl">
-                    Reciba un diagnóstico preciso y adaptado a su comunidad
+                    {{ t('recopilacion.subtitulo', 'Reciba un diagnóstico preciso y adaptado a su comunidad') }}
                 </p>
                 <p class="mx-auto mt-4 max-w-2xl leading-relaxed text-navy/65">
-                    Para elaborar una evaluación rigurosa y ofrecer recomendaciones de valor, necesitamos
-                    conocer algunos aspectos básicos de su comunidad.
+                    {{ t('recopilacion.intro', 'Para elaborar una evaluación rigurosa y ofrecer recomendaciones de valor, necesitamos conocer algunos aspectos básicos de su comunidad.') }}
                 </p>
 
                 <!-- Badge combinado navy + teal -->
@@ -40,7 +39,7 @@
             <section class="rounded-3xl bg-white px-6 py-12 shadow-sm ring-1 ring-gray-100 sm:px-10">
                 <div class="text-center">
                     <h2 class="inline-block font-heading text-2xl font-black text-navy sm:text-3xl">
-                        ¿CÓMO FUNCIONA NUESTRO PROCESO?
+                        {{ t('recopilacion.proceso_titulo', '¿CÓMO FUNCIONA NUESTRO PROCESO?') }}
                     </h2>
                     <div class="mx-auto mt-3 h-1 w-24 rounded-full bg-teal"></div>
                 </div>
@@ -70,7 +69,7 @@
                 <div class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100">
                     <div class="flex items-center gap-3 bg-navy px-6 py-4">
                         <Icon name="folder" class="h-6 w-6 text-teal-light" />
-                        <h3 class="text-sm font-extrabold tracking-wide text-white">DOCUMENTACIÓN HABITUALMENTE REQUERIDA</h3>
+                        <h3 class="text-sm font-extrabold tracking-wide text-white">{{ t('recopilacion.docs_titulo', 'DOCUMENTACIÓN HABITUALMENTE REQUERIDA') }}</h3>
                     </div>
                     <ul class="space-y-4 p-6">
                         <li v-for="d in documentacion" :key="d" class="flex items-start gap-3 text-navy/80">
@@ -86,11 +85,11 @@
                 <div class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100">
                     <div class="flex items-center gap-3 bg-teal px-6 py-4">
                         <Icon name="document" class="h-6 w-6 text-white" />
-                        <h3 class="text-sm font-extrabold tracking-wide text-white">ENTREGA DEL INFORME</h3>
+                        <h3 class="text-sm font-extrabold tracking-wide text-white">{{ t('recopilacion.entrega_titulo', 'ENTREGA DEL INFORME') }}</h3>
                     </div>
                     <div class="p-6">
                         <p class="text-sm font-semibold text-navy/70">
-                            Una vez recibida la documentación, elaboraremos un informe ejecutivo con:
+                            {{ t('recopilacion.entrega_intro', 'Una vez recibida la documentación, elaboraremos un informe ejecutivo con:') }}
                         </p>
                         <ul class="mt-4 space-y-4">
                             <li v-for="e in entrega" :key="e" class="flex items-start gap-3 text-navy/80">
@@ -104,7 +103,7 @@
                         <div class="mt-6 flex items-center gap-3 rounded-2xl bg-teal/10 p-4">
                             <Icon name="stopwatch" class="h-8 w-8 shrink-0 text-teal-dark" />
                             <p class="text-sm font-extrabold leading-snug text-teal-dark">
-                                INFORME DISPONIBLE EN UN PLAZO MÁXIMO DE 24 HORAS POR SOLO 100 €.
+                                {{ t('recopilacion.plazo', 'INFORME DISPONIBLE EN UN PLAZO MÁXIMO DE 24 HORAS POR SOLO 100 €.') }}
                             </p>
                         </div>
                     </div>
@@ -114,18 +113,17 @@
             <!-- ============ CTA SUBIR DOCUMENTOS ============ -->
             <section class="overflow-hidden rounded-3xl bg-navy px-6 py-10 text-center sm:px-10">
                 <h2 class="font-heading text-2xl font-black text-white sm:text-3xl">
-                    ¿Ya tiene su documentación lista?
+                    {{ t('recopilacion.cta_titulo', '¿Ya tiene su documentación lista?') }}
                 </h2>
                 <p class="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/65">
-                    Adjunte los documentos solicitados de forma segura y reciba su informe en un plazo
-                    máximo de 24 horas.
+                    {{ t('recopilacion.cta_texto', 'Adjunte los documentos solicitados de forma segura y reciba su informe en un plazo máximo de 24 horas.') }}
                 </p>
                 <router-link
                     to="/subir-documentos"
                     class="mt-7 inline-flex items-center gap-2 rounded-full bg-teal px-7 py-3.5 text-sm font-bold text-white shadow-lg transition hover:bg-teal-light"
                 >
                     <Icon name="upload" class="h-5 w-5" />
-                    Subir mi documentación
+                    {{ t('recopilacion.cta_boton', 'Subir mi documentación') }}
                     <Icon name="arrow" class="h-4 w-4" />
                 </router-link>
             </section>
@@ -137,11 +135,9 @@
                         <Icon name="headset" class="h-6 w-6" />
                     </span>
                     <div>
-                        <h3 class="text-base font-extrabold text-teal">ATENCIÓN PERSONALIZADA</h3>
+                        <h3 class="text-base font-extrabold text-teal">{{ t('recopilacion.atencion_titulo', 'ATENCIÓN PERSONALIZADA') }}</h3>
                         <p class="mt-2 text-sm leading-relaxed text-navy/65">
-                            Cada comunidad presenta características y necesidades diferentes. Por ello, nuestro proceso
-                            comienza siempre con una conversación individualizada que nos permite adaptar el análisis
-                            y ofrecer soluciones específicas para su caso.
+                            {{ t('recopilacion.atencion_texto', 'Cada comunidad presenta características y necesidades diferentes. Por ello, nuestro proceso comienza siempre con una conversación individualizada que nos permite adaptar el análisis y ofrecer soluciones específicas para su caso.') }}
                         </p>
                     </div>
                 </div>
@@ -150,11 +146,9 @@
                         <Icon name="phone" class="h-6 w-6" />
                     </span>
                     <div>
-                        <h3 class="text-base font-extrabold text-navy">¿LISTO PARA EMPEZAR?</h3>
+                        <h3 class="text-base font-extrabold text-navy">{{ t('recopilacion.listo_titulo', '¿LISTO PARA EMPEZAR?') }}</h3>
                         <p class="mt-2 text-sm leading-relaxed text-navy/65">
-                            Facilite su número de teléfono y tendrá una conversación
-                            <strong class="font-bold text-teal">totalmente personalizada</strong>.
-                            Le asesoraremos de la mejor manera posible.
+                            {{ t('recopilacion.listo_texto', 'Facilite su número de teléfono y tendrá una conversación totalmente personalizada. Le asesoraremos de la mejor manera posible.') }}
                         </p>
                     </div>
                 </div>
@@ -177,28 +171,38 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import Icon from '../components/Icon.vue';
+import { useContenido } from '../composables/contenido';
 
-const pasos = [
+const { t, lista } = useContenido();
+
+const pasosPorDefecto = [
     { icon: 'phone', title: 'SOLICITE SU REVISIÓN', text: 'Facilítenos un número de teléfono de contacto y uno de nuestros especialistas se pondrá en contacto con usted.' },
     { icon: 'users', title: 'ANÁLISIS PRELIMINAR PERSONALIZADO', text: 'Mantendremos una breve conversación para comprender la situación actual de la comunidad, sus principales necesidades y los objetivos de la revisión.' },
     { icon: 'upload', title: 'ENVÍO DE DOCUMENTACIÓN', text: 'Tras esta primera toma de contacto, le indicaremos la documentación específica que necesitamos analizar. Solo tendrá que adjuntar los archivos solicitados.' },
 ];
 
-const documentacion = [
+const pasos = computed(() => pasosPorDefecto.map((p, i) => ({
+    icon: p.icon,
+    title: t(`recopilacion.paso${i + 1}.titulo`, p.title),
+    text: t(`recopilacion.paso${i + 1}.texto`, p.text),
+})));
+
+const documentacion = computed(() => lista('recopilacion.docs', [
     'Últimas actas de la comunidad.',
     'Presupuesto y liquidación anual.',
     'Contratos de mantenimiento y servicios.',
     'Información sobre incidencias o actuaciones pendientes.',
     'Cualquier otra documentación relevante para la evaluación.',
-];
+]));
 
-const entrega = [
+const entrega = computed(() => lista('recopilacion.entrega', [
     'Estado general de la comunidad.',
     'Riesgos y oportunidades detectadas.',
     'Recomendaciones de mejora priorizadas.',
     'Posibles optimizaciones económicas y operativas.',
-];
+]));
 
 const footerCols = [
     { icon: 'shield', title: 'RIGOR Y CONFIDENCIALIDAD', text: 'Tratamos su información con la máxima seguridad.' },

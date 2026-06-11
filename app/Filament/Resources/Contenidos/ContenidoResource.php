@@ -8,8 +8,11 @@ use App\Models\Contenido;
 use BackedEnum;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Html;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -42,17 +45,43 @@ class ContenidoResource extends Resource
         return false;
     }
 
+    /** Ruta de la página pública donde aparece cada grupo de textos. */
+    public static function rutaDePagina(string $grupo): string
+    {
+        return match (true) {
+            str_starts_with($grupo, 'Proceso') => '/recopilacion',
+            str_starts_with($grupo, 'Cuota Segura') => '/cuota-segura',
+            str_starts_with($grupo, 'Subir documentos') => '/subir-documentos',
+            default => '/',
+        };
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            TextInput::make('clave')
-                ->label('Clave')
-                ->disabled(),
-            Textarea::make('valor')
-                ->label('Texto')
-                ->rows(4)
-                ->required()
-                ->helperText('En las listas, cada línea es un elemento.'),
+            Grid::make(3)->columnSpanFull()->schema([
+                Section::make('Texto')
+                    ->columnSpan(1)
+                    ->schema([
+                        TextEntry::make('grupo')->label('Sección'),
+                        TextEntry::make('etiqueta')->label('Elemento'),
+                        Textarea::make('valor')
+                            ->label('Texto')
+                            ->rows(6)
+                            ->required()
+                            ->helperText('En las listas, cada línea es un elemento. El cambio se publica al guardar.'),
+                    ]),
+                Section::make('Vista previa')
+                    ->description('La página donde aparece este texto, tal y como está publicada. Tras guardar, se actualiza.')
+                    ->columnSpan(2)
+                    ->schema([
+                        Html::make(fn (Contenido $record): string => '<iframe src="'
+                            .e(url(self::rutaDePagina($record->grupo)))
+                            .'" style="width:100%;height:36rem;border:1px solid rgba(0,0,0,.1);border-radius:.75rem;background:#fff" loading="lazy"></iframe>'
+                            .'<a href="'.e(url(self::rutaDePagina($record->grupo)))
+                            .'" target="_blank" rel="noopener" style="display:inline-block;margin-top:.5rem;font-size:.8rem;text-decoration:underline">Abrir la página en una pestaña nueva</a>'),
+                    ]),
+            ]),
         ]);
     }
 
@@ -63,17 +92,17 @@ class ContenidoResource extends Resource
             ->defaultSort('clave')
             ->paginated(false)
             ->columns([
-                TextColumn::make('clave')
-                    ->label('Clave')
+                TextColumn::make('etiqueta')
+                    ->label('Elemento')
                     ->searchable(),
                 TextColumn::make('valor')
-                    ->label('Texto')
-                    ->limit(80)
+                    ->label('Texto actual')
+                    ->limit(70)
                     ->wrap()
                     ->searchable(),
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()->label('Editar'),
             ]);
     }
 
