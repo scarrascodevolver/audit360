@@ -8,6 +8,11 @@ use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use ZipArchive;
 
 class ViewEnvio extends ViewRecord
 {
@@ -16,6 +21,11 @@ class ViewEnvio extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('descargarTodo')
+                ->label('Descargar todo (ZIP)')
+                ->icon(Heroicon::OutlinedArrowDownTray)
+                ->visible(fn (): bool => $this->record->documentos()->exists())
+                ->action(fn (): BinaryFileResponse => $this->descargarZip()),
             Action::make('marcarRevisado')
                 ->label('Marcar como revisado')
                 ->icon(Heroicon::OutlinedCheckCircle)
@@ -30,5 +40,30 @@ class ViewEnvio extends ViewRecord
                         ->send();
                 }),
         ];
+    }
+
+    /** Todos los documentos del envío, descifrados, en un único ZIP. */
+    private function descargarZip(): BinaryFileResponse
+    {
+        $rutaZip = tempnam(sys_get_temp_dir(), 'envio-zip-');
+
+        $zip = new ZipArchive;
+        $zip->open($rutaZip, ZipArchive::OVERWRITE);
+
+        foreach ($this->record->documentos as $i => $documento) {
+            // Prefijo con apartado e índice: evita colisiones de nombre.
+            $nombre = sprintf('%02d-%s-%s', $i + 1, $documento->slot, $documento->nombre_original);
+            $zip->addFromString($nombre, Crypt::decrypt(Storage::disk('envios')->get($documento->ruta)));
+        }
+
+        $zip->close();
+
+        $nombreZip = sprintf(
+            'envio-%d-%s.zip',
+            $this->record->id,
+            Str::slug($this->record->comunidad ?: $this->record->telefono),
+        );
+
+        return response()->download($rutaZip, $nombreZip)->deleteFileAfterSend();
     }
 }
