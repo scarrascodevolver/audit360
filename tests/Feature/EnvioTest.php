@@ -16,11 +16,19 @@ beforeEach(function () {
     config()->set('services.turnstile.secret', 'test-secret');
     config()->set('audit360.especialista_email', 'especialista@example.com');
 
-    // Cloudflare valida el token server-side; por defecto responde OK.
-    Http::fake([
-        'challenges.cloudflare.com/*' => Http::response(['success' => true]),
-    ]);
+    // Cloudflare valida el token server-side: el fake da OK a cualquier
+    // token salvo a "token-invalido".
+    Http::fake(function ($request) {
+        return Http::response(['success' => $request['response'] !== 'token-invalido']);
+    });
 });
+
+// La validación de tipo es por contenido real (finfo), así que los
+// archivos de prueba llevan los bytes mágicos de un PDF de verdad.
+function pdfFalso(string $nombre = 'acta.pdf'): UploadedFile
+{
+    return UploadedFile::fake()->createWithContent($nombre, '%PDF-1.4 contenido de prueba');
+}
 
 function datosValidos(array $overrides = []): array
 {
@@ -31,7 +39,7 @@ function datosValidos(array $overrides = []): array
         'consentimiento' => '1',
         'turnstile_token' => 'token-valido',
         'documentos' => [
-            'actas' => UploadedFile::fake()->create('acta.pdf', 100, 'application/pdf'),
+            'actas' => pdfFalso(),
         ],
     ], $overrides);
 }
@@ -39,7 +47,7 @@ function datosValidos(array $overrides = []): array
 it('acepta un envío válido y persiste envío y documentos', function () {
     $respuesta = $this->postJson('/api/envios', datosValidos([
         'documentos' => [
-            'actas' => UploadedFile::fake()->create('acta.pdf', 100, 'application/pdf'),
+            'actas' => pdfFalso(),
             'otros' => [
                 UploadedFile::fake()->image('foto.jpg'),
             ],
@@ -94,11 +102,7 @@ it('rechaza el envío sin consentimiento RGPD', function () {
 });
 
 it('rechaza el envío cuando Turnstile no valida el token', function () {
-    Http::fake([
-        'challenges.cloudflare.com/*' => Http::response(['success' => false]),
-    ]);
-
-    $this->postJson('/api/envios', datosValidos())
+    $this->postJson('/api/envios', datosValidos(['turnstile_token' => 'token-invalido']))
         ->assertUnprocessable()->assertJsonValidationErrors('turnstile_token');
 });
 
@@ -109,12 +113,12 @@ it('rechaza el envío sin ningún archivo', function () {
 
 it('rechaza más de 15 archivos en total', function () {
     $otros = collect(range(1, 15))
-        ->map(fn ($i) => UploadedFile::fake()->create("extra-{$i}.pdf", 10, 'application/pdf'))
+        ->map(fn ($i) => pdfFalso("extra-{$i}.pdf"))
         ->all();
 
     $this->postJson('/api/envios', datosValidos([
         'documentos' => [
-            'actas' => UploadedFile::fake()->create('acta.pdf', 10, 'application/pdf'),
+            'actas' => pdfFalso(),
             'otros' => $otros,
         ],
     ]))->assertUnprocessable()->assertJsonValidationErrors('documentos');
