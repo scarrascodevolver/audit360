@@ -19,9 +19,10 @@ class EnvioRecibidoMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    // Tope de seguridad: por encima de esto el correo lo rechazaría la
-    // mayoría de servidores, así que en su lugar se avisa con enlace al panel.
-    public const LIMITE_ADJUNTOS_BYTES = 18 * 1024 * 1024;
+    // Brevo corta los mensajes en 20 MB y los adjuntos engordan ~33% al
+    // codificarse, así que solo adjuntamos cuando el total es bien pequeño.
+    // Por encima de esto se avisa con el botón de descarga al panel.
+    public const LIMITE_ADJUNTOS_BYTES = 12 * 1024 * 1024;
 
     public function __construct(public Envio $envio) {}
 
@@ -36,7 +37,10 @@ class EnvioRecibidoMail extends Mailable implements ShouldQueue
     {
         return new Content(
             markdown: 'emails.envio-recibido',
-            with: ['adjuntados' => $this->debeAdjuntar()],
+            with: [
+                'adjuntados' => $this->debeAdjuntar(),
+                'urlPanel' => rtrim(config('app.url'), '/').'/admin/envios/'.$this->envio->id,
+            ],
         );
     }
 

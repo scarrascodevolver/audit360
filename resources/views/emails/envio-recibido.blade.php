@@ -1,18 +1,22 @@
 <x-mail::message>
-# Nuevo envío de documentación
+# 📄 Nuevo envío de documentación
 
-Ha entrado un envío nuevo en Comunidad Audit 360°:
+Ha entrado documentación nueva en **{{ config('app.name') }}**:
 
 - **Comunidad:** {{ $envio->comunidad ?: '—' }}
 - **Teléfono:** {{ $envio->telefono }}
-- **Email:** {{ $envio->email }}
+- **Email del remitente:** {{ $envio->email }}
 - **Documentos:** {{ $envio->documentos->count() }}
 - **Recibido:** {{ $envio->created_at->format('d/m/Y H:i') }}
 
+<x-mail::button :url="$urlPanel" color="success">
+Ver y descargar los documentos
+</x-mail::button>
+
 @if ($adjuntados)
-Los archivos van **adjuntos a este correo**. También puedes revisarlos desde el panel de administración.
+Los archivos van **adjuntos** a este correo y también disponibles en el panel.
 @else
-Los archivos no se han adjuntado (el envío supera el tamaño permitido para correo). Puedes revisarlos y descargarlos desde el panel de administración.
+El envío es demasiado grande para adjuntarlo al correo. Pulsa el botón de arriba para **revisarlo y descargar todo (ZIP)** desde el panel de administración.
 @endif
 
 Gracias,<br>
