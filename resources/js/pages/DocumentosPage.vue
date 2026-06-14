@@ -80,7 +80,7 @@
                                         :class="files[doc.key] ? 'bg-bg-light text-navy/70 hover:bg-gray-100' : 'bg-teal text-white hover:bg-teal-dark'"
                                     >
                                         {{ files[doc.key] ? 'Cambiar' : 'Adjuntar' }}
-                                        <input type="file" class="hidden" @change="onPick($event, doc.key)" />
+                                        <input type="file" accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.docx,.doc,.ods,.odt,.csv" class="hidden" @change="onPick($event, doc.key)" />
                                     </label>
                                     <button v-if="files[doc.key]" class="text-xs font-bold text-navy/40 hover:text-red-500" @click="removeFile(doc.key)">
                                         Quitar
@@ -104,8 +104,8 @@
                                 <Icon name="upload" class="h-7 w-7" />
                             </span>
                             <p class="mt-4 text-sm font-bold text-navy">Arrastre aquí sus archivos o haga clic para seleccionarlos</p>
-                            <p class="mt-1 text-xs text-navy/50">PDF, JPG o PNG · hasta 20 MB por archivo</p>
-                            <input type="file" multiple class="hidden" @change="onPickMany" />
+                            <p class="mt-1 text-xs text-navy/50">PDF, Word, Excel, JPG o PNG · hasta 20 MB por archivo</p>
+                            <input type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.docx,.doc,.ods,.odt,.csv" class="hidden" @change="onPickMany" />
                         </label>
 
                         <ul v-if="otros.length" class="mt-4 space-y-2">

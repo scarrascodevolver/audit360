@@ -136,12 +136,27 @@ it('rechaza archivos de más de 20 MB', function () {
     ]))->assertUnprocessable();
 });
 
-it('rechaza archivos que no son PDF/JPG/PNG aunque lleven otra extensión', function () {
+it('rechaza archivos que no son de un tipo permitido aunque lleven otra extensión', function () {
     $this->postJson('/api/envios', datosValidos([
         'documentos' => [
             'actas' => UploadedFile::fake()->createWithContent('acta.pdf', 'MZ ejecutable'),
         ],
     ]))->assertUnprocessable();
+});
+
+it('acepta documentos de Office (Excel)', function () {
+    $ruta = tempnam(sys_get_temp_dir(), 'xlsx');
+    $zip = new ZipArchive;
+    $zip->open($ruta, ZipArchive::OVERWRITE);
+    $zip->addFromString('[Content_Types].xml', '<x/>');
+    $zip->addFromString('xl/workbook.xml', '<x/>');
+    $zip->close();
+
+    $excel = new UploadedFile($ruta, 'presupuesto.xlsx', null, null, true);
+
+    $this->postJson('/api/envios', datosValidos([
+        'documentos' => ['presupuesto' => $excel],
+    ]))->assertCreated();
 });
 
 it('encola el email de aviso al especialista', function () {
