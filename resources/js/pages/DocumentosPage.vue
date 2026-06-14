@@ -236,6 +236,8 @@ const recibe = computed(() => lista('documentos.recibe', [
 // En la demo estática de GitHub Pages no hay backend: se simula el envío.
 const modoDemo = import.meta.env.VITE_GH_PAGES === '1';
 const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY || '';
+// Cloudflare (plan gratis) corta las subidas en 100 MB: avisamos antes de subir.
+const MAX_BYTES_TOTAL = 95 * 1024 * 1024;
 
 const comunidad = ref('');
 const phone = ref('');
@@ -253,6 +255,12 @@ const turnstileToken = ref('');
 
 const count = computed(() => Object.keys(files.value).length);
 const progress = computed(() => Math.round((count.value / requeridos.length) * 100));
+const bytesTotales = computed(() => {
+    let total = 0;
+    for (const f of Object.values(files.value)) total += f.size;
+    for (const f of otros.value) total += f.size;
+    return total;
+});
 
 onMounted(() => {
     if (!turnstileSiteKey) return;
@@ -293,6 +301,10 @@ function validar() {
     if (!phone.value.trim()) return 'Indique un teléfono de contacto para poder llamarle.';
     if (!email.value.trim()) return 'Indique un email de contacto para poder responderle.';
     if (count.value === 0 && otros.value.length === 0) return 'Adjunte al menos un documento.';
+    if (bytesTotales.value > MAX_BYTES_TOTAL) {
+        const mb = Math.round(bytesTotales.value / 1024 / 1024);
+        return `El total de los archivos (${mb} MB) supera el máximo de 95 MB por envío. Adjunte menos archivos o más ligeros.`;
+    }
     if (!consentimiento.value) return 'Debe aceptar el tratamiento de sus datos para poder enviar.';
     if (turnstileSiteKey && !turnstileToken.value) return 'Complete la verificación anti-spam antes de enviar.';
     return '';

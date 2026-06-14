@@ -15,6 +15,9 @@ class StoreEnvioRequest extends FormRequest
 
     public const MAX_ARCHIVOS = 15;
 
+    // Cloudflare (plan gratis) corta las subidas en 100 MB; dejamos margen.
+    public const MAX_BYTES_TOTAL = 95 * 1024 * 1024;
+
     public function authorize(): bool
     {
         return true;
@@ -59,6 +62,12 @@ class StoreEnvioRequest extends FormRequest
 
                 if ($total > self::MAX_ARCHIVOS) {
                     $validator->errors()->add('documentos', 'No se pueden enviar más de '.self::MAX_ARCHIVOS.' archivos.');
+                }
+
+                $bytes = array_sum(array_map(fn (array $par): int => $par[1]->getSize(), $this->archivos()));
+
+                if ($bytes > self::MAX_BYTES_TOTAL) {
+                    $validator->errors()->add('documentos', 'El total de los archivos no puede superar los 95 MB por envío.');
                 }
             },
         ];
