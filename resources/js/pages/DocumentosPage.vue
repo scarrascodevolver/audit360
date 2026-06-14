@@ -24,6 +24,8 @@
                         </div>
                     </div>
 
+                    <!-- Formulario: se oculta tras enviar (solo queda el mensaje de éxito) -->
+                    <template v-if="!submitted">
                     <!-- Datos de contacto -->
                     <section class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100">
                         <div class="flex items-center gap-3 bg-navy px-6 py-4">
@@ -147,10 +149,11 @@
                             Sus datos se tratan con la máxima seguridad y confidencialidad.
                         </p>
                     </div>
+                    </template>
                 </div>
 
                 <!-- ----- Columna resumen ----- -->
-                <aside class="lg:col-span-1">
+                <aside v-if="!submitted" class="lg:col-span-1">
                     <div class="space-y-6 lg:sticky lg:top-24">
                         <!-- Tu informe -->
                         <div class="rounded-3xl bg-navy p-6 text-white shadow-sm">
@@ -212,7 +215,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, nextTick } from 'vue';
 import Icon from '../components/Icon.vue';
 import { useContenido } from '../composables/contenido';
 
@@ -262,20 +265,24 @@ const bytesTotales = computed(() => {
     return total;
 });
 
-onMounted(() => {
-    if (!turnstileSiteKey) return;
-    const render = () => window.turnstile.render(turnstileEl.value, {
+function renderTurnstile() {
+    if (!turnstileSiteKey || !window.turnstile || !turnstileEl.value) return;
+    window.turnstile.render(turnstileEl.value, {
         sitekey: turnstileSiteKey,
         callback: (token) => (turnstileToken.value = token),
         'expired-callback': () => (turnstileToken.value = ''),
     });
+}
+
+onMounted(() => {
+    if (!turnstileSiteKey) return;
     if (window.turnstile) {
-        render();
+        renderTurnstile();
     } else {
         const script = document.createElement('script');
         script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
         script.async = true;
-        script.onload = render;
+        script.onload = renderTurnstile;
         document.head.appendChild(script);
     }
 });
@@ -371,5 +378,11 @@ function reset() {
     submitted.value = false;
     files.value = {};
     otros.value = [];
+    error.value = '';
+    progresoSubida.value = 0;
+    // El token de Turnstile es de un solo uso: al volver al formulario hay
+    // que volver a pintar el widget para obtener uno nuevo.
+    turnstileToken.value = '';
+    nextTick(renderTurnstile);
 }
 </script>
