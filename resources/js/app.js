@@ -9,6 +9,7 @@ import CuotaSeguraPage from './pages/CuotaSeguraPage.vue';
 import RecopilacionPage from './pages/RecopilacionPage.vue';
 import DocumentosPage from './pages/DocumentosPage.vue';
 import LegalPage from './pages/LegalPage.vue';
+import NotFoundPage from './pages/NotFoundPage.vue';
 
 // GitHub Pages no puede reescribir rutas al index, así que la demo usa hash history
 const router = createRouter({
@@ -21,6 +22,8 @@ const router = createRouter({
         { path: '/aviso-legal', name: 'aviso-legal', component: LegalPage },
         { path: '/privacidad', name: 'privacidad', component: LegalPage },
         { path: '/cookies', name: 'cookies', component: LegalPage },
+        // Cualquier ruta inexistente → página 404 (en vez de pantalla en blanco).
+        { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundPage },
     ],
     scrollBehavior() {
         return { top: 0 };
