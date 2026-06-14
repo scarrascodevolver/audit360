@@ -28,3 +28,31 @@ body.modo-edicion [data-editable]:hover {
 html, body {
     overflow-x: clip;
 }
+
+/* Animación de entrada (directiva v-reveal): los elementos aparecen con un
+   fundido + subida suave al cargar o al entrar en pantalla. Tras animarse, la
+   directiva quita estas clases para devolver el control normal (hover, etc.). */
+.reveal {
+    opacity: 0;
+}
+.reveal-visible {
+    animation: reveal-in 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+@keyframes reveal-in {
+    from {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+    }
+    .reveal-visible {
+        animation: none;
+    }
+}

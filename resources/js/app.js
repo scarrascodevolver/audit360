@@ -53,4 +53,36 @@ app.directive('editable', {
     },
 });
 
+// v-reveal: el elemento aparece con un fundido+subida al entrar en pantalla
+// (o al cargar, si ya es visible). Opcional v-reveal="120" = retardo en ms para
+// escalonar. Al terminar quita las clases para no estorbar al hover.
+app.directive('reveal', {
+    mounted(el, binding) {
+        el.classList.add('reveal');
+        const delay = Number(binding.value) || 0;
+
+        const observer = new IntersectionObserver(
+            (entries, obs) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    obs.unobserve(el);
+                    el.style.animationDelay = `${delay}ms`;
+                    el.classList.add('reveal-visible');
+                    el.addEventListener(
+                        'animationend',
+                        () => {
+                            el.classList.remove('reveal', 'reveal-visible');
+                            el.style.animationDelay = '';
+                        },
+                        { once: true },
+                    );
+                });
+            },
+            { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
+        );
+
+        observer.observe(el);
+    },
+});
+
 app.mount('#app');

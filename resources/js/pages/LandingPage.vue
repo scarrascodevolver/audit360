@@ -3,7 +3,7 @@
         <!-- ============ HERO ============ -->
         <section class="relative overflow-hidden bg-white">
             <!-- Composición propia: foto de edificio + lupa SVG + badge HTML (escritorio) -->
-            <div class="absolute inset-y-0 right-0 hidden w-[62%] lg:block">
+            <div v-reveal class="absolute inset-y-0 right-0 hidden w-[62%] lg:block">
                 <img
                     :src="heroBuilding"
                     alt="Edificio residencial moderno en perspectiva bajo revisión"
@@ -29,17 +29,17 @@
 
             <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="flex min-h-[32rem] max-w-xl flex-col justify-center py-16 sm:py-20 lg:min-h-[36rem] lg:py-24">
-                    <p v-editable="'hero.eslogan'" class="mb-4 text-xs font-bold tracking-[0.22em] text-navy/60">
+                    <p v-reveal v-editable="'hero.eslogan'" class="mb-4 text-xs font-bold tracking-[0.22em] text-navy/60">
                         {{ t('hero.eslogan', 'ANALIZAMOS. DETECTAMOS. MEJORAMOS.') }}
                     </p>
-                    <h1 class="font-heading text-4xl font-black leading-[1.05] sm:text-5xl xl:text-6xl">
+                    <h1 v-reveal="90" class="font-heading text-4xl font-black leading-[1.05] sm:text-5xl xl:text-6xl">
                         <span v-editable="'hero.titulo_navy'" class="whitespace-pre-line text-navy">{{ t('hero.titulo_navy', 'REVISAMOS\nTU COMUNIDAD,') }}</span><br>
                         <span v-editable="'hero.titulo_teal'" class="whitespace-pre-line text-teal">{{ t('hero.titulo_teal', 'MEJORAMOS\nTU TRANQUILIDAD') }}</span>
                     </h1>
-                    <p v-editable="'hero.parrafo'" class="mt-7 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
+                    <p v-reveal="190" v-editable="'hero.parrafo'" class="mt-7 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
                         {{ t('hero.parrafo', 'Realizamos una revisión técnica, legal y económica de tu comunidad para detectar oportunidades de mejora y prevenir problemas.') }}
                     </p>
-                    <div class="mt-8 flex flex-wrap items-center gap-3">
+                    <div v-reveal="280" class="mt-8 flex flex-wrap items-center gap-3">
                         <router-link
                             v-editable="'hero.cta_primario'"
                             to="/subir-documentos"
@@ -60,7 +60,7 @@
             </div>
 
             <!-- Composición para móvil -->
-            <div class="relative -mt-2 lg:hidden">
+            <div v-reveal class="relative -mt-2 lg:hidden">
                 <img
                     :src="heroBuilding"
                     alt="Edificio residencial moderno bajo revisión"
@@ -80,7 +80,7 @@
         <section class="bg-navy py-20">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="text-center">
-                    <span v-editable="'servicios.titulo'" class="inline-block rounded-full bg-teal px-6 py-2 text-sm font-extrabold tracking-wide text-white">
+                    <span v-reveal v-editable="'servicios.titulo'" class="inline-block rounded-full bg-teal px-6 py-2 text-sm font-extrabold tracking-wide text-white">
                         {{ t('servicios.titulo', '¿QUÉ INCLUYE NUESTRA REVISIÓN?') }}
                     </span>
                 </div>
@@ -89,6 +89,7 @@
                     <div
                         v-for="(s, i) in servicios"
                         :key="s.title"
+                        v-reveal="i * 70"
                         class="group cursor-default rounded-2xl p-6 text-center ring-1 ring-transparent transition duration-300 hover:-translate-y-1.5 hover:bg-white/[0.06] hover:shadow-2xl hover:ring-white/10 lg:text-left"
                     >
                         <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-white/10 text-teal-light transition duration-300 group-hover:scale-110 group-hover:bg-teal group-hover:text-white lg:mx-0">
@@ -110,10 +111,10 @@
             <div class="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2 lg:px-8">
                 <!-- Izquierda -->
                 <div>
-                    <p v-editable="'precio.kicker'" class="text-sm font-bold tracking-[0.2em] text-navy/60">{{ t('precio.kicker', 'TODO ESTO POR SOLO') }}</p>
-                    <p v-editable="'precio.importe'" class="mt-1 font-heading text-7xl font-black text-teal sm:text-8xl">{{ t('precio.importe', '100€') }}</p>
+                    <p v-reveal v-editable="'precio.kicker'" class="text-sm font-bold tracking-[0.2em] text-navy/60">{{ t('precio.kicker', 'TODO ESTO POR SOLO') }}</p>
+                    <p v-reveal="90" v-editable="'precio.importe'" class="mt-1 font-heading text-7xl font-black text-teal sm:text-8xl">{{ t('precio.importe', '100€') }}</p>
 
-                    <ul v-editable="'precio.checklist'" class="mt-8 space-y-4">
+                    <ul v-reveal="180" v-editable="'precio.checklist'" class="mt-8 space-y-4">
                         <li v-for="c in checklist" :key="c" class="flex items-center gap-3 text-lg font-semibold text-navy">
                             <span class="flex h-7 w-7 items-center justify-center rounded-full border-2 border-teal text-teal">
                                 <Icon name="check" class="h-4 w-4" />
@@ -124,7 +125,7 @@
                 </div>
 
                 <!-- Derecha: preview informe -->
-                <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8">
+                <div v-reveal="120" class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8">
                     <div class="text-center">
                         <span v-editable="'precio.informe_badge'" class="inline-block rounded-full bg-teal px-5 py-1.5 text-xs font-bold tracking-wide text-white">
                             {{ t('precio.informe_badge', 'RECIBIRÁS UN INFORME BREVE Y CLARO') }}
