@@ -29,6 +29,8 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->brandName('Comunidad Audit 360°')
             ->login()
+            // Recuperación de contraseña por correo (vía Brevo).
+            ->passwordReset()
             // Página "Mi perfil": cambiar nombre, email y contraseña.
             ->profile(isSimple: false)
             // El inicio del panel es la lista de Envíos (no hay Escritorio).
