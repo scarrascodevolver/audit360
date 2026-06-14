@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Envios\Pages;
 
 use App\Filament\Resources\Envios\EnvioResource;
+use App\Filament\Widgets\EstadisticasEnvios;
 use Filament\Resources\Pages\ListRecords;
 
 class ListEnvios extends ListRecords
@@ -11,4 +12,12 @@ class ListEnvios extends ListRecords
 
     // Sin acciones de cabecera: los envíos solo se crean desde el
     // formulario público de la web, aquí únicamente se revisan.
+
+    // Estadísticas en una fila compacta sobre la tabla.
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            EstadisticasEnvios::class,
+        ];
+    }
 }

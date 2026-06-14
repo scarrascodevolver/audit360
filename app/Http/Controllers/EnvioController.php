@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEnvioRequest;
 use App\Mail\EnvioRecibidoMail;
+use App\Models\Ajuste;
 use App\Models\Envio;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Crypt;
@@ -41,8 +42,12 @@ class EnvioController extends Controller
             return $envio;
         });
 
-        if ($destinatario = config('audit360.especialista_email')) {
-            Mail::to($destinatario)->queue(new EnvioRecibidoMail($envio));
+        // Los destinatarios se editan desde el panel (Ajustes) y pueden ser
+        // varios; si no hay ninguno, cae al valor del .env.
+        $destinatarios = Ajuste::emailsNotificaciones();
+
+        if ($destinatarios !== []) {
+            Mail::to($destinatarios)->queue(new EnvioRecibidoMail($envio));
         }
 
         return response()->json(['id' => $envio->id], 201);

@@ -9,7 +9,11 @@ Ha entrado un envío nuevo en Comunidad Audit 360°:
 - **Documentos:** {{ $envio->documentos->count() }}
 - **Recibido:** {{ $envio->created_at->format('d/m/Y H:i') }}
 
-Puede revisarlo y descargar los archivos desde el panel de administración.
+@if ($adjuntados)
+Los archivos van **adjuntos a este correo**. También puedes revisarlos desde el panel de administración.
+@else
+Los archivos no se han adjuntado (el envío supera el tamaño permitido para correo). Puedes revisarlos y descargarlos desde el panel de administración.
+@endif
 
 Gracias,<br>
 {{ config('app.name') }}

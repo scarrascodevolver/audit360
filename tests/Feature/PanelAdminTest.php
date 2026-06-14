@@ -1,7 +1,13 @@
 <?php
 
+use App\Filament\Pages\Ajustes;
+use App\Filament\Resources\Envios\Pages\ViewEnvio;
+use App\Models\Ajuste;
 use App\Models\Envio;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+use Livewire\Livewire;
 
 it('exige login para entrar al panel de administración', function () {
     $this->get('/admin')->assertRedirect();
@@ -22,8 +28,26 @@ it('muestra el listado de envíos a un admin autenticado', function () {
         ->assertSee('Comunidad Panel');
 });
 
+it('guarda el correo de avisos y el adjuntar desde la página de Ajustes', function () {
+    Cache::flush();
+
+    Livewire::actingAs(User::factory()->create())
+        ->test(Ajustes::class)
+        ->assertOk()
+        ->fillForm([
+            'email_notificaciones' => ['administracion@nexofincas.es', 'gestor@nexofincas.es'],
+            'adjuntar_archivos' => false,
+        ])
+        ->call('save')
+        ->assertHasNoFormErrors();
+
+    expect(Ajuste::get(Ajuste::EMAIL_NOTIFICACIONES))->toBe('administracion@nexofincas.es,gestor@nexofincas.es')
+        ->and(Ajuste::emailsNotificaciones())->toBe(['administracion@nexofincas.es', 'gestor@nexofincas.es'])
+        ->and(Ajuste::bool(Ajuste::ADJUNTAR_ARCHIVOS, true))->toBeFalse();
+});
+
 it('descarga todos los documentos de un envío en un único zip descifrado', function () {
-    \Illuminate\Support\Facades\Storage::fake('envios');
+    Storage::fake('envios');
 
     $envio = Envio::create([
         'comunidad' => 'Comunidad Zip',
@@ -33,7 +57,7 @@ it('descarga todos los documentos de un envío en un único zip descifrado', fun
     ]);
     foreach (['acta.pdf', 'presupuesto.pdf'] as $i => $nombre) {
         $ruta = $envio->id.'/doc'.$i.'.bin';
-        \Illuminate\Support\Facades\Storage::disk('envios')->put($ruta, encrypt('contenido '.$nombre));
+        Storage::disk('envios')->put($ruta, encrypt('contenido '.$nombre));
         $envio->documentos()->create([
             'slot' => 'actas',
             'nombre_original' => $nombre,
@@ -43,9 +67,8 @@ it('descarga todos los documentos de un envío en un único zip descifrado', fun
         ]);
     }
 
-    \Livewire\Livewire::actingAs(User::factory()->create())
-        ->test(\App\Filament\Resources\Envios\Pages\ViewEnvio::class, ['record' => $envio->getRouteKey()])
+    Livewire::actingAs(User::factory()->create())
+        ->test(ViewEnvio::class, ['record' => $envio->getRouteKey()])
         ->callAction('descargarTodo')
         ->assertFileDownloaded('envio-'.$envio->id.'-comunidad-zip.zip');
 });
-

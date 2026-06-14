@@ -1,8 +1,11 @@
 <?php
 
+use App\Mail\EnvioRecibidoMail;
+use App\Models\Ajuste;
 use App\Models\Documento;
 use App\Models\Envio;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
@@ -11,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 beforeEach(function () {
     Storage::fake('envios');
     Mail::fake();
+    Cache::flush();
     RateLimiter::clear('envios|127.0.0.1');
 
     config()->set('services.turnstile.secret', 'test-secret');
@@ -143,9 +147,66 @@ it('rechaza archivos que no son PDF/JPG/PNG aunque lleven otra extensión', func
 it('encola el email de aviso al especialista', function () {
     $this->postJson('/api/envios', datosValidos())->assertCreated();
 
-    Mail::assertQueued(\App\Mail\EnvioRecibidoMail::class, function ($mail) {
+    Mail::assertQueued(EnvioRecibidoMail::class, function ($mail) {
         return $mail->hasTo('especialista@example.com');
     });
+});
+
+it('el correo de aviso configurado en el panel manda sobre el del .env', function () {
+    Ajuste::set(Ajuste::EMAIL_NOTIFICACIONES, 'administracion@nexofincas.es');
+
+    $this->postJson('/api/envios', datosValidos())->assertCreated();
+
+    Mail::assertQueued(EnvioRecibidoMail::class, function ($mail) {
+        return $mail->hasTo('administracion@nexofincas.es');
+    });
+});
+
+it('envía el aviso a varios destinatarios si se configuran', function () {
+    Ajuste::set(Ajuste::EMAIL_NOTIFICACIONES, 'administracion@nexofincas.es, gestor@nexofincas.es');
+
+    $this->postJson('/api/envios', datosValidos())->assertCreated();
+
+    Mail::assertQueued(EnvioRecibidoMail::class, function ($mail) {
+        return $mail->hasTo('administracion@nexofincas.es')
+            && $mail->hasTo('gestor@nexofincas.es');
+    });
+});
+
+it('adjunta los archivos cuando caben y el ajuste lo permite', function () {
+    $this->postJson('/api/envios', datosValidos())->assertCreated();
+
+    $envio = Envio::firstOrFail();
+    $mail = new EnvioRecibidoMail($envio);
+
+    expect($mail->debeAdjuntar())->toBeTrue()
+        ->and($mail->attachments())->toHaveCount(1);
+});
+
+it('no adjunta si el ajuste de adjuntar está desactivado', function () {
+    Ajuste::set(Ajuste::ADJUNTAR_ARCHIVOS, '0');
+
+    $this->postJson('/api/envios', datosValidos())->assertCreated();
+
+    $envio = Envio::firstOrFail();
+    $mail = new EnvioRecibidoMail($envio);
+
+    expect($mail->debeAdjuntar())->toBeFalse()
+        ->and($mail->attachments())->toBeEmpty();
+});
+
+it('no adjunta si el envío supera el límite de tamaño del correo', function () {
+    $this->postJson('/api/envios', datosValidos())->assertCreated();
+
+    $envio = Envio::firstOrFail();
+    // Simula un documento gigante: el peso total supera el tope.
+    $envio->documentos()->update([
+        'tamano_bytes' => EnvioRecibidoMail::LIMITE_ADJUNTOS_BYTES + 1,
+    ]);
+
+    $mail = new EnvioRecibidoMail($envio->fresh());
+
+    expect($mail->debeAdjuntar())->toBeFalse();
 });
 
 it('limita a 5 envíos por hora por IP', function () {
