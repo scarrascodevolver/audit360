@@ -28,8 +28,10 @@ class EnvioRecibidoMail extends Mailable implements ShouldQueue
 
     public function envelope(): Envelope
     {
+        // El nombre de la comunidad va PRIMERO para distinguir los avisos de un
+        // vistazo en la bandeja (si no se indicó, se usa el teléfono).
         return new Envelope(
-            subject: 'Nuevo envío de documentación — '.($this->envio->comunidad ?: $this->envio->telefono),
+            subject: ($this->envio->comunidad ?: $this->envio->telefono).' — Nuevo envío de documentación',
         );
     }
 
