@@ -178,10 +178,10 @@
                     </div>
                 </div>
 
-                <a :href="telHref" class="flex items-center gap-3 transition hover:opacity-80">
+                <a v-if="tieneTelefono || edicion" :href="telHref" class="flex items-center gap-3 transition hover:opacity-80">
                     <Icon name="phone" class="h-7 w-7 shrink-0 text-teal-light" />
                     <div>
-                        <p v-editable="'footer.telefono'" class="text-lg font-extrabold text-teal-light">{{ t('footer.telefono', '600 000 000') }}</p>
+                        <p v-editable="'footer.telefono'" class="text-lg font-extrabold text-teal-light">{{ telefono || 'Añadir teléfono' }}</p>
                         <p class="text-sm text-white/60">Llámanos sin compromiso.</p>
                     </div>
                 </a>
@@ -209,12 +209,14 @@ import { computed } from 'vue';
 import Icon from '../components/Icon.vue';
 import Magnifier from '../components/Magnifier.vue';
 import heroBuilding from '../../images/hero-building.jpg';
-import { useContenido } from '../composables/contenido';
+import { useContenido, edicion } from '../composables/contenido';
 
 const { t, lista } = useContenido();
 const esDemo = import.meta.env.VITE_GH_PAGES === '1';
 
-const telHref = computed(() => 'tel:+34' + t('footer.telefono', '600 000 000').replace(/\D/g, ''));
+const telefono = computed(() => t('footer.telefono', '').trim());
+const tieneTelefono = computed(() => telefono.value.length > 0);
+const telHref = computed(() => 'tel:+34' + telefono.value.replace(/\D/g, ''));
 
 const serviciosPorDefecto = [
     { icon: 'building', title: 'ESTRUCTURA Y CONSERVACIÓN', text: 'Evaluamos el estado de las instalaciones, elementos comunes y mantenimiento.' },
