@@ -15,8 +15,9 @@ class StoreEnvioRequest extends FormRequest
 
     public const MAX_ARCHIVOS = 15;
 
-    // Cloudflare (plan gratis) corta las subidas en 100 MB; dejamos margen.
-    public const MAX_BYTES_TOTAL = 95 * 1024 * 1024;
+    // Tope total por envío. El servidor (nginx/PHP) aguanta ~300 MB; con la
+    // subida directa (sin Cloudflare) dejamos 290 MB de margen.
+    public const MAX_BYTES_TOTAL = 290 * 1024 * 1024;
 
     public function authorize(): bool
     {
@@ -67,7 +68,7 @@ class StoreEnvioRequest extends FormRequest
                 $bytes = array_sum(array_map(fn (array $par): int => $par[1]->getSize(), $this->archivos()));
 
                 if ($bytes > self::MAX_BYTES_TOTAL) {
-                    $validator->errors()->add('documentos', 'El total de los archivos no puede superar los 95 MB por envío.');
+                    $validator->errors()->add('documentos', 'El total de los archivos no puede superar los 290 MB por envío.');
                 }
             },
         ];
