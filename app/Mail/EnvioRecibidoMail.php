@@ -52,9 +52,12 @@ class EnvioRecibidoMail extends Mailable implements ShouldQueue
         }
 
         return $this->envio->documentos
-            ->map(fn (Documento $doc): Attachment => Attachment::fromData(
+            ->values()
+            ->map(fn (Documento $doc, int $i): Attachment => Attachment::fromData(
                 fn (): string => Crypt::decrypt(Storage::disk('envios')->get($doc->ruta)),
-                $doc->nombre_original,
+                // Prefijo con índice y apartado: evita que se pisen los adjuntos
+                // cuando varios archivos comparten el mismo nombre original.
+                sprintf('%02d-%s-%s', $i + 1, $doc->slot, $doc->nombre_original),
             )->withMime($doc->mime))
             ->all();
     }
