@@ -27,7 +27,7 @@
                     <!-- Formulario: se oculta tras enviar (solo queda el mensaje de éxito) -->
                     <template v-if="!submitted">
                     <!-- Datos de contacto -->
-                    <section class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100">
+                    <section v-reveal class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100">
                         <div class="flex items-center gap-3 bg-navy px-6 py-4">
                             <Icon name="phone" class="h-6 w-6 text-teal-light" />
                             <h2 class="text-sm font-extrabold tracking-wide text-white">DATOS DE CONTACTO</h2>
@@ -52,7 +52,7 @@
                     </section>
 
                     <!-- Documentos solicitados -->
-                    <section class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100">
+                    <section v-reveal="80" class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100">
                         <div class="flex items-center gap-3 bg-teal px-6 py-4">
                             <Icon name="folder" class="h-6 w-6 text-white" />
                             <h2 class="text-sm font-extrabold tracking-wide text-white">DOCUMENTOS SOLICITADOS</h2>
@@ -93,7 +93,7 @@
                     </section>
 
                     <!-- Otros documentos: dropzone -->
-                    <section class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
+                    <section v-reveal="160" class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
                         <h2 class="text-sm font-extrabold tracking-wide text-navy">OTROS DOCUMENTOS (OPCIONAL)</h2>
                         <label
                             class="mt-4 flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed px-6 py-10 text-center transition"
@@ -121,7 +121,7 @@
                     </section>
 
                     <!-- Enviar -->
-                    <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
+                    <div v-reveal="240" class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-100">
                         <label class="flex cursor-pointer items-start gap-3">
                             <input v-model="consentimiento" type="checkbox"
                                 class="mt-0.5 h-5 w-5 shrink-0 rounded border-gray-300 text-teal accent-teal focus:ring-teal" />
@@ -153,7 +153,7 @@
                 </div>
 
                 <!-- ----- Columna resumen ----- -->
-                <aside v-if="!submitted" class="lg:col-span-1">
+                <aside v-if="!submitted" v-reveal="120" class="lg:col-span-1">
                     <div class="space-y-6 lg:sticky lg:top-24">
                         <!-- Tu informe -->
                         <div class="rounded-3xl bg-navy p-6 text-white shadow-sm">

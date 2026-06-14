@@ -3,7 +3,7 @@
         <!-- ============ HERO ============ -->
         <section class="relative overflow-hidden bg-white">
             <!-- Composición: foto de edificio + sello Cuota Segura (escritorio) -->
-            <div class="absolute inset-y-0 right-0 hidden w-[58%] lg:block">
+            <div v-reveal class="absolute inset-y-0 right-0 hidden w-[58%] lg:block">
                 <img
                     :src="edificioCuota"
                     alt="Edificio residencial moderno protegido por Cuota Segura"
@@ -25,17 +25,17 @@
 
             <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="flex min-h-[30rem] max-w-xl flex-col justify-center py-16 sm:py-20 lg:min-h-[34rem]">
-                    <p v-editable="'cuota.kicker'" class="mb-4 text-xs font-bold tracking-[0.22em] text-navy/60">
+                    <p v-reveal v-editable="'cuota.kicker'" class="mb-4 text-xs font-bold tracking-[0.22em] text-navy/60">
                         {{ t('cuota.kicker', 'NUESTRO COMPROMISO') }}
                     </p>
-                    <h1 class="font-heading text-4xl font-black leading-[1.05] sm:text-5xl">
+                    <h1 v-reveal="90" class="font-heading text-4xl font-black leading-[1.05] sm:text-5xl">
                         <span v-editable="'cuota.titulo_navy'" class="whitespace-pre-line text-navy">{{ t('cuota.titulo_navy', 'NUESTRA') }}</span><br>
                         <span v-editable="'cuota.titulo_teal'" class="whitespace-pre-line text-teal">{{ t('cuota.titulo_teal', 'CUOTA SEGURA') }}</span>
                     </h1>
-                    <p v-editable="'cuota.parrafo'" class="mt-7 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
+                    <p v-reveal="190" v-editable="'cuota.parrafo'" class="mt-7 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
                         {{ t('cuota.parrafo', 'No importa que un vecino no pague la comunidad: nosotros nos haremos cargo de todo para que esto no frene la vida de la comunidad.') }}
                     </p>
-                    <div class="mt-8">
+                    <div v-reveal="280" class="mt-8">
                         <a
                             v-editable="'cuota.cta'"
                             :href="telHref"
@@ -49,7 +49,7 @@
             </div>
 
             <!-- Composición para móvil -->
-            <div class="relative -mt-2 lg:hidden">
+            <div v-reveal class="relative -mt-2 lg:hidden">
                 <img
                     :src="edificioCuota"
                     alt="Edificio residencial moderno protegido por Cuota Segura"
@@ -68,14 +68,14 @@
         <section class="bg-bg-light py-20">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="text-center">
-                    <span v-editable="'cuota.como_titulo'" class="inline-block rounded-full bg-teal px-6 py-2 text-sm font-extrabold tracking-wide text-white">
+                    <span v-reveal v-editable="'cuota.como_titulo'" class="inline-block rounded-full bg-teal px-6 py-2 text-sm font-extrabold tracking-wide text-white">
                         {{ t('cuota.como_titulo', '¿CÓMO FUNCIONA?') }}
                     </span>
                 </div>
 
                 <div class="mt-14 flex flex-col items-stretch gap-4 lg:flex-row">
                     <template v-for="(p, i) in pasos" :key="p.title">
-                        <div class="group flex-1 rounded-2xl bg-white p-7 text-center shadow-sm ring-1 ring-gray-100 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl">
+                        <div v-reveal="i * 70" class="group flex-1 rounded-2xl bg-white p-7 text-center shadow-sm ring-1 ring-gray-100 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl">
                             <div class="relative mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-bg-light transition duration-300 group-hover:scale-110 group-hover:bg-teal">
                                 <Icon :name="p.icon" class="h-9 w-9 text-teal transition duration-300 group-hover:text-white" />
                                 <span class="absolute -left-1 -top-1 flex h-7 w-7 items-center justify-center rounded-full bg-navy font-heading text-sm font-black text-white ring-2 ring-white">
@@ -102,13 +102,14 @@
 
                 <!-- Gastos que siguen cubiertos -->
                 <div class="mt-14">
-                    <p v-editable="'cuota.gastos_titulo'" class="text-center text-xs font-bold tracking-widest text-navy/60">
+                    <p v-reveal v-editable="'cuota.gastos_titulo'" class="text-center text-xs font-bold tracking-widest text-navy/60">
                         {{ t('cuota.gastos_titulo', 'LOS GASTOS COMUNES SE PAGAN A TIEMPO') }}
                     </p>
                     <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
                         <div
-                            v-for="g in gastos"
+                            v-for="(g, i) in gastos"
                             :key="g.label"
+                            v-reveal="i * 70"
                             class="group flex flex-col items-center gap-2 rounded-2xl bg-white py-5 shadow-sm ring-1 ring-gray-100 transition duration-300 hover:-translate-y-1 hover:shadow-lg"
                         >
                             <span class="flex h-12 w-12 items-center justify-center rounded-full bg-bg-light text-teal transition duration-300 group-hover:scale-110 group-hover:bg-teal group-hover:text-white">
@@ -125,7 +126,7 @@
         <section class="bg-navy py-20">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="text-center">
-                    <span v-editable="'cuota.importancia_titulo'" class="inline-block rounded-full bg-teal px-6 py-2 text-sm font-extrabold tracking-wide text-white">
+                    <span v-reveal v-editable="'cuota.importancia_titulo'" class="inline-block rounded-full bg-teal px-6 py-2 text-sm font-extrabold tracking-wide text-white">
                         {{ t('cuota.importancia_titulo', '¿POR QUÉ ES TAN IMPORTANTE LA CUOTA SEGURA?') }}
                     </span>
                 </div>
@@ -134,6 +135,7 @@
                     <div
                         v-for="(b, i) in beneficios"
                         :key="b.title"
+                        v-reveal="i * 70"
                         class="group cursor-default rounded-2xl p-6 text-center ring-1 ring-transparent transition duration-300 hover:-translate-y-1.5 hover:bg-white/[0.06] hover:shadow-2xl hover:ring-white/10"
                     >
                         <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-white/10 text-teal-light transition duration-300 group-hover:scale-110 group-hover:bg-teal group-hover:text-white">
@@ -152,7 +154,7 @@
 
         <!-- ============ CIERRE / CTA ============ -->
         <section class="bg-white py-20">
-            <div class="mx-auto flex max-w-2xl flex-col items-center px-6 text-center lg:px-8">
+            <div v-reveal class="mx-auto flex max-w-2xl flex-col items-center px-6 text-center lg:px-8">
                 <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-teal text-white shadow-md">
                     <Icon name="shield" class="h-8 w-8" />
                 </span>

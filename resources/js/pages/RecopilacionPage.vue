@@ -4,21 +4,21 @@
 
             <!-- ============ HERO ============ -->
             <section class="rounded-3xl bg-white px-6 py-12 text-center shadow-sm ring-1 ring-gray-100 sm:px-10">
-                <span v-editable="'recopilacion.kicker'" class="inline-block rounded-full bg-teal/10 px-4 py-1.5 text-xs font-bold tracking-widest text-teal-dark">
+                <span v-reveal v-editable="'recopilacion.kicker'" class="inline-block rounded-full bg-teal/10 px-4 py-1.5 text-xs font-bold tracking-widest text-teal-dark">
                     {{ t('recopilacion.kicker', 'SEGUNDO PASO') }}
                 </span>
-                <h1 v-editable="'recopilacion.titulo'" class="mt-4 font-heading text-2xl font-black text-navy sm:text-4xl">
+                <h1 v-reveal="90" v-editable="'recopilacion.titulo'" class="mt-4 font-heading text-2xl font-black text-navy sm:text-4xl">
                     {{ t('recopilacion.titulo', 'RECOPILACIÓN DE INFORMACIÓN') }}
                 </h1>
-                <p v-editable="'recopilacion.subtitulo'" class="mt-3 text-lg font-bold text-teal sm:text-xl">
+                <p v-reveal="160" v-editable="'recopilacion.subtitulo'" class="mt-3 text-lg font-bold text-teal sm:text-xl">
                     {{ t('recopilacion.subtitulo', 'Reciba un diagnóstico preciso y adaptado a su comunidad') }}
                 </p>
-                <p v-editable="'recopilacion.intro'" class="mx-auto mt-4 max-w-2xl leading-relaxed text-navy/65">
+                <p v-reveal="220" v-editable="'recopilacion.intro'" class="mx-auto mt-4 max-w-2xl leading-relaxed text-navy/65">
                     {{ t('recopilacion.intro', 'Para elaborar una evaluación rigurosa y ofrecer recomendaciones de valor, necesitamos conocer algunos aspectos básicos de su comunidad.') }}
                 </p>
 
                 <!-- Badge combinado navy + teal -->
-                <div class="mt-7 flex justify-center">
+                <div v-reveal="280" class="mt-7 flex justify-center">
                     <div class="flex overflow-hidden rounded-2xl shadow-sm ring-1 ring-gray-100">
                         <div class="flex items-center gap-2 bg-navy px-5 py-3 text-white">
                             <Icon name="stopwatch" class="h-6 w-6 text-teal-light" />
@@ -38,7 +38,7 @@
             <!-- ============ PROCESO ============ -->
             <section class="rounded-3xl bg-white px-6 py-12 shadow-sm ring-1 ring-gray-100 sm:px-10">
                 <div class="text-center">
-                    <h2 v-editable="'recopilacion.proceso_titulo'" class="inline-block font-heading text-2xl font-black text-navy sm:text-3xl">
+                    <h2 v-reveal v-editable="'recopilacion.proceso_titulo'" class="inline-block font-heading text-2xl font-black text-navy sm:text-3xl">
                         {{ t('recopilacion.proceso_titulo', '¿CÓMO FUNCIONA NUESTRO PROCESO?') }}
                     </h2>
                     <div class="mx-auto mt-3 h-1 w-24 rounded-full bg-teal"></div>
@@ -46,7 +46,7 @@
 
                 <div class="mt-12 flex flex-col items-stretch gap-4 lg:flex-row lg:items-start">
                     <template v-for="(p, i) in pasos" :key="p.title">
-                        <div class="flex-1 text-center">
+                        <div v-reveal="i * 70" class="flex-1 text-center">
                             <div class="relative mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-bg-light ring-1 ring-gray-100">
                                 <Icon :name="p.icon" class="h-9 w-9 text-teal" />
                                 <span class="absolute -left-1 -top-1 flex h-7 w-7 items-center justify-center rounded-full bg-teal font-heading text-sm font-black text-white ring-2 ring-white">
@@ -66,7 +66,7 @@
             <!-- ============ DOS COLUMNAS ============ -->
             <section class="grid gap-6 lg:grid-cols-2">
                 <!-- Documentación requerida -->
-                <div class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100">
+                <div v-reveal class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100">
                     <div class="flex items-center gap-3 bg-navy px-6 py-4">
                         <Icon name="folder" class="h-6 w-6 text-teal-light" />
                         <h3 v-editable="'recopilacion.docs_titulo'" class="text-sm font-extrabold tracking-wide text-white">{{ t('recopilacion.docs_titulo', 'DOCUMENTACIÓN HABITUALMENTE REQUERIDA') }}</h3>
@@ -82,7 +82,7 @@
                 </div>
 
                 <!-- Entrega del informe -->
-                <div class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100">
+                <div v-reveal="120" class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-gray-100">
                     <div class="flex items-center gap-3 bg-teal px-6 py-4">
                         <Icon name="document" class="h-6 w-6 text-white" />
                         <h3 v-editable="'recopilacion.entrega_titulo'" class="text-sm font-extrabold tracking-wide text-white">{{ t('recopilacion.entrega_titulo', 'ENTREGA DEL INFORME') }}</h3>
@@ -112,13 +112,14 @@
 
             <!-- ============ CTA SUBIR DOCUMENTOS ============ -->
             <section class="overflow-hidden rounded-3xl bg-navy px-6 py-10 text-center sm:px-10">
-                <h2 v-editable="'recopilacion.cta_titulo'" class="font-heading text-2xl font-black text-white sm:text-3xl">
+                <h2 v-reveal v-editable="'recopilacion.cta_titulo'" class="font-heading text-2xl font-black text-white sm:text-3xl">
                     {{ t('recopilacion.cta_titulo', '¿Ya tiene su documentación lista?') }}
                 </h2>
-                <p v-editable="'recopilacion.cta_texto'" class="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/65">
+                <p v-reveal="90" v-editable="'recopilacion.cta_texto'" class="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/65">
                     {{ t('recopilacion.cta_texto', 'Adjunte los documentos solicitados de forma segura y reciba su informe en un plazo máximo de 24 horas.') }}
                 </p>
                 <router-link
+                    v-reveal="190"
                     v-editable="'recopilacion.cta_boton'"
                     to="/subir-documentos"
                     class="mt-7 inline-flex items-center gap-2 rounded-full bg-teal px-7 py-3.5 text-sm font-bold text-white shadow-lg transition hover:bg-teal-light"
@@ -131,7 +132,7 @@
 
             <!-- ============ ATENCIÓN PERSONALIZADA ============ -->
             <section class="grid gap-px overflow-hidden rounded-3xl bg-gray-100 shadow-sm ring-1 ring-gray-100 sm:grid-cols-2">
-                <div class="flex items-start gap-4 bg-white p-7">
+                <div v-reveal class="flex items-start gap-4 bg-white p-7">
                     <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-teal/10 text-teal">
                         <Icon name="headset" class="h-6 w-6" />
                     </span>
@@ -142,7 +143,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="flex items-start gap-4 bg-white p-7">
+                <div v-reveal="90" class="flex items-start gap-4 bg-white p-7">
                     <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-teal/10 text-teal">
                         <Icon name="phone" class="h-6 w-6" />
                     </span>
@@ -158,7 +159,7 @@
             <!-- ============ FOOTER ============ -->
             <footer class="rounded-3xl bg-navy px-6 py-10 sm:px-10">
                 <div class="grid gap-8 text-center sm:grid-cols-3 sm:text-left">
-                    <div v-for="f in footerCols" :key="f.title" class="flex flex-col items-center gap-2 sm:items-start">
+                    <div v-for="(f, i) in footerCols" :key="f.title" v-reveal="i * 70" class="flex flex-col items-center gap-2 sm:items-start">
                         <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-teal-light">
                             <Icon :name="f.icon" class="h-6 w-6" />
                         </span>
