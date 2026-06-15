@@ -19,6 +19,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@700;800;900&display=swap" rel="stylesheet">
 
+    {{-- Google Consent Mode v2: por defecto TODO denegado hasta que el usuario
+         acepte en el banner. Debe ir ANTES de cualquier etiqueta de Google
+         (gtag/GA4/Ads), por eso está aquí en el <head> y no en el bundle. --}}
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            analytics_storage: 'denied',
+            wait_for_update: 500
+        });
+    </script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-bg-light">

@@ -68,6 +68,16 @@
                         Si en el futuro incorporamos cookies de análisis o publicidad, se lo pediremos antes
                         mediante un aviso de consentimiento y actualizaremos esta política.
                     </p>
+                    <p>
+                        Puede cambiar o retirar su consentimiento en cualquier momento:
+                    </p>
+                    <button
+                        type="button"
+                        class="mt-1 inline-flex items-center gap-2 rounded-lg border border-teal px-4 py-2 text-sm font-bold text-teal transition hover:bg-teal hover:text-white"
+                        @click="reabrirBanner"
+                    >
+                        Cambiar mis preferencias de cookies
+                    </button>
                 </div>
 
                 <router-link v-reveal="180" to="/" class="mt-8 inline-flex items-center gap-2 text-sm font-bold text-teal transition hover:text-teal-dark">
@@ -82,6 +92,7 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useContenido } from '../composables/contenido';
+import { reabrirBanner } from '../composables/consent';
 
 const { t } = useContenido();
 const route = useRoute();

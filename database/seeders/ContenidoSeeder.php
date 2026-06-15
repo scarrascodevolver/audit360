@@ -114,13 +114,13 @@ class ContenidoSeeder extends Seeder
                 'footer.subtitulo' => ['Frase secundaria', 'Porque prevenir hoy, es ahorrar mañana.'],
                 'footer.dominio' => ['Dominio mostrado', 'auditatucomunidad.com'],
                 'footer.dominio_sub' => ['Texto bajo el dominio', 'Revisamos tu comunidad.'],
-                'footer.telefono' => ['Teléfono de contacto (vacío hasta tener el real)', ''],
+                'footer.telefono' => ['Teléfono de contacto (vacío hasta tener el real)', '632124963'],
             ],
             'Legal' => [
-                'legal.titular' => ['Razón social del titular', '[Razón social pendiente]'],
-                'legal.cif' => ['NIF/CIF', '[CIF pendiente]'],
-                'legal.direccion' => ['Domicilio social', '[Dirección pendiente]'],
-                'legal.email' => ['Email de contacto legal', 'info@auditatucomunidad.com'],
+                'legal.titular' => ['Razón social del titular', 'Nexo Fincas'],
+                'legal.cif' => ['NIF/CIF', 'B15168354'],
+                'legal.direccion' => ['Domicilio social', 'C/ Emilia Pardo Bazán 26, 15005 A Coruña'],
+                'legal.email' => ['Email de contacto legal', 'admonnexofincas@gmail.com'],
             ],
         ];
 

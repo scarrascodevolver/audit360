@@ -4,6 +4,7 @@ import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router
 
 import App from './App.vue';
 import { cargarContenido, comprobarAdmin, edicion, abrirEditor } from './composables/contenido';
+import { cargarConsentimiento } from './composables/consent';
 import LandingPage from './pages/LandingPage.vue';
 import CuotaSeguraPage from './pages/CuotaSeguraPage.vue';
 import RecopilacionPage from './pages/RecopilacionPage.vue';
@@ -32,6 +33,8 @@ const router = createRouter({
 
 cargarContenido();
 comprobarAdmin();
+// Reaplica en Google el consentimiento ya guardado (si lo hay) al cargar la web.
+cargarConsentimiento();
 
 const app = createApp(App).use(router);
 
