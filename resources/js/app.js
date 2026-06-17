@@ -8,6 +8,7 @@ import { cargarConsentimiento } from './composables/consent';
 import LandingPage from './pages/LandingPage.vue';
 import CuotaSeguraPage from './pages/CuotaSeguraPage.vue';
 import RecopilacionPage from './pages/RecopilacionPage.vue';
+import SolicitudPage from './pages/SolicitudPage.vue';
 import DocumentosPage from './pages/DocumentosPage.vue';
 import LegalPage from './pages/LegalPage.vue';
 import NotFoundPage from './pages/NotFoundPage.vue';
@@ -19,6 +20,7 @@ const router = createRouter({
         { path: '/', name: 'landing', component: LandingPage },
         { path: '/cuota-segura', name: 'cuota-segura', component: CuotaSeguraPage },
         { path: '/recopilacion', name: 'recopilacion', component: RecopilacionPage },
+        { path: '/solicitar', name: 'solicitar', component: SolicitudPage },
         { path: '/subir-documentos', name: 'documentos', component: DocumentosPage },
         { path: '/aviso-legal', name: 'aviso-legal', component: LegalPage },
         { path: '/privacidad', name: 'privacidad', component: LegalPage },

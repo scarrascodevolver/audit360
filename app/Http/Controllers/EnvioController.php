@@ -19,7 +19,6 @@ class EnvioController extends Controller
     {
         $envio = DB::transaction(function () use ($request) {
             $envio = Envio::create([
-                'comunidad' => $request->validated('comunidad'),
                 'telefono' => $request->validated('telefono'),
                 'email' => $request->validated('email'),
                 'consentimiento_at' => now(),

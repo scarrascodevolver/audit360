@@ -3,9 +3,12 @@
 
 Ha entrado documentación nueva en **{{ config('app.name') }}**:
 
-- **Comunidad:** {{ $envio->comunidad ?: '—' }}
+@if ($envio->telefono)
 - **Teléfono:** {{ $envio->telefono }}
+@endif
+@if ($envio->email)
 - **Email del remitente:** {{ $envio->email }}
+@endif
 - **Documentos:** {{ $envio->documentos->count() }}
 - **Recibido:** {{ $envio->created_at->format('d/m/Y H:i') }}
 

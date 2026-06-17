@@ -8,7 +8,7 @@ it('devuelve los textos seedeados como mapa clave→valor', function () {
 
     $this->getJson('/api/contenido')
         ->assertOk()
-        ->assertJsonFragment(['hero.eslogan' => 'ANALIZAMOS. DETECTAMOS. MEJORAMOS.'])
+        ->assertJsonFragment(['hero.eslogan' => 'REVISAMOS. DETECTAMOS. SOLUCIONAMOS.'])
         ->assertJsonFragment(['footer.dominio' => 'auditatucomunidad.com']);
 });
 

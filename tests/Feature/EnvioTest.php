@@ -37,7 +37,6 @@ function pdfFalso(string $nombre = 'acta.pdf'): UploadedFile
 function datosValidos(array $overrides = []): array
 {
     return array_merge([
-        'comunidad' => 'Comunidad C/ Mayor 12',
         'telefono' => '600123456',
         'email' => 'vecino@example.com',
         'consentimiento' => '1',
@@ -87,15 +86,22 @@ it('guarda los archivos cifrados en reposo y recuperables con decrypt', function
         ->and(decrypt($enDisco))->toBe($contenido);
 });
 
-it('rechaza el envío sin teléfono', function () {
+it('acepta el envío solo con teléfono (sin email)', function () {
+    $this->postJson('/api/envios', datosValidos(['email' => '']))
+        ->assertCreated();
+});
+
+it('acepta el envío solo con email (sin teléfono)', function () {
     $this->postJson('/api/envios', datosValidos(['telefono' => '']))
+        ->assertCreated();
+});
+
+it('rechaza el envío sin teléfono ni email', function () {
+    $this->postJson('/api/envios', datosValidos(['telefono' => '', 'email' => '']))
         ->assertUnprocessable()->assertJsonValidationErrors('telefono');
 });
 
-it('rechaza el envío sin email o con email inválido', function () {
-    $this->postJson('/api/envios', datosValidos(['email' => '']))
-        ->assertUnprocessable()->assertJsonValidationErrors('email');
-
+it('rechaza un email con formato inválido', function () {
     $this->postJson('/api/envios', datosValidos(['email' => 'no-es-un-email']))
         ->assertUnprocessable()->assertJsonValidationErrors('email');
 });
@@ -110,9 +116,11 @@ it('rechaza el envío cuando Turnstile no valida el token', function () {
         ->assertUnprocessable()->assertJsonValidationErrors('turnstile_token');
 });
 
-it('rechaza el envío sin ningún archivo', function () {
+it('acepta el envío sin ningún archivo (documentos opcionales)', function () {
+    // En el flujo nuevo el cliente ya ha hablado con el técnico; la
+    // documentación es opcional y puede subirse luego.
     $this->postJson('/api/envios', datosValidos(['documentos' => []]))
-        ->assertUnprocessable()->assertJsonValidationErrors('documentos');
+        ->assertCreated();
 });
 
 it('rechaza más de 15 archivos en total', function () {

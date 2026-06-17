@@ -29,9 +29,11 @@ class StoreEnvioRequest extends FormRequest
         $archivo = ['file', 'max:20480', new ArchivoPermitido];
 
         $reglas = [
-            'comunidad' => ['nullable', 'string', 'max:150'],
-            'telefono' => ['required', 'string', 'min:9', 'max:20'],
-            'email' => ['required', 'email', 'max:150'],
+            // El cliente se identifica con teléfono O email (al menos uno; lo
+            // valida after()). La documentación es opcional: ya ha hablado con
+            // el técnico, que le indicará si falta algo.
+            'telefono' => ['nullable', 'string', 'min:9', 'max:20'],
+            'email' => ['nullable', 'email', 'max:150'],
             'consentimiento' => ['accepted'],
             // Sin clave configurada (dev local) no se exige el token.
             'turnstile_token' => [
@@ -39,7 +41,7 @@ class StoreEnvioRequest extends FormRequest
                 'string',
                 new Turnstile,
             ],
-            'documentos' => ['required', 'array'],
+            'documentos' => ['nullable', 'array'],
             'documentos.otros' => ['sometimes', 'array'],
             'documentos.otros.*' => $archivo,
         ];
@@ -55,11 +57,11 @@ class StoreEnvioRequest extends FormRequest
     {
         return [
             function (Validator $validator) {
-                $total = count($this->archivos());
-
-                if ($total === 0) {
-                    $validator->errors()->add('documentos', 'Adjunte al menos un documento.');
+                if (blank($this->input('telefono')) && blank($this->input('email'))) {
+                    $validator->errors()->add('telefono', 'Indique el teléfono o el email con el que solicitó la revisión.');
                 }
+
+                $total = count($this->archivos());
 
                 if ($total > self::MAX_ARCHIVOS) {
                     $validator->errors()->add('documentos', 'No se pueden enviar más de '.self::MAX_ARCHIVOS.' archivos.');

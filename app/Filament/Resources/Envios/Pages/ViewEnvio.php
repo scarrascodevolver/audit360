@@ -61,7 +61,7 @@ class ViewEnvio extends ViewRecord
         $nombreZip = sprintf(
             'envio-%d-%s.zip',
             $this->record->id,
-            Str::slug($this->record->comunidad ?: $this->record->telefono),
+            Str::slug($this->record->telefono ?: $this->record->email ?: (string) $this->record->id),
         );
 
         return response()->download($rutaZip, $nombreZip)->deleteFileAfterSend();

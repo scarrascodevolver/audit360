@@ -41,9 +41,8 @@ class EnvioResource extends Resource
     public static function infolist(Schema $schema): Schema
     {
         return $schema->components([
-            TextEntry::make('comunidad')->label('Comunidad')->placeholder('—'),
-            TextEntry::make('telefono')->label('Teléfono'),
-            TextEntry::make('email')->label('Email'),
+            TextEntry::make('telefono')->label('Teléfono')->placeholder('—'),
+            TextEntry::make('email')->label('Email')->placeholder('—'),
             TextEntry::make('estado')->label('Estado')->badge()
                 ->color(fn (string $state): string => $state === Envio::ESTADO_NUEVO ? 'warning' : 'success'),
             TextEntry::make('consentimiento_at')->label('Consentimiento RGPD')->dateTime('d/m/Y H:i'),

@@ -15,8 +15,7 @@ it('exige login para entrar al panel de administración', function () {
 });
 
 it('muestra el listado de envíos a un admin autenticado', function () {
-    $envio = Envio::create([
-        'comunidad' => 'Comunidad Panel',
+    Envio::create([
         'telefono' => '600999888',
         'email' => 'panel@example.com',
         'consentimiento_at' => now(),
@@ -25,7 +24,7 @@ it('muestra el listado de envíos a un admin autenticado', function () {
     $this->actingAs(User::factory()->create())
         ->get('/admin/envios')
         ->assertOk()
-        ->assertSee('Comunidad Panel');
+        ->assertSee('600999888');
 });
 
 it('guarda el correo de avisos y el adjuntar desde la página de Ajustes', function () {
@@ -50,7 +49,6 @@ it('descarga todos los documentos de un envío en un único zip descifrado', fun
     Storage::fake('envios');
 
     $envio = Envio::create([
-        'comunidad' => 'Comunidad Zip',
         'telefono' => '600777666',
         'email' => 'zip@example.com',
         'consentimiento_at' => now(),
@@ -70,5 +68,5 @@ it('descarga todos los documentos de un envío en un único zip descifrado', fun
     Livewire::actingAs(User::factory()->create())
         ->test(ViewEnvio::class, ['record' => $envio->getRouteKey()])
         ->callAction('descargarTodo')
-        ->assertFileDownloaded('envio-'.$envio->id.'-comunidad-zip.zip');
+        ->assertFileDownloaded('envio-'.$envio->id.'-600777666.zip');
 });

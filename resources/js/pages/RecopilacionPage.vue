@@ -150,8 +150,15 @@
                     <div>
                         <h3 v-editable="'recopilacion.listo_titulo'" class="text-base font-extrabold text-navy">{{ t('recopilacion.listo_titulo', '¿LISTO PARA EMPEZAR?') }}</h3>
                         <p v-editable="'recopilacion.listo_texto'" class="mt-2 text-sm leading-relaxed text-navy/65">
-                            {{ t('recopilacion.listo_texto', 'Facilite su número de teléfono y tendrá una conversación totalmente personalizada. Le asesoraremos de la mejor manera posible.') }}
+                            {{ t('recopilacion.listo_texto', 'Déjenos su teléfono o su email y un técnico se pondrá en contacto con usted para una conversación totalmente personalizada.') }}
                         </p>
+                        <router-link
+                            to="/solicitar"
+                            class="mt-4 inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-teal-dark"
+                        >
+                            {{ t('recopilacion.listo_boton', 'Contrátalo ahora') }}
+                            <Icon name="arrow" class="h-4 w-4" />
+                        </router-link>
                     </div>
                 </div>
             </section>
@@ -180,7 +187,7 @@ import { useContenido } from '../composables/contenido';
 const { t, lista } = useContenido();
 
 const pasosPorDefecto = [
-    { icon: 'phone', title: 'SOLICITE SU REVISIÓN', text: 'Facilítenos un número de teléfono de contacto y uno de nuestros especialistas se pondrá en contacto con usted.' },
+    { icon: 'phone', title: 'SOLICITE SU REVISIÓN', text: 'Facilítenos su teléfono o su email y uno de nuestros especialistas se pondrá en contacto con usted.' },
     { icon: 'users', title: 'ANÁLISIS PRELIMINAR PERSONALIZADO', text: 'Mantendremos una breve conversación para comprender la situación actual de la comunidad, sus principales necesidades y los objetivos de la revisión.' },
     { icon: 'upload', title: 'ENVÍO DE DOCUMENTACIÓN', text: 'Tras esta primera toma de contacto, le indicaremos la documentación específica que necesitamos analizar. Solo tendrá que adjuntar los archivos solicitados.' },
 ];

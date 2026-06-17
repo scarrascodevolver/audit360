@@ -16,9 +16,10 @@
                         <div>
                             <h3 class="font-heading text-lg font-black">¡Documentación recibida!</h3>
                             <p class="mt-1 text-sm text-white/85">
-                                Hemos registrado {{ count }} {{ count === 1 ? 'archivo' : 'archivos' }}. Uno de
-                                nuestros especialistas le contactará en el teléfono indicado. Recibirá su informe
-                                en un plazo máximo de 24 horas.
+                                <template v-if="count">Hemos registrado {{ count }} {{ count === 1 ? 'archivo' : 'archivos' }}. </template>
+                                <template v-else>Hemos registrado tu envío. </template>
+                                Nuestro equipo lo revisará y recibirá su informe en un plazo máximo de 24 horas.
+                                Si falta algo, le avisaremos por el teléfono o email indicados.
                             </p>
                             <button class="mt-3 text-sm font-bold underline" @click="reset">Enviar más documentos</button>
                         </div>
@@ -33,21 +34,19 @@
                             <h2 class="text-sm font-extrabold tracking-wide text-white">DATOS DE CONTACTO</h2>
                         </div>
                         <div class="grid gap-4 p-6 sm:grid-cols-2">
-                            <label class="block sm:col-span-2">
-                                <span class="text-xs font-bold text-navy/70">Nombre de la comunidad</span>
-                                <input v-model="comunidad" type="text" placeholder="Ej. Comunidad C/ Mayor 12"
-                                    class="mt-1.5 w-full rounded-xl border border-gray-200 bg-bg-light px-4 py-2.5 text-sm text-navy outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/20" />
-                            </label>
                             <label class="block">
-                                <span class="text-xs font-bold text-navy/70">Teléfono de contacto *</span>
+                                <span class="text-xs font-bold text-navy/70">Teléfono de contacto</span>
                                 <input v-model="phone" type="tel" placeholder="600 000 000"
                                     class="mt-1.5 w-full rounded-xl border border-gray-200 bg-bg-light px-4 py-2.5 text-sm text-navy outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/20" />
                             </label>
                             <label class="block">
-                                <span class="text-xs font-bold text-navy/70">Email de contacto *</span>
+                                <span class="text-xs font-bold text-navy/70">Email de contacto</span>
                                 <input v-model="email" type="email" placeholder="su@email.com"
                                     class="mt-1.5 w-full rounded-xl border border-gray-200 bg-bg-light px-4 py-2.5 text-sm text-navy outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/20" />
                             </label>
+                            <p class="text-xs text-navy/50 sm:col-span-2">
+                                Indique el mismo teléfono o email con el que solicitó la revisión. Basta con uno de los dos.
+                            </p>
                         </div>
                     </section>
 
@@ -218,6 +217,7 @@
 import { ref, computed, onMounted, nextTick } from 'vue';
 import Icon from '../components/Icon.vue';
 import { useContenido } from '../composables/contenido';
+import { leerContacto } from '../composables/contacto';
 
 const requeridos = [
     { key: 'actas', label: 'Últimas actas de la comunidad' },
@@ -242,7 +242,6 @@ const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY || '';
 // Tope total por envío (lo que aguanta el servidor con subida directa).
 const MAX_BYTES_TOTAL = 290 * 1024 * 1024;
 
-const comunidad = ref('');
 const phone = ref('');
 const email = ref('');
 const consentimiento = ref(false);
@@ -275,6 +274,11 @@ function renderTurnstile() {
 }
 
 onMounted(() => {
+    // Autorrellena el contacto que dejó en la solicitud (paso 1), si lo hay.
+    const guardado = leerContacto();
+    if (guardado.telefono) phone.value = guardado.telefono;
+    if (guardado.email) email.value = guardado.email;
+
     if (!turnstileSiteKey) return;
     if (window.turnstile) {
         renderTurnstile();
@@ -305,9 +309,7 @@ function onDrop(e) {
 }
 
 function validar() {
-    if (!phone.value.trim()) return 'Indique un teléfono de contacto para poder llamarle.';
-    if (!email.value.trim()) return 'Indique un email de contacto para poder responderle.';
-    if (count.value === 0 && otros.value.length === 0) return 'Adjunte al menos un documento.';
+    if (!phone.value.trim() && !email.value.trim()) return 'Indique el teléfono o el email con el que solicitó la revisión.';
     if (bytesTotales.value > MAX_BYTES_TOTAL) {
         const mb = Math.round(bytesTotales.value / 1024 / 1024);
         return `El total de los archivos (${mb} MB) supera el máximo de 290 MB por envío. Adjunte menos archivos o más ligeros.`;
@@ -328,7 +330,6 @@ async function submit() {
     }
 
     const datos = new FormData();
-    datos.append('comunidad', comunidad.value);
     datos.append('telefono', phone.value);
     datos.append('email', email.value);
     datos.append('consentimiento', '1');

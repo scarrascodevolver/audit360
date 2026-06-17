@@ -102,23 +102,50 @@
                     </template>
                 </div>
 
-                <!-- Gastos que siguen cubiertos -->
-                <div class="mt-14">
-                    <p v-reveal v-editable="'cuota.gastos_titulo'" class="text-center text-xs font-bold tracking-widest text-navy/60">
-                        {{ t('cuota.gastos_titulo', 'LOS GASTOS COMUNES SE PAGAN A TIEMPO') }}
+                <!-- Gráfico: los ingresos caen con el impago y la Cuota Segura los recupera -->
+                <div ref="graficoEl" class="mt-16" :class="{ 'grafico-activo': graficoVisible }">
+                    <p v-editable="'cuota.grafico_titulo'" class="text-center text-xs font-bold tracking-widest text-navy/60">
+                        {{ t('cuota.grafico_titulo', 'TUS INGRESOS NO SE RESIENTEN') }}
                     </p>
-                    <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-                        <div
-                            v-for="(g, i) in gastos"
-                            :key="g.label"
-                            v-reveal="i * 70"
-                            class="group flex flex-col items-center gap-2 rounded-2xl bg-white py-5 shadow-sm ring-1 ring-gray-100 transition duration-300 hover:-translate-y-1 hover:shadow-lg"
-                        >
-                            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-bg-light text-teal transition duration-300 group-hover:scale-110 group-hover:bg-teal group-hover:text-white">
-                                <Icon :name="g.icon" class="h-6 w-6" />
-                            </span>
-                            <span class="text-[11px] font-extrabold tracking-wide text-navy transition duration-300 group-hover:text-teal">{{ g.label }}</span>
-                        </div>
+                    <div class="mx-auto mt-6 max-w-2xl rounded-3xl bg-white p-6 shadow-sm ring-1 ring-gray-100 sm:p-8">
+                        <!-- Contador: de -1.000 € (rojo) a +1.000 € (verde) -->
+                        <p class="text-center font-heading text-4xl font-black tabular-nums transition-colors duration-700 sm:text-5xl" :class="monto < 0 ? 'text-red-500' : 'text-teal'">
+                            {{ montoTexto }}
+                        </p>
+
+                        <svg viewBox="0 0 600 300" class="mt-2 w-full" role="img" aria-label="Ilustración: las cuentas de la comunidad caen en rojo y se recuperan en verde, con la flecha subiendo en zig-zag.">
+                            <!-- Cuadrícula suave -->
+                            <line x1="40" y1="80" x2="560" y2="80" stroke="#eef2f4" stroke-width="2" />
+                            <line x1="40" y1="140" x2="560" y2="140" stroke="#eef2f4" stroke-width="2" />
+                            <line x1="40" y1="200" x2="560" y2="200" stroke="#eef2f4" stroke-width="2" />
+                            <line x1="40" y1="266" x2="560" y2="266" stroke="#dbe3e7" stroke-width="2.5" stroke-linecap="round" />
+
+                            <!-- Barras en valle: rojas bajan (fase 1), verdes suben (fase 2) -->
+                            <rect
+                                v-for="(b, i) in barras"
+                                :key="i"
+                                class="g-barra"
+                                :style="{ '--d': b.d }"
+                                :x="b.x"
+                                :y="b.y"
+                                :width="40"
+                                :height="b.h"
+                                rx="6"
+                                :fill="b.c"
+                            />
+
+                            <!-- Línea en zig-zag por la punta de cada barra: cae (rojo) y remonta (verde), trazo continuo -->
+                            <path class="g-linea g-dip" pathLength="1" d="M65,126 L125,186 L185,156 L245,211 L305,231" />
+                            <path class="g-linea g-rise" pathLength="1" d="M305,231 L365,171 L425,196 L485,116 L545,61" />
+
+                            <!-- Flecha que remonta (borde blanco fino para que recorte sobre las barras) -->
+                            <path class="g-punta" d="M18,0 L-14,-16 L-14,16 Z" fill="#2a9d8f" stroke="#fff" stroke-width="3" stroke-linejoin="round" />
+                        </svg>
+
+                        <p class="mt-2 text-center text-sm font-semibold text-navy/70">
+                            Cuando llega la morosidad tus cuentas caen… y con la Cuota Segura
+                            <span class="font-bold text-teal-dark">vuelven a subir</span>.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -184,12 +211,78 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import Icon from '../components/Icon.vue';
 import edificioCuota from '../../images/edificio-cuota.jpg';
 import { useContenido } from '../composables/contenido';
 
 const { t } = useContenido();
+
+// La ilustración anima sus barras/flecha/contador al entrar en pantalla (no antes).
+const graficoEl = ref(null);
+const graficoVisible = ref(false);
+
+// Barras en valle (zig-zag): rojas bajan, verdes suben; su --d marca el momento de su fase.
+// La línea pasa por la punta de cada barra (centro = x + 20).
+const barras = [
+    { x: 45, y: 126, h: 140, c: '#ef4444', d: '0s' },
+    { x: 105, y: 186, h: 80, c: '#ef4444', d: '.1s' },
+    { x: 165, y: 156, h: 110, c: '#ef4444', d: '.2s' },
+    { x: 225, y: 211, h: 55, c: '#ef4444', d: '.3s' },
+    { x: 285, y: 231, h: 35, c: '#2a9d8f', d: '.45s' },
+    { x: 345, y: 171, h: 95, c: '#2a9d8f', d: '.8s' },
+    { x: 405, y: 196, h: 70, c: '#2a9d8f', d: '1s' },
+    { x: 465, y: 116, h: 150, c: '#2a9d8f', d: '1.2s' },
+    { x: 525, y: 61, h: 205, c: '#2a9d8f', d: '1.4s' },
+];
+
+// Contador de euros: cae a -1.000 (rojo) y, sin pausa, remonta a +1.000 (verde).
+const monto = ref(0);
+const montoTexto = computed(() => (monto.value > 0 ? '+' : '') + monto.value.toLocaleString('es-ES') + ' €');
+
+function animarMonto() {
+    // Si el usuario prefiere menos movimiento, mostramos el valor final.
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+        monto.value = 1000;
+        return;
+    }
+
+    const tCae = 800, tSube = 1500, fin = tCae + tSube;
+    const inicio = performance.now();
+
+    function paso(ahora) {
+        const tt = ahora - inicio;
+        let v;
+        if (tt < tCae) {
+            const p = tt / tCae;
+            v = -1000 * (p * p); // cae acelerando
+        } else if (tt < fin) {
+            const p = (tt - tCae) / tSube;
+            v = -1000 + 2000 * (1 - Math.pow(1 - p, 3)); // remonta sin pausa
+        } else {
+            v = 1000;
+        }
+        monto.value = Math.round(v);
+        if (tt < fin) requestAnimationFrame(paso);
+    }
+    requestAnimationFrame(paso);
+}
+
+onMounted(() => {
+    if (!graficoEl.value) return;
+    const observer = new IntersectionObserver(
+        (entries, obs) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                graficoVisible.value = true;
+                animarMonto();
+                obs.unobserve(entry.target);
+            });
+        },
+        { threshold: 0.3 },
+    );
+    observer.observe(graficoEl.value);
+});
 
 const telefono = computed(() => t('footer.telefono', '').trim());
 const tieneTelefono = computed(() => telefono.value.length > 0);
@@ -199,21 +292,21 @@ const pasosPorDefecto = [
     {
         icon: 'alert',
         title: 'UN VECINO NO PAGA',
-        text: 'Si algún vecino no paga su cuota de comunidad, se genera un faltante.',
+        text: 'Cuando uno o varios vecinos dejan de abonar su cuota, la comunidad deja de ingresar el dinero que necesita para funcionar. Ese faltante recae sobre el resto de propietarios y pone en riesgo el pago de los servicios del día a día.',
         chip: 'CUOTA NO PAGADA',
         chipClass: 'bg-red-500/10 text-red-500',
     },
     {
         icon: 'shield',
         title: 'SE ACTIVA NUESTRA CUOTA SEGURA',
-        text: 'Nuestra Cuota Segura cubre ese faltante automáticamente. La comunidad recibe el 100% de los ingresos necesarios.',
+        text: 'En cuanto se produce el impago, nuestra Cuota Segura entra en acción y cubre ese faltante. La comunidad recibe el 100% de los ingresos previstos, como si todos los vecinos hubieran pagado, sin tener que adelantar nada ni recurrir a derramas.',
         chip: 'CUBIERTA AL 100%',
         chipClass: 'bg-teal/10 text-teal-dark',
     },
     {
         icon: 'building',
         title: 'LA COMUNIDAD SIGUE ADELANTE',
-        text: 'Los gastos comunes se pagan a tiempo y la calidad de vida de todos se mantiene.',
+        text: 'Con los ingresos garantizados, los gastos comunes se pagan puntualmente: seguridad, limpieza, mantenimiento y servicios siguen funcionando con normalidad. La convivencia y el bienestar de todos los vecinos se mantienen, sin tensiones por la morosidad.',
         chip: 'TODO EN ORDEN',
         chipClass: 'bg-navy/10 text-navy',
     },
@@ -225,13 +318,6 @@ const pasos = computed(() => pasosPorDefecto.map((p, i) => ({
     text: t(`cuota.paso${i + 1}.texto`, p.text),
     chip: t(`cuota.paso${i + 1}.chip`, p.chip),
 })));
-
-const gastos = [
-    { icon: 'shield', label: 'SEGURIDAD' },
-    { icon: 'sparkles', label: 'LIMPIEZA' },
-    { icon: 'bulb', label: 'SERVICIOS' },
-    { icon: 'wrench', label: 'MANTENIMIENTO' },
-];
 
 const beneficiosPorDefecto = [
     { icon: 'users', title: 'EQUIDAD', text: 'Un vecino moroso no afecta al resto.' },
@@ -246,3 +332,91 @@ const beneficios = computed(() => beneficiosPorDefecto.map((b, i) => ({
     text: t(`cuota.beneficio${i + 1}.texto`, b.text),
 })));
 </script>
+
+<style scoped>
+/* Estado inicial: barras sin crecer, líneas sin trazar, flecha oculta. */
+.g-barra {
+    transform: scaleY(0);
+    transform-box: fill-box;
+    transform-origin: bottom;
+}
+.g-linea {
+    fill: none;
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.1));
+}
+.g-dip {
+    stroke: #ef4444;
+}
+.g-rise {
+    stroke: #2a9d8f;
+}
+.g-punta {
+    opacity: 0;
+    offset-path: path('M305,231 L365,171 L425,196 L485,116 L545,61');
+    offset-rotate: auto;
+    offset-distance: 0%;
+}
+
+/* Al entrar en pantalla: la V es un trazo continuo — cae (rojo, acelerando) y
+   enseguida remonta (verde, algo más rápido) sin pausa; las barras crecen en su fase. */
+.grafico-activo .g-barra {
+    animation: crecer 0.6s var(--d) cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.grafico-activo .g-dip {
+    animation: trazar 0.8s 0s cubic-bezier(0.45, 0, 0.9, 0.5) forwards;
+}
+.grafico-activo .g-rise {
+    animation: trazar 1.5s 0.8s cubic-bezier(0.3, 0.05, 0.35, 1) forwards;
+}
+.grafico-activo .g-punta {
+    animation: volar-punta 1.5s 0.8s cubic-bezier(0.3, 0.05, 0.35, 1) forwards;
+}
+
+@keyframes crecer {
+    to {
+        transform: scaleY(1);
+    }
+}
+@keyframes trazar {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+@keyframes volar-punta {
+    0% {
+        offset-distance: 0%;
+        opacity: 0;
+    }
+    8% {
+        opacity: 1;
+    }
+    100% {
+        offset-distance: 100%;
+        opacity: 1;
+    }
+}
+
+/* Accesibilidad: sin animación, se muestra el estado final directamente. */
+@media (prefers-reduced-motion: reduce) {
+    .g-barra {
+        transform: scaleY(1);
+    }
+    .g-linea {
+        stroke-dashoffset: 0;
+    }
+    .g-punta {
+        opacity: 1;
+        offset-distance: 100%;
+    }
+    .grafico-activo .g-barra,
+    .grafico-activo .g-linea,
+    .grafico-activo .g-punta {
+        animation: none;
+    }
+}
+</style>

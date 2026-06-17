@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Envio;
+use App\Models\Solicitud;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
@@ -10,7 +11,7 @@ class PurgarEnvios extends Command
 {
     protected $signature = 'envios:purgar';
 
-    protected $description = 'RGPD: elimina los envíos (BD y archivos) que superan los días de retención';
+    protected $description = 'RGPD: elimina envíos y solicitudes (BD y archivos) que superan los días de retención';
 
     public function handle(): int
     {
@@ -25,7 +26,13 @@ class PurgarEnvios extends Command
                 $purgados++;
             });
 
+        // Las solicitudes no tienen archivos asociados, solo el registro.
+        $solicitudes = Solicitud::query()
+            ->where('created_at', '<', $limite)
+            ->delete();
+
         $this->info("Envíos purgados: {$purgados}");
+        $this->info("Solicitudes purgadas: {$solicitudes}");
 
         return self::SUCCESS;
     }

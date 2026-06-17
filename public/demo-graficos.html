@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejemplos de gráfico — Cuota Segura</title>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+        :root { --navy:#1a3047; --teal:#2a9d8f; --teal-light:#3dbdaf; --teal-dark:#1f7a6e; --red:#ef4444; --bg:#f4f7f9; --gold:#f0a818; }
+        * { box-sizing: border-box; }
+        body { margin:0; font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--navy); padding: 32px 16px; }
+        .wrap { max-width: 720px; margin: 0 auto; }
+        h1 { text-align:center; font-size: 22px; margin-bottom: 4px; }
+        p.intro { text-align:center; color:#5b6b73; margin: 0 auto 28px; max-width: 520px; font-size: 14px; }
+        .card { background:#fff; border-radius: 22px; box-shadow: 0 1px 3px rgba(0,0,0,.06); padding: 22px; margin-bottom: 22px; }
+        .tag { display:inline-block; background: var(--navy); color:#fff; font-size:12px; font-weight:800; letter-spacing:.06em; padding: 6px 14px; border-radius: 999px; }
+        .tag.reco { background: var(--teal); }
+        .desc { color:#5b6b73; font-size: 13px; margin: 12px 0 8px; }
+        .replay { margin-top:12px; background: var(--bg); color: var(--navy); border:none; border-radius:999px; padding:8px 16px; font-weight:700; cursor:pointer; transition: background .2s; }
+        .replay:hover { background:#e6edf0; }
+        .contador { text-align:center; font-size: 40px; font-weight: 900; font-variant-numeric: tabular-nums; transition: color .7s; margin: 4px 0; }
+        .stat { text-align:center; margin: 6px 0 10px; font-variant-numeric: tabular-nums; }
+        .stat .pct { font-size: 32px; font-weight: 900; color: var(--teal); }
+        .stat .sep { color:#c7d0d4; margin: 0 8px; }
+        .stat .eur { font-size: 20px; font-weight: 800; color: var(--teal-dark); }
+
+        /* ---- Opción 1: recuperación en V (cae en rojo, luego sube en verde) ---- */
+        #ilus .barra { transform: scaleY(0); transform-box: fill-box; transform-origin: bottom; }
+        #ilus .linea { fill:none; stroke-width:10; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:1; stroke-dashoffset:1; filter: drop-shadow(0 3px 4px rgba(0,0,0,.10)); }
+        #ilus .dip  { stroke:#ef4444; }
+        #ilus .rise { stroke:#2a9d8f; }
+        #ilus .punta { opacity:0; offset-path: path('M305,231 L365,171 L425,196 L485,116 L545,61'); offset-rotate:auto; offset-distance:0%; }
+        /* La V es un trazo continuo: cae (0–0,8s, acelerando) y enseguida sube (0,8s en adelante, sin parar) */
+        #ilus.activo .dip { animation: trazar .8s 0s cubic-bezier(.45,0,.9,.5) forwards; }
+        #ilus.activo .rise  { animation: trazar 1.5s .8s cubic-bezier(.3,.05,.35,1) forwards; }
+        #ilus.activo .punta { animation: volar-punta 1.5s .8s cubic-bezier(.3,.05,.35,1) forwards; }
+        /* las barras crecen en el momento (--d) de su fase */
+        #ilus.activo .barra { animation: crecer .6s var(--d) cubic-bezier(.22,1,.36,1) forwards; }
+        @keyframes crecer { to { transform: scaleY(1); } }
+        @keyframes trazar { to { stroke-dashoffset:0; } }
+        @keyframes volar-punta { 0%{ offset-distance:0%; opacity:0; } 8%{ opacity:1; } 100%{ offset-distance:100%; opacity:1; } }
+
+        /* ---- Opción 2: bote tipo lotería + rampa triangular ---- */
+        .bote { text-align:center; margin: 10px 0 6px; }
+        .bote-num { display:inline-flex; align-items:baseline; gap:8px; font-size: 62px; font-weight: 900; line-height:1; font-variant-numeric: tabular-nums;
+            color: var(--navy); }
+        .bote-eur { font-size: 40px; color: var(--teal-dark); }
+        .bote-badge { display:inline-block; margin-top:12px; background: var(--teal); color:#fff; font-weight:800; font-size:15px; letter-spacing:.02em; padding:6px 18px; border-radius:999px; }
+        #rampa .rbarra { transform: scaleY(0); transform-box: fill-box; transform-origin: bottom; }
+        #rampa.activo .rbarra { animation: crecer .8s var(--d) cubic-bezier(.22,1,.36,1) forwards; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <h1>Ejemplos de gráfico — Cuota Segura</h1>
+    <p class="intro">Cuatro estilos animados. Dinos cuál te gusta más (o cuál combinar). Pulsa “Volver a animar” para repetir el efecto.</p>
+
+    <!-- OPCIÓN 1: ilustración -->
+    <div class="card" data-anim="1">
+        <span class="tag reco">OPCIÓN 1 · Ilustración (recomendada)</span>
+        <p class="desc">La flecha <b style="color:var(--red)">cae</b> primero (rojo) y luego <b style="color:var(--teal-dark)">remonta</b> con fuerza (verde), igual que el contador de euros.</p>
+        <div class="contador" id="contador1">0 €</div>
+        <div id="ilus">
+            <svg viewBox="0 0 600 300" style="width:100%">
+                <!-- cuadrícula suave -->
+                <line class="grid" x1="40" y1="80"  x2="560" y2="80"  stroke="#eef2f4" stroke-width="2"/>
+                <line class="grid" x1="40" y1="140" x2="560" y2="140" stroke="#eef2f4" stroke-width="2"/>
+                <line class="grid" x1="40" y1="200" x2="560" y2="200" stroke="#eef2f4" stroke-width="2"/>
+                <line x1="40" y1="266" x2="560" y2="266" stroke="#dbe3e7" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- barras en valle: rojas bajan (fase 1), verdes suben (fase 2) -->
+                <rect class="barra" style="--d:0s"    x="45"  y="126" width="40" height="140" rx="6" fill="#ef4444"/>
+                <rect class="barra" style="--d:.1s"   x="105" y="186" width="40" height="80"  rx="6" fill="#ef4444"/>
+                <rect class="barra" style="--d:.2s"   x="165" y="156" width="40" height="110" rx="6" fill="#ef4444"/>
+                <rect class="barra" style="--d:.3s"   x="225" y="211" width="40" height="55"  rx="6" fill="#ef4444"/>
+                <rect class="barra" style="--d:.45s"  x="285" y="231" width="40" height="35"  rx="6" fill="#2a9d8f"/>
+                <rect class="barra" style="--d:.8s"   x="345" y="171" width="40" height="95"  rx="6" fill="#2a9d8f"/>
+                <rect class="barra" style="--d:1s"    x="405" y="196" width="40" height="70"  rx="6" fill="#2a9d8f"/>
+                <rect class="barra" style="--d:1.2s"  x="465" y="116" width="40" height="150" rx="6" fill="#2a9d8f"/>
+                <rect class="barra" style="--d:1.4s"  x="525" y="61"  width="40" height="205" rx="6" fill="#2a9d8f"/>
+                <!-- línea en zig-zag por la punta de cada barra: cae (rojo) y remonta (verde) -->
+                <path class="linea dip"  pathLength="1" d="M65,126 L125,186 L185,156 L245,211 L305,231"/>
+                <path class="linea rise" pathLength="1" d="M305,231 L365,171 L425,196 L485,116 L545,61"/>
+                <!-- flecha que remonta (borde blanco fino para que recorte sobre las barras) -->
+                <path class="punta" d="M18,0 L-14,-16 L-14,16 Z" fill="#2a9d8f" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <button class="replay" onclick="animarIlustracion()">Volver a animar</button>
+    </div>
+
+    <!-- OPCIÓN 2: bote tipo lotería + rampa triangular -->
+    <div class="card" data-anim="2">
+        <span class="tag">OPCIÓN 2 · Premio (estilo lotería)</span>
+        <p class="desc">Una cifra grande que sube como el bote de la lotería, con el € al lado, sobre una rampa triangular que crece de rojo a verde.</p>
+        <div class="bote">
+            <div class="bote-num"><span id="boteEur">+0</span><span class="bote-eur">€</span></div>
+            <div class="bote-badge" id="botePct">+0% recuperado</div>
+        </div>
+        <div id="rampa">
+            <svg viewBox="0 0 600 240" style="width:100%">
+                <defs>
+                    <linearGradient id="ramG" x1="40" y1="0" x2="580" y2="0" gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#ef4444"/>
+                        <stop offset="0.5" stop-color="#f0a818"/>
+                        <stop offset="1" stop-color="#2a9d8f"/>
+                    </linearGradient>
+                </defs>
+                <line x1="40" y1="212" x2="580" y2="212" stroke="#e6edf0" stroke-width="3" stroke-linecap="round"/>
+                <rect class="rbarra" style="--d:0s"   x="45"  y="187" width="42" height="25"  rx="6" fill="url(#ramG)"/>
+                <rect class="rbarra" style="--d:.1s"  x="105" y="168" width="42" height="44"  rx="6" fill="url(#ramG)"/>
+                <rect class="rbarra" style="--d:.2s"  x="165" y="148" width="42" height="64"  rx="6" fill="url(#ramG)"/>
+                <rect class="rbarra" style="--d:.3s"  x="225" y="129" width="42" height="83"  rx="6" fill="url(#ramG)"/>
+                <rect class="rbarra" style="--d:.4s"  x="285" y="110" width="42" height="102" rx="6" fill="url(#ramG)"/>
+                <rect class="rbarra" style="--d:.5s"  x="345" y="90"  width="42" height="122" rx="6" fill="url(#ramG)"/>
+                <rect class="rbarra" style="--d:.6s"  x="405" y="71"  width="42" height="141" rx="6" fill="url(#ramG)"/>
+                <rect class="rbarra" style="--d:.7s"  x="465" y="52"  width="42" height="160" rx="6" fill="url(#ramG)"/>
+                <rect class="rbarra" style="--d:.8s"  x="525" y="32"  width="42" height="180" rx="6" fill="url(#ramG)"/>
+            </svg>
+        </div>
+        <button class="replay" onclick="animarJackpot()">Volver a animar</button>
+    </div>
+
+    <!-- OPCIÓN 3: área -->
+    <div class="card" data-anim="3">
+        <span class="tag">OPCIÓN 3 · Área degradado rojo → verde</span>
+        <p class="desc">Una línea con relleno que pasa de rojo (izquierda) a verde (derecha).</p>
+        <div class="stat" id="stat3"><span class="pct">+0%</span><span class="sep">·</span><span class="eur">+0 €</span></div>
+        <div id="g3"></div>
+        <button class="replay" data-target="3">Volver a animar</button>
+    </div>
+
+    <!-- OPCIÓN 4: barras -->
+    <div class="card" data-anim="4">
+        <span class="tag">OPCIÓN 4 · Barras rojo → verde</span>
+        <p class="desc">Barras que empiezan rojas (caída) y se vuelven verdes al subir.</p>
+        <div class="stat" id="stat4"><span class="pct">+0%</span><span class="sep">·</span><span class="eur">+0 €</span></div>
+        <div id="g4"></div>
+        <button class="replay" data-target="4">Volver a animar</button>
+    </div>
+</div>
+
+<script>
+const euros = (v) => '€' + Math.round(v).toLocaleString('es-ES');
+const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct'];
+const anim = { enabled:true, easing:'easeinout', speed:1600, animateGradually:{enabled:true, delay:130} };
+const baseEjeX = { categories: meses, labels:{ style:{ colors:'#9aa7ad', fontWeight:700 } }, axisBorder:{show:false}, axisTicks:{show:false} };
+const baseEjeY = { labels:{ show:false }, axisBorder:{show:false}, axisTicks:{show:false} };
+const sinTooltip = { enabled:false };
+const grid = { borderColor:'#eef2f4', strokeDashArray:4 };
+
+/* ---------- OPCIÓN 1: ilustración ---------- */
+function animarContador() {
+    const el = document.getElementById('contador1');
+    const tCae = 800, tSube = 1500, fin = tCae + tSube, t0 = performance.now();
+    function paso(ahora) {
+        const t = ahora - t0;
+        let v;
+        if (t < tCae) {                                  // cae a -1.000 (rojo), acelerando
+            const p = t / tCae; v = -1000 * (p * p);
+        } else if (t < fin) {                            // y enseguida remonta a +1.000 (verde), sin pausa
+            const p = (t - tCae) / tSube; const e = 1 - Math.pow(1 - p, 3); v = -1000 + 2000 * e;
+        } else { v = 1000; }
+        v = Math.round(v);
+        el.textContent = (v > 0 ? '+' : '') + v.toLocaleString('es-ES') + ' €';
+        el.style.color = v < 0 ? '#ef4444' : '#2a9d8f';
+        if (t < fin) requestAnimationFrame(paso);
+    }
+    requestAnimationFrame(paso);
+}
+function animarIlustracion() {
+    const el = document.getElementById('ilus');
+    el.classList.remove('activo');
+    void el.offsetWidth; // fuerza reinicio de las animaciones CSS
+    el.classList.add('activo');
+    animarContador();
+}
+
+/* ---------- OPCIONES 2-4: ApexCharts ---------- */
+/* Opción 2: bote tipo lotería (cifra que sube) + rampa triangular */
+function animarJackpot() {
+    const r = document.getElementById('rampa');
+    r.classList.remove('activo');
+    void r.offsetWidth;
+    r.classList.add('activo');
+    const elE = document.getElementById('boteEur'), elP = document.getElementById('botePct');
+    const eur = 7700, pct = 131, dur = 2200, t0 = performance.now();
+    function paso(ahora) {
+        const p = Math.min((ahora - t0) / dur, 1);
+        const e = 1 - Math.pow(1 - p, 3);
+        elE.textContent = '+' + Math.round(eur * e).toLocaleString('es-ES');
+        elP.textContent = '+' + Math.round(pct * e) + '% recuperado';
+        if (p < 1) requestAnimationFrame(paso);
+    }
+    requestAnimationFrame(paso);
+}
+function op3() {
+    const data = [9000, 7800, 6600, 5900, 6700, 8200, 9600, 11200, 12400, 13600];
+    return { chart:{ type:'area', height:300, toolbar:{show:false}, zoom:{enabled:false}, animations: anim },
+        series:[{ name:'Ingresos', data }], stroke:{ curve:'straight', width:3 }, colors:['#2a9d8f'],
+        fill:{ type:'gradient', gradient:{ opacityFrom:0.5, opacityTo:0.05, colorStops:[
+            { offset:0, color:'#ef4444', opacity:0.5 }, { offset:45, color:'#f59e0b', opacity:0.3 }, { offset:100, color:'#2a9d8f', opacity:0.5 } ] } },
+        dataLabels:{ enabled:false }, markers:{ size:0 }, grid, xaxis: baseEjeX, yaxis: baseEjeY, tooltip: sinTooltip };
+}
+function op4() {
+    const v = [9000, 7800, 6600, 5900, 6700, 8200, 9600, 11200, 12400, 13600];
+    const min = v.indexOf(Math.min(...v));
+    return { chart:{ type:'bar', height:300, toolbar:{show:false}, animations: anim },
+        series:[{ name:'Ingresos', data: v }], plotOptions:{ bar:{ borderRadius:6, columnWidth:'55%', distributed:true } },
+        colors: v.map((_,i)=> i <= min ? '#ef4444' : '#2a9d8f'), dataLabels:{ enabled:false }, legend:{ show:false },
+        grid, xaxis: baseEjeX, yaxis: baseEjeY, tooltip: sinTooltip };
+}
+const fabricas = { 3: op3, 4: op4 };
+// Cada gráfico tiene su contador [porcentaje, euros] que sube de 0 al objetivo.
+const stats = { 3: [131, 7700], 4: [131, 7700] };
+const charts = {};
+
+function animarStat(n) {
+    const cont = document.getElementById('stat' + n);
+    if (!cont) return;
+    const elP = cont.querySelector('.pct'), elE = cont.querySelector('.eur');
+    const [pct, eur] = stats[n];
+    const dur = 2000, t0 = performance.now();
+    function paso(ahora) {
+        const p = Math.min((ahora - t0) / dur, 1);
+        const e = 1 - Math.pow(1 - p, 3);
+        elP.textContent = '+' + Math.round(pct * e) + '%';
+        elE.textContent = '+' + Math.round(eur * e).toLocaleString('es-ES') + ' €';
+        if (p < 1) requestAnimationFrame(paso);
+    }
+    requestAnimationFrame(paso);
+}
+
+function pintar(n) {
+    if (charts[n]) charts[n].destroy();
+    charts[n] = new ApexCharts(document.querySelector('#g'+n), fabricas[n]());
+    charts[n].render();
+    animarStat(n);
+}
+
+/* ---------- Arranque: animar al entrar en pantalla ---------- */
+function reproducir(n) {
+    if (n === 1) animarIlustracion();
+    else if (n === 2) animarJackpot();
+    else pintar(n);
+}
+const visible = {};
+const io = new IntersectionObserver((entradas) => {
+    entradas.forEach((e) => {
+        const n = e.target.dataset.anim;
+        if (e.isIntersecting) {
+            if (!visible[n]) { visible[n] = true; reproducir(+n); }
+        } else {
+            visible[n] = false; // permite re-animar al volver a entrar
+        }
+    });
+}, { threshold: 0.35 });
+document.querySelectorAll('[data-anim]').forEach((el) => io.observe(el));
+document.querySelectorAll('.replay[data-target]').forEach((b) => b.addEventListener('click', () => pintar(b.dataset.target)));
+</script>
+</body>
+</html>

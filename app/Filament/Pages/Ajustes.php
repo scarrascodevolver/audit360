@@ -37,6 +37,9 @@ class Ajustes extends Page
     public function mount(): void
     {
         $this->form->fill([
+            'email_solicitudes' => Ajuste::get(Ajuste::EMAIL_SOLICITUDES)
+                ? Ajuste::emailsSolicitudes()
+                : [],
             'email_notificaciones' => Ajuste::emailsNotificaciones(),
             'adjuntar_archivos' => Ajuste::bool(Ajuste::ADJUNTAR_ARCHIVOS, true),
         ]);
@@ -46,11 +49,16 @@ class Ajustes extends Page
     {
         return $schema
             ->components([
-                TagsInput::make('email_notificaciones')
-                    ->label('Correos que reciben los avisos')
+                TagsInput::make('email_solicitudes')
+                    ->label('Correos para las SOLICITUDES (para llamar al cliente)')
                     ->placeholder('escribe un correo y pulsa Enter')
                     ->nestedRecursiveRules(['email'])
-                    ->helperText('Puedes añadir varios. A todos les llega el aviso de cada envío nuevo, con los archivos adjuntos.'),
+                    ->helperText('Reciben el aviso cuando un cliente pide que le contactéis. Si lo dejas vacío, se usan los mismos correos de los documentos.'),
+                TagsInput::make('email_notificaciones')
+                    ->label('Correos para los DOCUMENTOS')
+                    ->placeholder('escribe un correo y pulsa Enter')
+                    ->nestedRecursiveRules(['email'])
+                    ->helperText('Puedes añadir varios. A todos les llega el aviso de cada envío de documentación, con los archivos adjuntos.'),
                 Toggle::make('adjuntar_archivos')
                     ->label('Adjuntar los archivos al correo')
                     ->helperText('Si el envío pesa demasiado para el correo, se enviará solo el aviso con enlace al panel.'),
@@ -62,14 +70,18 @@ class Ajustes extends Page
     {
         $data = $this->form->getState();
 
-        // Se guardan separados por comas en un único ajuste.
-        $correos = collect($data['email_notificaciones'] ?? [])
+        // Cada lista se guarda separada por comas en su propio ajuste.
+        $normalizar = fn (array $correos): string => collect($correos)
             ->map(fn (string $email): string => trim($email))
             ->filter()
             ->unique()
             ->implode(',');
 
-        Ajuste::set(Ajuste::EMAIL_NOTIFICACIONES, $correos ?: null);
+        $solicitudes = $normalizar($data['email_solicitudes'] ?? []);
+        $documentos = $normalizar($data['email_notificaciones'] ?? []);
+
+        Ajuste::set(Ajuste::EMAIL_SOLICITUDES, $solicitudes ?: null);
+        Ajuste::set(Ajuste::EMAIL_NOTIFICACIONES, $documentos ?: null);
         Ajuste::set(Ajuste::ADJUNTAR_ARCHIVOS, $data['adjuntar_archivos'] ? '1' : '0');
 
         Notification::make()

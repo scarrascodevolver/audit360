@@ -30,22 +30,22 @@
             <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="flex min-h-[32rem] max-w-xl flex-col justify-center py-16 sm:py-20 lg:min-h-[36rem] lg:py-24">
                     <p v-reveal v-editable="'hero.eslogan'" class="mb-4 text-xs font-bold tracking-[0.22em] text-navy/60">
-                        {{ t('hero.eslogan', 'ANALIZAMOS. DETECTAMOS. MEJORAMOS.') }}
+                        {{ t('hero.eslogan', 'REVISAMOS. DETECTAMOS. SOLUCIONAMOS.') }}
                     </p>
                     <h1 v-reveal="90" class="font-heading text-4xl font-black leading-[1.05] sm:text-5xl xl:text-6xl">
                         <span v-editable="'hero.titulo_navy'" class="whitespace-pre-line text-navy">{{ t('hero.titulo_navy', 'REVISAMOS\nTU COMUNIDAD,') }}</span><br>
-                        <span v-editable="'hero.titulo_teal'" class="whitespace-pre-line text-teal">{{ t('hero.titulo_teal', 'MEJORAMOS\nTU TRANQUILIDAD') }}</span>
+                        <span v-editable="'hero.titulo_teal'" class="whitespace-pre-line text-teal">{{ t('hero.titulo_teal', 'SOLUCIONES INMEDIATAS\nCON GARANTÍA') }}</span>
                     </h1>
                     <p v-reveal="190" v-editable="'hero.parrafo'" class="mt-7 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
-                        {{ t('hero.parrafo', 'Realizamos una revisión técnica, legal y económica de tu comunidad para detectar oportunidades de mejora y prevenir problemas.') }}
+                        {{ t('hero.parrafo', 'Por solo 100 €, envíanos tu solicitud y en menos de 24 horas recibirás un informe claro con todas las mejoras que podemos aplicar en tu comunidad.') }}
                     </p>
                     <div v-reveal="280" class="mt-8 flex flex-wrap items-center gap-3">
                         <router-link
                             v-editable="'hero.cta_primario'"
-                            to="/subir-documentos"
+                            to="/solicitar"
                             class="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-teal-dark hover:shadow-lg"
                         >
-                            {{ t('hero.cta_primario', 'Solicita tu revisión') }}
+                            {{ t('hero.cta_primario', 'Contrátalo ahora') }}
                             <Icon name="arrow" class="h-4 w-4" />
                         </router-link>
                         <router-link
@@ -56,6 +56,9 @@
                             {{ t('hero.cta_secundario', 'Cómo funciona') }}
                         </router-link>
                     </div>
+                    <p v-reveal="320" v-editable="'hero.cta_nota'" class="mt-3 text-xs text-navy/50">
+                        {{ t('hero.cta_nota', 'Un técnico se pondrá en contacto contigo a la mayor brevedad.') }}
+                    </p>
                 </div>
             </div>
 

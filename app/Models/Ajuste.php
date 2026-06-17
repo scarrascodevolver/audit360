@@ -12,6 +12,8 @@ class Ajuste extends Model
     // Claves conocidas.
     public const EMAIL_NOTIFICACIONES = 'email_notificaciones';
 
+    public const EMAIL_SOLICITUDES = 'email_solicitudes';
+
     public const ADJUNTAR_ARCHIVOS = 'adjuntar_archivos';
 
     protected $table = 'ajustes';
@@ -63,8 +65,31 @@ class Ajuste extends Model
      */
     public static function emailsNotificaciones(): array
     {
-        $valor = self::get(self::EMAIL_NOTIFICACIONES) ?: config('audit360.especialista_email');
+        return self::listaCorreos(
+            self::get(self::EMAIL_NOTIFICACIONES) ?: config('audit360.especialista_email')
+        );
+    }
 
+    /**
+     * Lista de correos que reciben el aviso de cada SOLICITUD de contacto. Si
+     * no se ha configurado, cae a los avisos generales (así funciona de fábrica).
+     *
+     * @return array<int, string>
+     */
+    public static function emailsSolicitudes(): array
+    {
+        $valor = self::get(self::EMAIL_SOLICITUDES);
+
+        return $valor ? self::listaCorreos($valor) : self::emailsNotificaciones();
+    }
+
+    /**
+     * Normaliza una cadena de correos separados por comas en una lista limpia.
+     *
+     * @return array<int, string>
+     */
+    private static function listaCorreos(?string $valor): array
+    {
         return collect(explode(',', (string) $valor))
             ->map(fn (string $email): string => trim($email))
             ->filter()
