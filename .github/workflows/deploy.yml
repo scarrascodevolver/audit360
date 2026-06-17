@@ -1,0 +1,32 @@
+name: Desplegar a producción
+
+# Al hacer push a main (o lanzándolo a mano desde la pestaña Actions),
+# entra al servidor por SSH y ejecuta deploy.sh.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-produccion
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ejecutar deploy.sh en el servidor por SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          if [ -z "$DEPLOY_SSH_KEY" ]; then
+            echo "Falta el secret DEPLOY_SSH_KEY."
+            echo "Añádelo en: Settings -> Secrets and variables -> Actions -> New repository secret."
+            exit 1
+          fi
+          mkdir -p ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -H 49.13.86.139 >> ~/.ssh/known_hosts 2>/dev/null
+          ssh -i ~/.ssh/id_deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new \
+              deploy@49.13.86.139 desplegar
