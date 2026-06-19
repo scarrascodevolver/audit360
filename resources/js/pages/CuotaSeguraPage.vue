@@ -29,17 +29,17 @@
                 </div>
 
                 <!-- Claim + 4 pilares sobre la base oscura (visibles sin scroll) -->
-                <div class="absolute bottom-[30%] left-[20%] right-[4%] z-10">
-                    <p v-reveal="220" class="text-center font-heading text-lg font-black uppercase xl:text-xl">
+                <div class="absolute bottom-[18%] left-[18%] right-[4%] z-10">
+                    <p v-reveal="220" class="text-center font-heading text-2xl font-black uppercase xl:text-3xl">
                         <span v-editable="'cuota.claim_1'" class="text-white">{{ t('cuota.claim_1', 'TODO INCLUIDO.') }}</span>
                         <span v-editable="'cuota.claim_2'" class="text-teal-light">{{ t('cuota.claim_2', 'CERO PREOCUPACIONES.') }}</span>
                     </p>
-                    <div v-reveal="300" class="mt-4 grid grid-cols-4">
+                    <div v-reveal="300" class="mt-6 grid grid-cols-4">
                         <div v-for="p in pilares" :key="p.clave" class="flex flex-col items-center px-2 text-center [&:not(:first-child)]:border-l [&:not(:first-child)]:border-white/15">
-                            <span class="flex h-12 w-12 items-center justify-center rounded-full ring-2 ring-teal-light/50">
-                                <Icon :name="p.icono" class="h-6 w-6 text-teal-light" />
+                            <span class="flex h-16 w-16 items-center justify-center rounded-full ring-2 ring-teal-light/50">
+                                <Icon :name="p.icono" class="h-8 w-8 text-teal-light" />
                             </span>
-                            <p v-editable="p.clave" class="mt-2 whitespace-pre-line text-[10px] font-bold uppercase leading-tight tracking-wide text-white xl:text-[11px]">{{ t(p.clave, p.texto) }}</p>
+                            <p v-editable="p.clave" class="mt-3 whitespace-pre-line text-xs font-bold uppercase leading-tight tracking-wide text-white xl:text-sm">{{ t(p.clave, p.texto) }}</p>
                         </div>
                     </div>
                 </div>
