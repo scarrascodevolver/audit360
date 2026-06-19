@@ -2,94 +2,109 @@
     <div>
         <!-- ============ HERO ============ -->
         <section class="relative overflow-hidden bg-white">
-            <!-- Composición: foto de edificio + sellos (escritorio) -->
-            <div v-reveal class="absolute inset-y-0 right-0 hidden w-[58%] lg:block">
-                <img
-                    :src="edificioCuota"
-                    alt="Edificio residencial moderno protegido por Cuota Segura"
-                    class="h-full w-full object-cover object-center [-webkit-mask-image:linear-gradient(to_right,transparent,#000_46%)] [mask-image:linear-gradient(to_right,transparent,#000_46%)]"
-                />
-
-                <!-- Funde el pie de la imagen con la sección clara siguiente -->
-                <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-bg-light/0 to-bg-light"></div>
-
-                <!-- Sello Cuota Segura -->
-                <div class="absolute right-[13%] top-[12%] z-10 flex h-36 w-36 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-2xl ring-4 ring-white/70 transition duration-300 hover:scale-105">
-                    <Icon name="shield" class="h-9 w-9 text-teal-light" />
-                    <span class="mt-1 font-heading text-base font-black leading-tight">
-                        CUOTA<br><span class="text-teal-light">SEGURA</span>
-                    </span>
-                </div>
-
-                <!-- Sello 100€ pago único -->
-                <div class="absolute right-[16%] top-[52%] z-10 flex h-36 w-36 flex-col items-center justify-center rounded-full bg-gradient-to-br from-teal-light to-teal text-center text-navy shadow-2xl ring-4 ring-white/70">
-                    <p v-editable="'cuota.precio'" class="font-heading text-4xl font-black leading-none">{{ t('cuota.precio', '100€') }}</p>
-                    <p v-editable="'cuota.precio_sub'" class="mt-1 text-[11px] font-extrabold tracking-[0.18em]">{{ t('cuota.precio_sub', 'PAGO ÚNICO') }}</p>
-                </div>
-            </div>
-
+            <!-- ===== Bloque superior: texto (izq) + imagen (der) ===== -->
             <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
-                <div class="flex min-h-[34rem] max-w-xl flex-col justify-center py-16 sm:py-20 lg:min-h-[40rem]">
-                    <p v-reveal v-editable="'cuota.kicker'" class="mb-4 text-xs font-bold tracking-[0.22em] text-navy/60">
-                        {{ t('cuota.kicker', 'NUESTRO COMPROMISO') }}
-                    </p>
-                    <h1 v-reveal="90" class="font-heading text-4xl font-black leading-[1.05] sm:text-5xl">
-                        <span v-editable="'cuota.titulo_navy'" class="whitespace-pre-line text-navy">{{ t('cuota.titulo_navy', 'NUESTRA') }}</span><br>
-                        <span v-editable="'cuota.titulo_teal'" class="whitespace-pre-line text-teal">{{ t('cuota.titulo_teal', 'CUOTA SEGURA') }}</span>
-                    </h1>
-                    <p v-reveal="190" v-editable="'cuota.parrafo'" class="mt-7 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
-                        {{ t('cuota.parrafo', 'No importa que un vecino no pague la comunidad: nosotros nos haremos cargo de todo para que esto no frene la vida de la comunidad.') }}
-                    </p>
+                <div class="grid items-center gap-y-10 lg:grid-cols-2 lg:gap-x-12">
 
-                    <!-- Pilares (del cartel) dentro del hero -->
-                    <div v-reveal="240" class="mt-8 grid max-w-md grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-4">
-                        <div v-for="p in pilares" :key="p.clave" class="flex flex-col items-center text-center sm:items-start sm:text-left">
-                            <span class="flex h-11 w-11 items-center justify-center rounded-full ring-2 ring-teal/40">
-                                <Icon :name="p.icono" class="h-5 w-5 text-teal" />
-                            </span>
-                            <p v-editable="p.clave" class="mt-2 whitespace-pre-line text-[10px] font-bold uppercase leading-tight tracking-wide text-navy sm:text-[11px]">{{ t(p.clave, p.texto) }}</p>
+                    <!-- Columna de texto -->
+                    <div class="order-1 flex max-w-xl flex-col justify-center py-12 lg:py-24">
+                        <p v-reveal v-editable="'cuota.kicker'" class="mb-4 text-xs font-bold tracking-[0.22em] text-navy/60">
+                            {{ t('cuota.kicker', 'NUESTRO COMPROMISO') }}
+                        </p>
+                        <h1 v-reveal="90" class="font-heading text-4xl font-black leading-[1.05] sm:text-5xl xl:text-6xl">
+                            <span v-editable="'cuota.titulo_navy'" class="whitespace-pre-line text-navy">{{ t('cuota.titulo_navy', 'NUESTRA') }}</span><br>
+                            <span v-editable="'cuota.titulo_teal'" class="whitespace-pre-line text-teal">{{ t('cuota.titulo_teal', 'CUOTA SEGURA') }}</span>
+                        </h1>
+                        <p v-reveal="190" v-editable="'cuota.parrafo'" class="mt-7 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
+                            {{ t('cuota.parrafo', 'No importa que un vecino no pague la comunidad: nosotros nos haremos cargo de todo para que esto no frene la vida de la comunidad.') }}
+                        </p>
+
+                        <div v-reveal="280" class="mt-9">
+                            <component
+                                :is="tieneTelefono ? 'a' : 'router-link'"
+                                v-editable="'cuota.cta'"
+                                :href="tieneTelefono ? telHref : null"
+                                :to="tieneTelefono ? null : '/subir-documentos'"
+                                class="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-teal-dark hover:shadow-lg"
+                            >
+                                {{ t('cuota.cta', 'Solicitar información') }}
+                                <Icon name="arrow" class="h-4 w-4" />
+                            </component>
                         </div>
                     </div>
 
-                    <!-- Claim -->
-                    <p v-reveal="280" class="mt-7 font-heading text-xl font-black uppercase sm:text-2xl">
-                        <span v-editable="'cuota.claim_1'" class="text-navy">{{ t('cuota.claim_1', 'TODO INCLUIDO.') }}</span>
-                        <span v-editable="'cuota.claim_2'" class="text-teal">{{ t('cuota.claim_2', 'CERO PREOCUPACIONES.') }}</span>
-                    </p>
+                    <!-- Columna imagen (ESCRITORIO) -->
+                    <div v-reveal class="relative order-2 hidden self-stretch lg:block">
+                        <div class="relative h-full min-h-[34rem]">
+                            <img
+                                :src="edificioCuota"
+                                alt="Edificio residencial moderno protegido por Cuota Segura"
+                                class="absolute inset-0 h-full w-full rounded-3xl object-cover object-center shadow-2xl ring-1 ring-navy/5"
+                            />
+                            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-32 rounded-b-3xl bg-gradient-to-b from-navy/0 to-navy"></div>
 
-                    <div v-reveal="320" class="mt-8">
-                        <component
-                            :is="tieneTelefono ? 'a' : 'router-link'"
-                            v-editable="'cuota.cta'"
-                            :href="tieneTelefono ? telHref : null"
-                            :to="tieneTelefono ? null : '/subir-documentos'"
-                            class="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-teal-dark hover:shadow-lg"
-                        >
-                            {{ t('cuota.cta', 'Solicitar información') }}
-                            <Icon name="arrow" class="h-4 w-4" />
-                        </component>
+                            <!-- Sello Cuota Segura: arriba-izquierda -->
+                            <div class="absolute left-5 top-5 z-10 flex h-32 w-32 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/80">
+                                <Icon name="shield" class="h-8 w-8 text-teal-light" />
+                                <span class="mt-1 font-heading text-base font-black leading-tight">
+                                    CUOTA<br><span class="text-teal-light">SEGURA</span>
+                                </span>
+                            </div>
+
+                            <!-- Sello 100€: AL MEDIO de la imagen -->
+                            <div class="absolute left-1/2 top-1/2 z-10 flex h-40 w-40 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-gradient-to-br from-teal-light to-teal text-center text-navy shadow-2xl ring-4 ring-white/80">
+                                <p v-editable="'cuota.precio'" class="font-heading text-5xl font-black leading-none">{{ t('cuota.precio', '100€') }}</p>
+                                <p v-editable="'cuota.precio_sub'" class="mt-1 text-xs font-extrabold tracking-[0.18em]">{{ t('cuota.precio_sub', 'PAGO ÚNICO') }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna imagen (MÓVIL) -->
+                    <div v-reveal class="relative order-2 -mx-6 lg:hidden">
+                        <img
+                            :src="edificioCuota"
+                            alt="Edificio residencial moderno protegido por Cuota Segura"
+                            class="h-80 w-full object-cover object-center sm:h-96 [-webkit-mask-image:linear-gradient(to_top,transparent,#000_22%)] [mask-image:linear-gradient(to_top,transparent,#000_22%)]"
+                        />
+                        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-navy/0 to-navy"></div>
+
+                        <!-- Sello Cuota Segura (móvil) -->
+                        <div class="absolute left-5 top-6 z-10 flex h-24 w-24 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/80">
+                            <Icon name="shield" class="h-6 w-6 text-teal-light" />
+                            <span class="mt-0.5 font-heading text-xs font-black leading-tight">
+                                CUOTA<br><span class="text-teal-light">SEGURA</span>
+                            </span>
+                        </div>
+
+                        <!-- Sello 100€ (móvil) -->
+                        <div class="absolute right-5 top-1/2 z-10 flex h-24 w-24 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-gradient-to-br from-teal-light to-teal text-center text-navy shadow-xl ring-4 ring-white/80">
+                            <p v-editable="'cuota.precio'" class="font-heading text-2xl font-black leading-none">{{ t('cuota.precio', '100€') }}</p>
+                            <p v-editable="'cuota.precio_sub'" class="mt-0.5 text-[9px] font-extrabold tracking-[0.15em]">{{ t('cuota.precio_sub', 'PAGO ÚNICO') }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Composición para móvil -->
-            <div v-reveal class="relative -mt-2 lg:hidden">
-                <img
-                    :src="edificioCuota"
-                    alt="Edificio residencial moderno protegido por Cuota Segura"
-                    class="h-64 w-full object-cover object-center sm:h-80 [-webkit-mask-image:linear-gradient(to_top,transparent,#000_22%)] [mask-image:linear-gradient(to_top,transparent,#000_22%)]"
-                />
-                <!-- Sello Cuota Segura -->
-                <div class="absolute left-5 top-6 flex h-24 w-24 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
-                    <Icon name="shield" class="h-6 w-6 text-teal-light" />
-                    <span class="mt-0.5 font-heading text-xs font-black leading-tight">
-                        CUOTA<br><span class="text-teal-light">SEGURA</span>
-                    </span>
-                </div>
-                <!-- Sello 100€ -->
-                <div class="absolute bottom-6 right-5 flex h-24 w-24 flex-col items-center justify-center rounded-full bg-gradient-to-br from-teal-light to-teal text-center text-navy shadow-xl ring-4 ring-white/70">
-                    <p v-editable="'cuota.precio'" class="font-heading text-2xl font-black leading-none">{{ t('cuota.precio', '100€') }}</p>
-                    <p v-editable="'cuota.precio_sub'" class="mt-0.5 text-[9px] font-extrabold tracking-[0.15em]">{{ t('cuota.precio_sub', 'PAGO ÚNICO') }}</p>
+            <!-- ===== Franja de PILARES (ancho completo, sobre navy) ===== -->
+            <div class="relative bg-navy">
+                <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                    <p v-reveal class="pt-12 text-center font-heading text-xl font-black uppercase sm:text-2xl">
+                        <span v-editable="'cuota.claim_1'" class="text-white">{{ t('cuota.claim_1', 'TODO INCLUIDO.') }}</span>
+                        <span v-editable="'cuota.claim_2'" class="text-teal-light">{{ t('cuota.claim_2', 'CERO PREOCUPACIONES.') }}</span>
+                    </p>
+
+                    <div v-reveal="120" class="grid grid-cols-2 py-10 lg:grid-cols-4">
+                        <div
+                            v-for="p in pilares"
+                            :key="p.clave"
+                            class="flex flex-col items-center px-4 py-5 text-center [&:nth-child(even)]:border-l [&:nth-child(even)]:border-white/10 [&:nth-child(n+3)]:border-t [&:nth-child(n+3)]:border-white/10 lg:border-t-0 lg:[&:not(:first-child)]:border-l lg:[&:not(:first-child)]:border-white/10"
+                        >
+                            <span class="flex h-14 w-14 items-center justify-center rounded-full ring-2 ring-teal-light/40">
+                                <Icon :name="p.icono" class="h-6 w-6 text-teal-light" />
+                            </span>
+                            <p v-editable="p.clave" class="mt-3 whitespace-pre-line text-[11px] font-bold uppercase leading-tight tracking-[0.12em] text-white sm:text-xs">{{ t(p.clave, p.texto) }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
