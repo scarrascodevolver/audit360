@@ -13,8 +13,8 @@
                 <!-- Oscurece la base para que el claim y los pilares se lean -->
                 <div class="pointer-events-none absolute inset-x-0 bottom-0 h-60 bg-gradient-to-b from-navy/0 via-navy/80 to-navy"></div>
 
-                <!-- Sello Cuota Segura: arriba-izquierda -->
-                <div class="absolute left-[14%] top-[8%] z-10 flex h-32 w-32 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
+                <!-- Sello Cuota Segura: arriba-izquierda, alineado con el de 100€ -->
+                <div class="absolute left-[14%] top-[12%] z-10 flex h-36 w-36 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
                     <Icon name="shield" class="h-8 w-8 text-teal-light" />
                     <span class="mt-1 font-heading text-base font-black leading-tight">
                         CUOTA<br><span class="text-teal-light">SEGURA</span>
@@ -28,7 +28,7 @@
                 </div>
 
                 <!-- Claim + 4 pilares sobre la base oscura (visibles sin scroll) -->
-                <div class="absolute bottom-0 left-[20%] right-[4%] z-10 pb-7">
+                <div class="absolute bottom-[16%] left-[20%] right-[4%] z-10">
                     <p v-reveal="220" class="text-center font-heading text-lg font-black uppercase xl:text-xl">
                         <span v-editable="'cuota.claim_1'" class="text-white">{{ t('cuota.claim_1', 'TODO INCLUIDO.') }}</span>
                         <span v-editable="'cuota.claim_2'" class="text-teal-light">{{ t('cuota.claim_2', 'CERO PREOCUPACIONES.') }}</span>

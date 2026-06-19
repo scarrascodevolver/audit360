@@ -5,12 +5,20 @@
         <nav class="mx-auto flex max-w-7xl items-center justify-between gap-1.5 px-3 py-3 sm:px-6 lg:px-8">
             <!-- Logo (compacto en móvil para dejar sitio al CTA y la hamburguesa) -->
             <router-link to="/" class="flex min-w-0 shrink items-center gap-2 sm:gap-2.5">
-                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-navy text-teal-light sm:h-10 sm:w-10">
-                    <Icon name="shield" class="h-5 w-5 sm:h-6 sm:w-6" />
+                <!-- Marca yv "Yo Vivo Tranquilo" (logo vectorizado en SVG) -->
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-navy sm:h-10 sm:w-10">
+                    <svg viewBox="0 0 28 24" class="h-5 w-6 sm:h-6 sm:w-7" fill="none" aria-hidden="true">
+                        <path d="M3 3 L10 15 L10 21" stroke="#3dbdaf" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10 15 L17 3" stroke="#3dbdaf" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 9 L21 19 L26 9" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </span>
-                <span class="whitespace-nowrap font-heading text-base font-black leading-none sm:text-lg">
-                    <span class="text-navy">Audita Tu </span><span class="text-teal">Comunidad</span>
-                    <span class="hidden align-top text-[10px] font-extrabold text-navy/60 min-[400px]:inline">360°</span>
+                <span class="flex min-w-0 flex-col leading-none">
+                    <span class="whitespace-nowrap font-heading text-base font-black sm:text-lg">
+                        <span class="text-navy">Audita Tu </span><span class="text-teal">Comunidad</span>
+                        <span class="hidden align-top text-[10px] font-extrabold text-navy/60 min-[400px]:inline">360°</span>
+                    </span>
+                    <span class="mt-0.5 hidden text-[9px] font-bold uppercase tracking-[0.18em] text-navy/45 sm:block">Yo Vivo Tranquilo</span>
                 </span>
             </router-link>
 
