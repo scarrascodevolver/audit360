@@ -10,25 +10,26 @@
                     class="h-full w-full object-cover object-center [-webkit-mask-image:linear-gradient(to_right,transparent,#000_46%)] [mask-image:linear-gradient(to_right,transparent,#000_46%)]"
                 />
 
-                <!-- Oscurece la base para que el claim y los pilares se lean -->
-                <div class="pointer-events-none absolute inset-x-0 bottom-0 h-60 bg-gradient-to-b from-navy/0 via-navy/80 to-navy"></div>
+                <!-- Oscurece para leer el claim/pilares; difuminado por la izquierda
+                     (misma máscara que la imagen) para que no corte el párrafo -->
+                <div class="pointer-events-none absolute inset-x-0 bottom-0 h-[66%] bg-gradient-to-t from-navy via-navy/80 to-transparent [-webkit-mask-image:linear-gradient(to_right,transparent,#000_46%)] [mask-image:linear-gradient(to_right,transparent,#000_46%)]"></div>
 
-                <!-- Sello Cuota Segura: arriba-izquierda, alineado con el de 100€ -->
-                <div class="absolute left-[14%] top-[12%] z-10 flex h-36 w-36 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
+                <!-- Sello Cuota Segura: arriba, junto al de 100€ y a su misma altura -->
+                <div class="absolute left-[28%] top-[9%] z-10 flex h-36 w-36 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
                     <Icon name="shield" class="h-8 w-8 text-teal-light" />
                     <span class="mt-1 font-heading text-base font-black leading-tight">
                         CUOTA<br><span class="text-teal-light">SEGURA</span>
                     </span>
                 </div>
 
-                <!-- Sello 100€: zona alta-derecha de la imagen -->
-                <div class="absolute right-[12%] top-[12%] z-10 flex h-36 w-36 flex-col items-center justify-center rounded-full bg-gradient-to-br from-teal-light to-teal text-center text-navy shadow-2xl ring-4 ring-white/70">
+                <!-- Sello 100€: arriba, junto al de Cuota Segura -->
+                <div class="absolute right-[24%] top-[9%] z-10 flex h-36 w-36 flex-col items-center justify-center rounded-full bg-gradient-to-br from-teal-light to-teal text-center text-navy shadow-2xl ring-4 ring-white/70">
                     <p v-editable="'cuota.precio'" class="font-heading text-5xl font-black leading-none">{{ t('cuota.precio', '100€') }}</p>
                     <p v-editable="'cuota.precio_sub'" class="mt-1 text-xs font-extrabold tracking-[0.18em]">{{ t('cuota.precio_sub', 'PAGO ÚNICO') }}</p>
                 </div>
 
                 <!-- Claim + 4 pilares sobre la base oscura (visibles sin scroll) -->
-                <div class="absolute bottom-[16%] left-[20%] right-[4%] z-10">
+                <div class="absolute bottom-[30%] left-[20%] right-[4%] z-10">
                     <p v-reveal="220" class="text-center font-heading text-lg font-black uppercase xl:text-xl">
                         <span v-editable="'cuota.claim_1'" class="text-white">{{ t('cuota.claim_1', 'TODO INCLUIDO.') }}</span>
                         <span v-editable="'cuota.claim_2'" class="text-teal-light">{{ t('cuota.claim_2', 'CERO PREOCUPACIONES.') }}</span>
