@@ -2,116 +2,119 @@
     <div>
         <!-- ============ HERO ============ -->
         <section class="relative overflow-hidden bg-white">
-            <!-- ===== Bloque superior: texto (izq) + imagen (der) ===== -->
-            <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
-                <div class="grid items-center gap-y-10 lg:grid-cols-2 lg:gap-x-12">
+            <!-- Imagen edificio con desvanecido (escritorio) -->
+            <div v-reveal class="absolute inset-y-0 right-0 hidden w-[62%] lg:block">
+                <img
+                    :src="heroBuilding"
+                    alt="Edificio residencial moderno en perspectiva bajo revisión"
+                    class="h-full w-full object-cover object-center [-webkit-mask-image:linear-gradient(to_right,transparent,#000_46%)] [mask-image:linear-gradient(to_right,transparent,#000_46%)]"
+                />
 
-                    <!-- Columna de texto -->
-                    <div class="order-1 flex max-w-xl flex-col justify-center py-12 lg:py-24">
-                        <p v-reveal v-editable="'hero.eslogan'" class="mb-4 text-xs font-bold tracking-[0.22em] text-navy/60">
-                            {{ t('hero.eslogan', 'REVISAMOS. DETECTAMOS. SOLUCIONAMOS.') }}
-                        </p>
-                        <h1 v-reveal="90" class="font-heading text-4xl font-black leading-[1.05] sm:text-5xl xl:text-6xl">
-                            <span v-editable="'hero.titulo_navy'" class="whitespace-pre-line text-navy">{{ t('hero.titulo_navy', 'REVISAMOS\nTU COMUNIDAD,') }}</span><br>
-                            <span v-editable="'hero.titulo_teal'" class="whitespace-pre-line text-teal">{{ t('hero.titulo_teal', 'MEJORAMOS\nTU TRANQUILIDAD') }}</span>
-                        </h1>
-                        <p v-reveal="190" v-editable="'hero.parrafo'" class="mt-7 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
-                            {{ t('hero.parrafo', 'Por solo 100 €, envíanos tu solicitud y en menos de 24 horas recibirás un informe claro con todas las mejoras que podemos aplicar en tu comunidad.') }}
-                        </p>
+                <!-- Oscurece la base para que el claim y los pilares se lean -->
+                <div class="pointer-events-none absolute inset-x-0 bottom-0 h-60 bg-gradient-to-b from-navy/0 via-navy/80 to-navy"></div>
 
-                        <div v-reveal="280" class="mt-9 flex flex-wrap items-center gap-3">
-                            <router-link
-                                v-editable="'hero.cta_primario'"
-                                to="/solicitar"
-                                class="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-teal-dark hover:shadow-lg"
-                            >
-                                {{ t('hero.cta_primario', 'Contrátalo ahora') }}
-                                <Icon name="arrow" class="h-4 w-4" />
-                            </router-link>
-                            <router-link
-                                v-editable="'hero.cta_secundario'"
-                                to="/recopilacion"
-                                class="inline-flex items-center gap-2 rounded-full border-2 border-navy/15 px-6 py-3 text-sm font-bold text-navy transition hover:border-teal hover:text-teal"
-                            >
-                                {{ t('hero.cta_secundario', 'Cómo funciona') }}
-                            </router-link>
-                        </div>
-                        <p v-reveal="360" v-editable="'hero.cta_nota'" class="mt-3 text-xs text-navy/50">
-                            {{ t('hero.cta_nota', 'Un técnico se pondrá en contacto contigo a la mayor brevedad.') }}
-                        </p>
-                    </div>
+                <!-- Sello 24h: arriba-izquierda -->
+                <div class="absolute left-[13%] top-[8%] z-10 flex h-32 w-32 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
+                    <Icon name="stopwatch" class="h-6 w-6 text-white" />
+                    <span v-editable="'hero.circulo_arriba'" class="mt-1 whitespace-pre-line text-[10px] font-bold leading-tight tracking-widest">{{ t('hero.circulo_arriba', 'INFORME\nEN SOLO') }}</span>
+                    <span v-editable="'hero.circulo_numero'" class="font-heading text-4xl font-black leading-none text-teal-light">{{ t('hero.circulo_numero', '24') }}</span>
+                    <span v-editable="'hero.circulo_abajo'" class="text-xs font-bold tracking-[0.25em]">{{ t('hero.circulo_abajo', 'HORAS') }}</span>
+                </div>
 
-                    <!-- Columna imagen (ESCRITORIO) -->
-                    <div v-reveal class="relative order-2 hidden self-stretch lg:block">
-                        <div class="relative h-full min-h-[34rem]">
-                            <img
-                                :src="heroBuilding"
-                                alt="Edificio residencial moderno en perspectiva bajo revisión"
-                                class="absolute inset-0 h-full w-full rounded-3xl object-cover object-center shadow-2xl ring-1 ring-navy/5"
-                            />
-                            <!-- Funde la base de la imagen para enlazar con la franja navy -->
-                            <div class="pointer-events-none absolute inset-x-0 bottom-0 h-32 rounded-b-3xl bg-gradient-to-b from-navy/0 to-navy"></div>
+                <!-- Sello 100€: zona alta-derecha de la imagen -->
+                <div class="absolute right-[12%] top-[12%] z-10 flex h-36 w-36 flex-col items-center justify-center rounded-full bg-gradient-to-br from-teal-light to-teal text-center text-navy shadow-2xl ring-4 ring-white/70">
+                    <p v-editable="'hero.precio'" class="font-heading text-5xl font-black leading-none">{{ t('hero.precio', '100€') }}</p>
+                    <p v-editable="'hero.precio_sub'" class="mt-1 text-xs font-extrabold tracking-[0.18em]">{{ t('hero.precio_sub', 'PAGO ÚNICO') }}</p>
+                </div>
 
-                            <!-- Sello 24h: arriba-izquierda, sobre el cielo -->
-                            <div class="absolute left-5 top-5 z-10 flex h-32 w-32 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/80">
-                                <Icon name="stopwatch" class="h-6 w-6 text-white" />
-                                <span v-editable="'hero.circulo_arriba'" class="mt-1 whitespace-pre-line text-[10px] font-bold leading-tight tracking-widest">{{ t('hero.circulo_arriba', 'INFORME\nEN SOLO') }}</span>
-                                <span v-editable="'hero.circulo_numero'" class="font-heading text-4xl font-black leading-none text-teal-light">{{ t('hero.circulo_numero', '24') }}</span>
-                                <span v-editable="'hero.circulo_abajo'" class="text-xs font-bold tracking-[0.25em]">{{ t('hero.circulo_abajo', 'HORAS') }}</span>
-                            </div>
-
-                            <!-- Sello 100€: AL MEDIO de la imagen -->
-                            <div class="absolute left-1/2 top-1/2 z-10 flex h-40 w-40 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-gradient-to-br from-teal-light to-teal text-center text-navy shadow-2xl ring-4 ring-white/80">
-                                <p v-editable="'hero.precio'" class="font-heading text-5xl font-black leading-none">{{ t('hero.precio', '100€') }}</p>
-                                <p v-editable="'hero.precio_sub'" class="mt-1 text-xs font-extrabold tracking-[0.18em]">{{ t('hero.precio_sub', 'PAGO ÚNICO') }}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Columna imagen (MÓVIL) -->
-                    <div v-reveal class="relative order-2 -mx-6 lg:hidden">
-                        <img
-                            :src="heroBuilding"
-                            alt="Edificio residencial moderno bajo revisión"
-                            class="h-80 w-full object-cover object-center sm:h-96 [-webkit-mask-image:linear-gradient(to_top,transparent,#000_22%)] [mask-image:linear-gradient(to_top,transparent,#000_22%)]"
-                        />
-                        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-navy/0 to-navy"></div>
-
-                        <!-- Sello 24h (móvil) -->
-                        <div class="absolute left-5 top-6 z-10 flex h-24 w-24 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/80">
-                            <Icon name="stopwatch" class="h-4 w-4 text-white" />
-                            <span v-editable="'hero.circulo_arriba'" class="mt-0.5 whitespace-pre-line text-[8px] font-bold leading-tight tracking-widest">{{ t('hero.circulo_arriba', 'INFORME\nEN SOLO') }}</span>
-                            <span v-editable="'hero.circulo_numero'" class="font-heading text-2xl font-black leading-none text-teal-light">{{ t('hero.circulo_numero', '24') }}</span>
-                            <span v-editable="'hero.circulo_abajo'" class="text-[9px] font-bold tracking-[0.25em]">{{ t('hero.circulo_abajo', 'HORAS') }}</span>
-                        </div>
-
-                        <!-- Sello 100€ (móvil): centrado vertical, derecha -->
-                        <div class="absolute right-5 top-1/2 z-10 flex h-24 w-24 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-gradient-to-br from-teal-light to-teal text-center text-navy shadow-xl ring-4 ring-white/80">
-                            <p v-editable="'hero.precio'" class="font-heading text-2xl font-black leading-none">{{ t('hero.precio', '100€') }}</p>
-                            <p v-editable="'hero.precio_sub'" class="mt-0.5 text-[9px] font-extrabold tracking-[0.15em]">{{ t('hero.precio_sub', 'PAGO ÚNICO') }}</p>
+                <!-- Claim + 4 pilares sobre la base oscura (visibles sin scroll) -->
+                <div class="absolute bottom-0 left-[24%] right-[4%] z-10 pb-7">
+                    <p v-reveal="220" class="text-center font-heading text-lg font-black uppercase xl:text-xl">
+                        <span v-editable="'hero.claim_1'" class="text-white">{{ t('hero.claim_1', 'TODO INCLUIDO.') }}</span>
+                        <span v-editable="'hero.claim_2'" class="text-teal-light">{{ t('hero.claim_2', 'CERO PREOCUPACIONES.') }}</span>
+                    </p>
+                    <div v-reveal="300" class="mt-4 grid grid-cols-4">
+                        <div v-for="p in pilares" :key="p.clave" class="flex flex-col items-center px-2 text-center [&:not(:first-child)]:border-l [&:not(:first-child)]:border-white/15">
+                            <span class="flex h-12 w-12 items-center justify-center rounded-full ring-2 ring-teal-light/50">
+                                <Icon :name="p.icono" class="h-6 w-6 text-teal-light" />
+                            </span>
+                            <p v-editable="p.clave" class="mt-2 whitespace-pre-line text-[10px] font-bold uppercase leading-tight tracking-wide text-white xl:text-[11px]">{{ t(p.clave, p.texto) }}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ===== Franja de PILARES (ancho completo, sobre navy) ===== -->
-            <div class="relative bg-navy">
-                <div class="mx-auto max-w-7xl px-6 lg:px-8">
-                    <p v-reveal class="pt-12 text-center font-heading text-xl font-black uppercase sm:text-2xl">
+            <!-- Columna de texto (izquierda) -->
+            <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="flex min-h-[30rem] max-w-xl flex-col justify-center py-14 sm:py-16 lg:min-h-[36rem] lg:py-16">
+                    <p v-reveal v-editable="'hero.eslogan'" class="mb-4 text-xs font-bold tracking-[0.22em] text-navy/60">
+                        {{ t('hero.eslogan', 'REVISAMOS. DETECTAMOS. SOLUCIONAMOS.') }}
+                    </p>
+                    <h1 v-reveal="90" class="font-heading text-4xl font-black leading-[1.05] sm:text-5xl xl:text-6xl">
+                        <span v-editable="'hero.titulo_navy'" class="whitespace-pre-line text-navy">{{ t('hero.titulo_navy', 'REVISAMOS\nTU COMUNIDAD,') }}</span><br>
+                        <span v-editable="'hero.titulo_teal'" class="whitespace-pre-line text-teal">{{ t('hero.titulo_teal', 'MEJORAMOS\nTU TRANQUILIDAD') }}</span>
+                    </h1>
+                    <p v-reveal="190" v-editable="'hero.parrafo'" class="mt-6 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
+                        {{ t('hero.parrafo', 'Por solo 100 €, envíanos tu solicitud y en menos de 24 horas recibirás un informe claro con todas las mejoras que podemos aplicar en tu comunidad.') }}
+                    </p>
+                    <div v-reveal="280" class="mt-7 flex flex-wrap items-center gap-3">
+                        <router-link
+                            v-editable="'hero.cta_primario'"
+                            to="/solicitar"
+                            class="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-teal-dark hover:shadow-lg"
+                        >
+                            {{ t('hero.cta_primario', 'Contrátalo ahora') }}
+                            <Icon name="arrow" class="h-4 w-4" />
+                        </router-link>
+                        <router-link
+                            v-editable="'hero.cta_secundario'"
+                            to="/recopilacion"
+                            class="inline-flex items-center gap-2 rounded-full border-2 border-navy/15 px-6 py-3 text-sm font-bold text-navy transition hover:border-teal hover:text-teal"
+                        >
+                            {{ t('hero.cta_secundario', 'Cómo funciona') }}
+                        </router-link>
+                    </div>
+                    <p v-reveal="360" v-editable="'hero.cta_nota'" class="mt-3 text-xs text-navy/50">
+                        {{ t('hero.cta_nota', 'Un técnico se pondrá en contacto contigo a la mayor brevedad.') }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Composición para móvil: imagen con desvanecido + sellos + pilares encima -->
+            <div v-reveal class="relative -mt-2 lg:hidden">
+                <img
+                    :src="heroBuilding"
+                    alt="Edificio residencial moderno bajo revisión"
+                    class="h-[26rem] w-full object-cover object-center [-webkit-mask-image:linear-gradient(to_top,transparent,#000_16%)] [mask-image:linear-gradient(to_top,transparent,#000_16%)]"
+                />
+                <div class="pointer-events-none absolute inset-x-0 bottom-0 h-52 bg-gradient-to-b from-navy/0 via-navy/80 to-navy"></div>
+
+                <!-- Sello 24h (móvil) -->
+                <div class="absolute left-4 top-5 z-10 flex h-20 w-20 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
+                    <Icon name="stopwatch" class="h-4 w-4 text-white" />
+                    <span v-editable="'hero.circulo_arriba'" class="mt-0.5 whitespace-pre-line text-[7px] font-bold leading-tight tracking-widest">{{ t('hero.circulo_arriba', 'INFORME\nEN SOLO') }}</span>
+                    <span v-editable="'hero.circulo_numero'" class="font-heading text-xl font-black leading-none text-teal-light">{{ t('hero.circulo_numero', '24') }}</span>
+                    <span v-editable="'hero.circulo_abajo'" class="text-[8px] font-bold tracking-[0.25em]">{{ t('hero.circulo_abajo', 'HORAS') }}</span>
+                </div>
+
+                <!-- Sello 100€ (móvil) -->
+                <div class="absolute right-4 top-5 z-10 flex h-20 w-20 flex-col items-center justify-center rounded-full bg-gradient-to-br from-teal-light to-teal text-center text-navy shadow-xl ring-4 ring-white/70">
+                    <p v-editable="'hero.precio'" class="font-heading text-xl font-black leading-none">{{ t('hero.precio', '100€') }}</p>
+                    <p v-editable="'hero.precio_sub'" class="mt-0.5 text-[8px] font-extrabold tracking-[0.12em]">{{ t('hero.precio_sub', 'PAGO ÚNICO') }}</p>
+                </div>
+
+                <!-- Claim + pilares sobre la base oscura -->
+                <div class="absolute inset-x-0 bottom-0 z-10 px-4 pb-4">
+                    <p class="text-center font-heading text-base font-black uppercase">
                         <span v-editable="'hero.claim_1'" class="text-white">{{ t('hero.claim_1', 'TODO INCLUIDO.') }}</span>
                         <span v-editable="'hero.claim_2'" class="text-teal-light">{{ t('hero.claim_2', 'CERO PREOCUPACIONES.') }}</span>
                     </p>
-
-                    <div v-reveal="120" class="grid grid-cols-2 py-10 lg:grid-cols-4">
-                        <div
-                            v-for="p in pilares"
-                            :key="p.clave"
-                            class="flex flex-col items-center px-4 py-5 text-center [&:nth-child(even)]:border-l [&:nth-child(even)]:border-white/10 [&:nth-child(n+3)]:border-t [&:nth-child(n+3)]:border-white/10 lg:border-t-0 lg:[&:not(:first-child)]:border-l lg:[&:not(:first-child)]:border-white/10"
-                        >
-                            <span class="flex h-14 w-14 items-center justify-center rounded-full ring-2 ring-teal-light/40">
-                                <Icon :name="p.icono" class="h-6 w-6 text-teal-light" />
+                    <div class="mt-3 grid grid-cols-4">
+                        <div v-for="p in pilares" :key="p.clave" class="flex flex-col items-center px-1 text-center [&:not(:first-child)]:border-l [&:not(:first-child)]:border-white/15">
+                            <span class="flex h-9 w-9 items-center justify-center rounded-full ring-2 ring-teal-light/50">
+                                <Icon :name="p.icono" class="h-4 w-4 text-teal-light" />
                             </span>
-                            <p v-editable="p.clave" class="mt-3 whitespace-pre-line text-[11px] font-bold uppercase leading-tight tracking-[0.12em] text-white sm:text-xs">{{ t(p.clave, p.texto) }}</p>
+                            <p v-editable="p.clave" class="mt-1.5 whitespace-pre-line text-[8px] font-bold uppercase leading-tight tracking-wide text-white">{{ t(p.clave, p.texto) }}</p>
                         </div>
                     </div>
                 </div>
