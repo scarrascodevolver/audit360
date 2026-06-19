@@ -131,6 +131,9 @@ const ICONS = {
         'M15 9.5a4 4 0 1 0 0 5',
         'M8.5 11h4.5 M8.5 13h4.5',
     ],
+    bolt: [
+        'M13 2 4 14h6l-1 8 9-12h-6l1-8z',
+    ],
 };
 
 const paths = computed(() => ICONS[props.name] || []);

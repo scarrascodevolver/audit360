@@ -5,14 +5,11 @@
         <nav class="mx-auto flex max-w-7xl items-center justify-between gap-1.5 px-3 py-3 sm:px-6 lg:px-8">
             <!-- Logo (compacto en móvil para dejar sitio al CTA y la hamburguesa) -->
             <router-link to="/" class="flex min-w-0 shrink items-center gap-2 sm:gap-2.5">
-                <span class="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-navy text-white sm:h-10 sm:w-10">
-                    <Icon name="building" class="h-5 w-5 sm:h-6 sm:w-6" />
-                    <span class="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-teal text-white ring-2 ring-white sm:h-5 sm:w-5">
-                        <Icon name="check" class="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-                    </span>
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-navy text-teal-light sm:h-10 sm:w-10">
+                    <Icon name="shield" class="h-5 w-5 sm:h-6 sm:w-6" />
                 </span>
                 <span class="whitespace-nowrap font-heading text-base font-black leading-none sm:text-lg">
-                    <span class="text-navy">Comunidad</span><span class="text-teal">Audit</span>
+                    <span class="text-navy">Audita Tu </span><span class="text-teal">Comunidad</span>
                     <span class="hidden align-top text-[10px] font-extrabold text-navy/60 min-[400px]:inline">360°</span>
                 </span>
             </router-link>
