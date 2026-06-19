@@ -29,7 +29,7 @@
                 </div>
 
                 <!-- Claim + 4 pilares sobre la base oscura (visibles sin scroll) -->
-                <div class="absolute bottom-[18%] left-[18%] right-[4%] z-10">
+                <div class="absolute bottom-[10%] left-[18%] right-[4%] z-10">
                     <p v-reveal="220" class="text-center font-heading text-2xl font-black uppercase xl:text-3xl">
                         <span v-editable="'cuota.claim_1'" class="text-white">{{ t('cuota.claim_1', 'TODO INCLUIDO.') }}</span>
                         <span v-editable="'cuota.claim_2'" class="text-teal-light">{{ t('cuota.claim_2', 'CERO PREOCUPACIONES.') }}</span>
