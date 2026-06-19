@@ -1,28 +1,93 @@
 <template>
     <div>
         <!-- ============ HERO ============ -->
-        <section class="relative overflow-hidden bg-navy text-white">
-            <!-- Trama de puntos + halo (decoración) -->
-            <div class="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:radial-gradient(circle_at_1px_1px,#fff_1px,transparent_0)] [background-size:22px_22px]"></div>
-            <div class="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-teal/20 blur-3xl"></div>
+        <section class="relative overflow-hidden bg-white">
+            <!-- Composición propia: foto de edificio + lupa SVG + badge HTML (escritorio) -->
+            <div v-reveal class="absolute inset-y-0 right-0 hidden w-[62%] lg:block">
+                <img
+                    :src="heroBuilding"
+                    alt="Edificio residencial moderno en perspectiva bajo revisión"
+                    class="h-full w-full object-cover object-center [-webkit-mask-image:linear-gradient(to_right,transparent,#000_46%)] [mask-image:linear-gradient(to_right,transparent,#000_46%)]"
+                />
 
-            <div class="relative mx-auto max-w-7xl px-6 py-14 sm:py-16 lg:px-8 lg:py-20">
-                <!-- Título + escudo -->
-                <div v-reveal class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-                    <h1 class="font-heading text-4xl font-black uppercase leading-[0.95] sm:text-5xl xl:text-6xl">
-                        <span v-editable="'hero.titulo'" class="whitespace-pre-line text-white">{{ t('hero.titulo', 'AUDITA TU\nCOMUNIDAD') }}</span>
-                        <span v-editable="'hero.titulo_360'" class="ml-1 text-teal-light">{{ t('hero.titulo_360', '360') }}</span>
-                    </h1>
-                    <span class="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl ring-2 ring-teal-light/40 sm:h-24 sm:w-24">
-                        <Icon name="shield" class="h-12 w-12 text-teal-light sm:h-14 sm:w-14" />
-                    </span>
+                <!-- Funde el pie de la imagen con la sección navy (sin canto) -->
+                <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-navy/0 to-navy"></div>
+
+                <!-- Badge informe (nuestro) sobre el cielo, hacia el centro-izquierda.
+                     z-10: el contenedor del texto del hero se pinta encima y sin esto
+                     se traga los clics/hover del badge (p. ej. en modo edición). -->
+                <div class="absolute left-[14%] top-[10%] z-10 flex h-36 w-36 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
+                    <Icon name="stopwatch" class="h-6 w-6 text-white" />
+                    <span v-editable="'hero.circulo_arriba'" class="mt-1 whitespace-pre-line text-[11px] font-bold leading-tight tracking-widest">{{ t('hero.circulo_arriba', 'INFORME\nEN SOLO') }}</span>
+                    <span v-editable="'hero.circulo_numero'" class="font-heading text-4xl font-black leading-none text-teal-light">{{ t('hero.circulo_numero', '24') }}</span>
+                    <span v-editable="'hero.circulo_abajo'" class="text-xs font-bold tracking-[0.25em]">{{ t('hero.circulo_abajo', 'HORAS') }}</span>
                 </div>
 
-                <div class="mt-8 h-px w-full bg-white/15"></div>
+                <!-- Lupa con check (nuestra) sobre el edificio, a la derecha -->
+                <Magnifier class="absolute right-[10%] top-[36%] h-72 w-72 drop-shadow-2xl xl:h-80 xl:w-80" />
+            </div>
 
-                <!-- Pilares + precio -->
-                <div class="mt-8 flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-                    <div v-reveal="120" class="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4 sm:gap-6">
+            <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="flex min-h-[32rem] max-w-xl flex-col justify-center py-16 sm:py-20 lg:min-h-[36rem] lg:py-24">
+                    <p v-reveal v-editable="'hero.eslogan'" class="mb-4 text-xs font-bold tracking-[0.22em] text-navy/60">
+                        {{ t('hero.eslogan', 'REVISAMOS. DETECTAMOS. SOLUCIONAMOS.') }}
+                    </p>
+                    <h1 v-reveal="90" class="font-heading text-4xl font-black leading-[1.05] sm:text-5xl xl:text-6xl">
+                        <span v-editable="'hero.titulo_navy'" class="whitespace-pre-line text-navy">{{ t('hero.titulo_navy', 'REVISAMOS\nTU COMUNIDAD,') }}</span><br>
+                        <span v-editable="'hero.titulo_teal'" class="whitespace-pre-line text-teal">{{ t('hero.titulo_teal', 'SOLUCIONES INMEDIATAS\nCON GARANTÍA') }}</span>
+                    </h1>
+                    <p v-reveal="190" v-editable="'hero.parrafo'" class="mt-7 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
+                        {{ t('hero.parrafo', 'Por solo 100 €, envíanos tu solicitud y en menos de 24 horas recibirás un informe claro con todas las mejoras que podemos aplicar en tu comunidad.') }}
+                    </p>
+                    <div v-reveal="280" class="mt-8 flex flex-wrap items-center gap-3">
+                        <router-link
+                            v-editable="'hero.cta_primario'"
+                            to="/solicitar"
+                            class="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-teal-dark hover:shadow-lg"
+                        >
+                            {{ t('hero.cta_primario', 'Contrátalo ahora') }}
+                            <Icon name="arrow" class="h-4 w-4" />
+                        </router-link>
+                        <router-link
+                            v-editable="'hero.cta_secundario'"
+                            to="/recopilacion"
+                            class="inline-flex items-center gap-2 rounded-full border-2 border-navy/15 px-6 py-3 text-sm font-bold text-navy transition hover:border-teal hover:text-teal"
+                        >
+                            {{ t('hero.cta_secundario', 'Cómo funciona') }}
+                        </router-link>
+                    </div>
+                    <p v-reveal="320" v-editable="'hero.cta_nota'" class="mt-3 text-xs text-navy/50">
+                        {{ t('hero.cta_nota', 'Un técnico se pondrá en contacto contigo a la mayor brevedad.') }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Composición para móvil -->
+            <div v-reveal class="relative -mt-2 lg:hidden">
+                <img
+                    :src="heroBuilding"
+                    alt="Edificio residencial moderno bajo revisión"
+                    class="h-72 w-full object-cover object-center sm:h-96 [-webkit-mask-image:linear-gradient(to_top,transparent,#000_22%)] [mask-image:linear-gradient(to_top,transparent,#000_22%)]"
+                />
+                <Magnifier class="absolute right-[8%] top-1/2 h-48 w-48 -translate-y-1/2 drop-shadow-2xl" />
+                <div class="absolute left-5 top-6 flex h-28 w-28 flex-col items-center justify-center rounded-full bg-navy text-center text-white shadow-xl ring-4 ring-white/70">
+                    <Icon name="stopwatch" class="h-5 w-5 text-white" />
+                    <span v-editable="'hero.circulo_arriba'" class="mt-0.5 whitespace-pre-line text-[9px] font-bold leading-tight tracking-widest">{{ t('hero.circulo_arriba', 'INFORME\nEN SOLO') }}</span>
+                    <span v-editable="'hero.circulo_numero'" class="font-heading text-3xl font-black leading-none text-teal-light">{{ t('hero.circulo_numero', '24') }}</span>
+                    <span v-editable="'hero.circulo_abajo'" class="text-[10px] font-bold tracking-[0.25em]">{{ t('hero.circulo_abajo', 'HORAS') }}</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ FRANJA CARTEL "Audita tu Comunidad 360" ============ -->
+        <!-- El edificio del hero funde a navy y entra en esta franja sin canto -->
+        <section class="relative overflow-hidden bg-navy py-14 text-white sm:py-16">
+            <div class="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:radial-gradient(circle_at_1px_1px,#fff_1px,transparent_0)] [background-size:22px_22px]"></div>
+
+            <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
+                <!-- Pilares + sello de precio -->
+                <div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+                    <div v-reveal class="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4 sm:gap-6">
                         <div v-for="p in pilares" :key="p.clave" class="flex flex-col items-center text-center sm:items-start sm:text-left">
                             <span class="flex h-12 w-12 items-center justify-center rounded-full ring-2 ring-teal-light/50">
                                 <Icon :name="p.icono" class="h-6 w-6 text-teal-light" />
@@ -31,8 +96,7 @@
                         </div>
                     </div>
 
-                    <!-- Sello de precio -->
-                    <div v-reveal="200" class="-skew-x-6 self-center rounded-lg bg-gradient-to-br from-teal-light to-teal px-7 py-4 text-navy shadow-lg shadow-teal/20">
+                    <div v-reveal="160" class="-skew-x-6 self-center rounded-lg bg-gradient-to-br from-teal-light to-teal px-7 py-4 text-navy shadow-lg shadow-teal/20">
                         <div class="skew-x-6 text-center">
                             <p v-editable="'hero.precio'" class="font-heading text-4xl font-black leading-none sm:text-5xl">{{ t('hero.precio', '100€') }}</p>
                             <p v-editable="'hero.precio_sub'" class="mt-0.5 text-xs font-extrabold tracking-[0.18em]">{{ t('hero.precio_sub', 'PAGO ÚNICO') }}</p>
@@ -41,35 +105,13 @@
                 </div>
 
                 <!-- Claim -->
-                <p v-reveal="240" class="mt-10 font-heading text-2xl font-black uppercase sm:text-3xl">
+                <p v-reveal="200" class="mt-10 font-heading text-2xl font-black uppercase sm:text-3xl">
                     <span v-editable="'hero.claim_1'" class="text-white">{{ t('hero.claim_1', 'TODO INCLUIDO.') }}</span>
                     <span v-editable="'hero.claim_2'" class="text-teal-light">{{ t('hero.claim_2', 'CERO PREOCUPACIONES.') }}</span>
                 </p>
 
-                <!-- CTA -->
-                <div v-reveal="300" class="mt-7 flex flex-wrap items-center gap-3">
-                    <router-link
-                        v-editable="'hero.cta_primario'"
-                        to="/solicitar"
-                        class="inline-flex items-center gap-2 rounded-full bg-teal-light px-6 py-3 text-sm font-bold text-navy shadow-md transition hover:bg-white hover:shadow-lg"
-                    >
-                        {{ t('hero.cta_primario', 'Contrátalo ahora') }}
-                        <Icon name="arrow" class="h-4 w-4" />
-                    </router-link>
-                    <router-link
-                        v-editable="'hero.cta_secundario'"
-                        to="/recopilacion"
-                        class="inline-flex items-center gap-2 rounded-full border-2 border-white/25 px-6 py-3 text-sm font-bold text-white transition hover:border-teal-light hover:text-teal-light"
-                    >
-                        {{ t('hero.cta_secundario', 'Cómo funciona') }}
-                    </router-link>
-                </div>
-                <p v-reveal="320" v-editable="'hero.cta_nota'" class="mt-3 text-xs text-white/50">
-                    {{ t('hero.cta_nota', 'Un técnico se pondrá en contacto contigo a la mayor brevedad.') }}
-                </p>
-
                 <!-- Marca: dominio + Yo Vivo Tranquilo -->
-                <div v-reveal="340" class="mt-10 inline-flex flex-wrap items-center gap-x-4 gap-y-2 rounded-full border border-white/15 px-5 py-3">
+                <div v-reveal="240" class="mt-8 inline-flex flex-wrap items-center gap-x-4 gap-y-2 rounded-full border border-white/15 px-5 py-3">
                     <span class="flex items-center gap-2">
                         <Icon name="globe" class="h-5 w-5 text-teal-light" />
                         <span v-editable="'hero.dominio'" class="text-sm font-bold tracking-wide sm:text-base"><span class="text-white">auditatu</span><span class="text-teal-light">comunidad</span><span class="text-white">.com</span></span>
