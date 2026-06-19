@@ -22,10 +22,10 @@
                     </span>
                 </div>
 
-                <!-- Sello 100€: arriba, junto al de Cuota Segura -->
-                <div class="absolute right-[24%] top-[9%] z-10 flex h-36 w-36 flex-col items-center justify-center rounded-full bg-gradient-to-br from-teal-light to-teal text-center text-navy shadow-2xl ring-4 ring-white/70">
-                    <p v-editable="'cuota.precio'" class="font-heading text-5xl font-black leading-none">{{ t('cuota.precio', '100€') }}</p>
-                    <p v-editable="'cuota.precio_sub'" class="mt-1 text-xs font-extrabold tracking-[0.18em]">{{ t('cuota.precio_sub', 'PAGO ÚNICO') }}</p>
+                <!-- Sello 100€: arriba, junto al de Cuota Segura (algo más grande) -->
+                <div class="absolute right-[22%] top-[8%] z-10 flex h-44 w-44 flex-col items-center justify-center rounded-full bg-gradient-to-br from-teal-light to-teal text-center text-navy shadow-2xl ring-4 ring-white/70">
+                    <p v-editable="'cuota.precio'" class="font-heading text-6xl font-black leading-none">{{ t('cuota.precio', '100€') }}</p>
+                    <p v-editable="'cuota.precio_sub'" class="mt-1 text-sm font-extrabold tracking-[0.18em]">{{ t('cuota.precio_sub', 'PAGO ÚNICO') }}</p>
                 </div>
 
                 <!-- Claim + 4 pilares sobre la base oscura (visibles sin scroll) -->
