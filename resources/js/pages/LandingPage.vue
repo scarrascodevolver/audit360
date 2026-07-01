@@ -56,7 +56,7 @@
                         <span v-editable="'hero.titulo_teal'" class="whitespace-pre-line text-teal">{{ t('hero.titulo_teal', 'MEJORAMOS\nTU TRANQUILIDAD') }}</span>
                     </h1>
                     <p v-reveal="190" v-editable="'hero.parrafo'" class="mt-6 max-w-md border-l-4 border-teal pl-4 text-base leading-relaxed text-navy/70">
-                        {{ t('hero.parrafo', 'Por solo 100 €, envíanos tu solicitud y en menos de 24 horas recibirás un informe claro con todas las mejoras que podemos aplicar en tu comunidad.') }}
+                        {{ t('hero.parrafo', 'Primera consulta, totalmente gratuita y sin compromiso.') }}
                     </p>
                     <div v-reveal="280" class="mt-7 flex flex-wrap items-center gap-3">
                         <router-link

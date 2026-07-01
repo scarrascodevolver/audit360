@@ -20,7 +20,7 @@ class ContenidoSeeder extends Seeder
                 'hero.eslogan' => ['Eslogan superior', 'REVISAMOS. DETECTAMOS. SOLUCIONAMOS.'],
                 'hero.titulo_navy' => ['Título principal (parte azul)', "REVISAMOS\nTU COMUNIDAD,"],
                 'hero.titulo_teal' => ['Título principal (parte verde)', "SOLUCIONES INMEDIATAS\nCON GARANTÍA"],
-                'hero.parrafo' => ['Párrafo de presentación', 'Por solo 100 €, envíanos tu solicitud y en menos de 24 horas recibirás un informe claro con todas las mejoras que podemos aplicar en tu comunidad.'],
+                'hero.parrafo' => ['Párrafo de presentación', 'Primera consulta, totalmente gratuita y sin compromiso.'],
                 'hero.cta_primario' => ['Botón principal', 'Contrátalo ahora'],
                 'hero.cta_secundario' => ['Botón secundario', 'Cómo funciona'],
                 'hero.cta_nota' => ['Nota bajo los botones', 'Un técnico se pondrá en contacto contigo a la mayor brevedad.'],
